@@ -10,7 +10,7 @@ const Footer = () => {
                     <img src={logo} alt="logo" />
                 </div>
                <hr />
-                <div className="ufersa"><h3>UNIVERSIDADE FEDERAL RURAL DO SEMI-ÁRIDO</h3></div>
+                <div className="ufersa"><h3> UNIVERSIDADE FEDERAL RURAL DO SEMI-ÁRIDO</h3></div>
             </footer>
         </React.Fragment>
     )

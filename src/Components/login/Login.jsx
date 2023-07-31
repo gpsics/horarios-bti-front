@@ -44,20 +44,25 @@ class Login extends React.Component {
         if(!token){
             return (
                 <React.Fragment>
-                    <Header/>
+                    <Header link={'/'}/>
                     <main id="login">
-                        <h2>Pagina Login</h2>
-                        <form onSubmit={this.handleSubmit}>
-                            <label>
-                                Login:
-                                <input type="text" value={this.state.login} onChange={this.handleChange} />
-                            </label> <br />
-                            <label>
-                                Password:
-                                <input type="password" value={this.state.password} onChange={this.handleChangePassword} />
-                            </label>
-                            <input type="submit" value="Submit" />
-                        </form>
+                        <div id="filtro">
+                            <div id="formulario">
+                                <h2>Login</h2>
+                                <form onSubmit={this.handleSubmit}>
+                                    <label>
+                                        <input type="text" value={this.state.login} onChange={this.handleChange} placeholder="Email" className="infoLogin"/>
+                                    </label>
+                                    <label>
+                                        <input type="password" value={this.state.password} onChange={this.handleChangePassword} placeholder="Password" className="infoLogin"/>
+                                    </label>
+                                    <label className="conectado">
+                                        <input type="checkbox" /><p>Deixar-me conectado.</p>
+                                    </label>
+                                    <input type="submit" value="ENTRAR"  className="submit"/>
+                                </form>
+                            </div>
+                        </div>
                     </main>
                     <Footer/>
                 </React.Fragment>
