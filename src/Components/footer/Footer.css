@@ -1,5 +1,5 @@
 footer{
-    background-color: hsla(223, 100%, 50%, 0.8);
+    background-color: #0048ff;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -26,7 +26,7 @@ hr{
     border-radius: 8px;
     margin-right: 5px;
     color:#fff;
-    background-color:#fff;
+    background-color: #fff;
    }
 .ufersa h3{
     margin-left: 6px;
