@@ -15,12 +15,7 @@ const MenuLink = styled(Link)`
 
   &:hover{
     background: #150259;
-    // background: #7FADEB;
-    // background: #0433BF;
-    // background: #0424D9;
-    // background: #252831;
     border-left: 4px solid #F2ECD8;
-    // border-left: 4px solid #632ce4;
     cursor: pointer;
   }
 `;
@@ -29,7 +24,6 @@ const MenuLabel = styled.span`
 `;
 const DropdownLink = styled(Link)`
   background: #110273;
-  // background: #414757;
   height: 60px;
   padding-left: 3rem;
   display: flex;
@@ -40,7 +34,6 @@ const DropdownLink = styled(Link)`
 
   &:hover{
     background: #1D04BF;
-    // background: #632ce4;
     cursor: pointer;
   }
 `;

@@ -7,7 +7,6 @@ import { MenuData } from './MenuData'
 import SubMenu from './SubMenu'
 import { IconContext } from 'react-icons/lib'
 const Nav = styled.div`
-  // background: #15171c;
   height: 80px;
   width: 100px;
   display: ${({ menu }) => (menu ? 'none' : 'flex')};
@@ -24,8 +23,6 @@ const NavIcon = styled(Link)`
   align-items: center;
 `;
 const MenuNav = styled.nav`
-  // background: #15171c;
-  // background: #020873;
   background: #0048ff;
   width: 250px;
   min-height: 87.2vh;

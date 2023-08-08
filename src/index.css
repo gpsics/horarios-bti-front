@@ -16,3 +16,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#entidades{
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 87.2vh;
+  grid-template-areas: 'menulateral conteudo';
+}
+#menu{
+  grid-area: menulateral;
+}
+.conteudo{
+  grid-area: conteudo;
+}
