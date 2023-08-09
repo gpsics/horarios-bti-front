@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from '../../imgs/logo-ufersa.png'
 import './Header.css'
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -13,6 +13,12 @@ const Header = (props) => {
 
     //conferir se existe Token no localStorage
     const isAuth= localStorage.getItem('token');
+    const [validated, setValidated] = useState(false)
+    if (isAuth=== undefined || isAuth === null) {
+        setValidated(false)
+    } else {
+        setValidated(true)
+    }
 
     return (
         <React.Fragment>
@@ -24,7 +30,7 @@ const Header = (props) => {
                     <i><FaMapMarkerAlt /></i>
                     <p>Pau dos Ferros, {today.toLocaleDateString('pt-br', options)}</p>
                     <div className="loginOrLogout">
-                        {isAuth ?
+                        {validated ?
                             <Link to="/pilot">
                                 <i>
                                     <BiLogOut />

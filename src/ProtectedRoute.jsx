@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
- const ProtectedRoute = () => {
+const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('token');
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+    const [validated, setValidated] = useState(false)
+    if (isAuthenticated === undefined || isAuthenticated === null) {
+        setValidated(false)
+    } else {
+        setValidated(true)
+    }
+    return validated ? <Outlet /> : <Navigate to="/login" />;
 };
 export default ProtectedRoute
