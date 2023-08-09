@@ -4,9 +4,11 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 80px;
+    padding: 15px 10px 15px 80px;
     color: white;
+    position: relative;
 }
+
 .imgLogo{
     display: flex;
     align-items: center;
@@ -22,4 +24,13 @@ header{
     display: flex;
     align-items: center;
     margin-right: 5px;
+}
+.dataAndLocal{
+    display: flex;
+    justify-content: space-around;
+}
+.loginOrLogout i{
+    margin-left: 30px;
+    font-size: 25px;
+    color: white;
 }
