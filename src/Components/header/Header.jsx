@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import logo from '../../imgs/logo-ufersa.png'
 import './Header.css'
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -12,12 +12,7 @@ const Header = (props) => {
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
 
     //conferir se existe Token no localStorage
-    const [isAuth, setIsAuth] = useState(false);
-    useEffect(() => {
-        if (localStorage.getItem('access_token') !== null) {
-            setIsAuth(true);
-        }
-    }, [isAuth]);
+    const isAuthenticated = localStorage.getItem('token');
 
     return (
         <React.Fragment>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import './Login.css'
@@ -9,7 +9,8 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [erro, setErro] = useState('')
-    
+    const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         try{
             let url = 'http://127.0.0.1:8000/api-token-auth/'
@@ -23,9 +24,10 @@ const Login = () => {
                 .then(response => response.json())
                 .then(data => {
                     localStorage.setItem('token', data.token)
-                    this.setState({token: data.token})
+                    setUsername({token: data.token})
+                    setPassword({token: data.token})
                     // window.location.href = '/home';
-                    Navigate('/home');
+                    navigate("/Home");
             });
             event.preventDefault()
         }catch (error) {

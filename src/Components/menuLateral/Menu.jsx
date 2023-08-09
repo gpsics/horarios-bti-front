@@ -9,10 +9,9 @@ import { IconContext } from 'react-icons/lib'
 const Nav = styled.div`
   height: 80px;
   width: 100px;
-  display: ${({ menu }) => (menu ? 'none' : 'flex')};
+  display: ${({ $menu }) => ($menu ? 'none' : 'flex')};
   justify-content: flex-start;
   align-items: center;
-  
 `;
 const NavIcon = styled(Link)`
   margin-left: 1.5rem;
@@ -43,7 +42,7 @@ const Menu = () => {
   return (
     <React.Fragment>
       <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav menu={menu}>
+        <Nav $menu={menu}>
           <NavIcon to='#'>
             <FaIcons.FaBars onClick={showMenu} />
           </NavIcon>
