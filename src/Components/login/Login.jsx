@@ -28,6 +28,7 @@ const Login = () => {
                     setPassword({token: data.token})
                     // window.location.href = '/home';
                     navigate("/Home");
+                    console.log(localStorage.getItem)
             });
             event.preventDefault()
         }catch (error) {
