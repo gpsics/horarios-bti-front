@@ -4,7 +4,6 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './CadastrarProfessor.css'
 import NomeProfessores from '../cadastrar/professores.csv'
-import api from '../../../api'
 
 const parseCSV = (text) => {
 
@@ -13,6 +12,8 @@ const parseCSV = (text) => {
 const CadastrarProfessor = ({ adicionarProf }) => {
     const [user, setUser] = useState();
     const [csv, setCsv] = useState([])
+    const [erro, setErro] = useState('')
+    const [mensagem, setMensagem] = useState('')
 
     useEffect(() => {
         fetch(NomeProfessores)
@@ -24,15 +25,31 @@ const CadastrarProfessor = ({ adicionarProf }) => {
 
         const handleSubmit = async (event) => {
             event.preventDefault();
-            try {
-                await api.post('professores/',{
-                    nome: user,
-                })
-    
-            } catch (error) {
-                console.error(error);
+            const token = localStorage.getItem('token')
+
+            const url = 'http://127.0.01:8000/professores/'
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({nome_prof: user}),
+            };
+            try{
+                const response = await fetch(url, requestOptions);
+                if(response.ok){
+                    setMensagem('Professor Cadastrado com sucesso!')
+                }else{
+                    const data = await response.json()
+                    setErro('Erro ao cadastrar professor: ' + data.detail)
+                }
+            }catch(error){
+                console.error(error)
             }
+
         };
+        
     const enviarProfs = (csv) => {
         adicionarProf(csv)
     }
@@ -47,6 +64,8 @@ const CadastrarProfessor = ({ adicionarProf }) => {
                         <input type="text" placeholder='Nome do Professor' value={user} onChange={e => setUser(e.target.value)}/>
                         <button type='submit'>Cadastrar</button>
                     </form>
+                    {erro && <div className="erroCad">{erro}</div>}
+                    {mensagem && <div className="cadSucess">{mensagem}</div>}
                     <button onClick={() => enviarProfs(csv)}>enviar</button>
                 </section>
             </main>

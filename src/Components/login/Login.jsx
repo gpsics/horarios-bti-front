@@ -27,7 +27,7 @@ const Login = () => {
                     setUsername({token: data.token})
                     setPassword({token: data.token})
                     // window.location.href = '/home';
-                    if(localStorage.getItem.value !== undefined){
+                    if(localStorage.getItem !== undefined){
                         navigate("/Home");
                     }else{
                         setUsername('')
