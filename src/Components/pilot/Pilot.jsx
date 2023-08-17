@@ -6,6 +6,7 @@ import Img from '../../imgs/UFERSA_PDF.jpg'
 import Footer from "../footer/Footer";
 import { Link } from "react-router-dom";
 const Pilot = () =>{
+    localStorage.clear()
     return(
         <React.Fragment>
             <Header link={'/'}/>

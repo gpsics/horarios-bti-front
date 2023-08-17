@@ -10,7 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
-
+    console.log(localStorage.getItem.value)
     const handleSubmit = async (event) => {
         try{
             let url = 'http://127.0.0.1:8000/api-token-auth/'
@@ -27,12 +27,17 @@ const Login = () => {
                     setUsername({token: data.token})
                     setPassword({token: data.token})
                     // window.location.href = '/home';
-                    navigate("/Home");
-                    console.log(localStorage.getItem)
+                    if(localStorage.getItem.value !== undefined){
+                        navigate("/Home");
+                    }else{
+                        setUsername('')
+                        setPassword('')
+                        setErro('O usuário ou a senha estão incorretos.')
+                    }
             });
             event.preventDefault()
         }catch (error) {
-            setErro('O usuário ou a senha estão incorretos.')
+            
             console.error(error);
         }
     }
@@ -44,13 +49,15 @@ const Login = () => {
                 <div id="filtro">
                     <div id="formulario">
                         <h2>Login</h2>
-                        <form  onSubmit={handleSubmit}>
-                            <label>
-                                <input type="text" value={username} onChange={e => setUsername(e.target.value)}  placeholder="User" className="infoLogin"/>
-                            </label>
-                            <label>
-                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" className="infoLogin"/>
-                            </label>
+                        <form  onSubmit={handleSubmit} >
+                            <div className='inputLogin'>
+                                <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="infoLogin" placeholder='User'/>
+                                
+                            </div>
+                            <div className='inputLogin'>
+                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="infoLogin" placeholder='Password'/>
+                                
+                            </div>
                             <label className="conectado">
                                 <input type="checkbox" /><p>Deixar-me conectado.</p>
                             </label>

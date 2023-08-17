@@ -3,6 +3,7 @@ import './Home.css'
 import Header from "../header/Header";
 import Menu from "../menuLateral/Menu";
 import Footer from "../footer/Footer";
+
 const Home = () =>{
     return(
         <React.Fragment>

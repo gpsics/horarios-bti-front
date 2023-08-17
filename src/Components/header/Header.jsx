@@ -12,7 +12,8 @@ const Header = (props) => {
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
 
     //conferir se existe Token no localStorage
-    const isAuth= localStorage.getItem('token');
+    // const isAuth= localStorage.getItem('token');
+    const isAuth = true
 
     return (
         <React.Fragment>

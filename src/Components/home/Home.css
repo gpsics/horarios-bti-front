@@ -18,12 +18,13 @@
 }
 #filtroHome:not(#menu){
     align-items: center;
-    justify-items: end;
+    justify-items: center;
 }
 #filtroHome h1 {
     font-family: 'Goldman', cursive;
     font-size: 6em;
-    text-align: end;
+    font-feature-settings: "aalt";
+    text-align: center;
     color: white;
-    margin-right: 20px;
+    
 }
