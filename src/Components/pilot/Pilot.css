@@ -37,7 +37,7 @@
     cursor: pointer;
     background-color: #c2c1c1b8;
 }
-.descricao > button i{
+.descricao > Link i{
     display: flex;
     align-items: center;
     margin-left: 5px;

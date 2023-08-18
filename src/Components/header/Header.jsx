@@ -12,9 +12,11 @@ const Header = (props) => {
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
 
     //conferir se existe Token no localStorage
-    // const isAuth= localStorage.getItem('token');
-    const isAuth = true
-
+    const isAuth= localStorage.getItem('token');
+    //const isAuth = true
+    const limparLocal = () =>{
+        localStorage.clear()
+    }
     return (
         <React.Fragment>
             <header>
@@ -27,12 +29,12 @@ const Header = (props) => {
                     <div className="loginOrLogout">
                         {isAuth ?
                             <Link to="/pilot">
-                                <i>
+                                <i onClick={limparLocal}>
                                     <BiLogOut />
                                 </i>
                             </Link> :
                             <Link to="/login">
-                                <i>
+                                <i onClick={limparLocal}>
                                     <BiLogIn />
                                 </i>
                             </Link>

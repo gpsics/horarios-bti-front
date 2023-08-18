@@ -6,7 +6,9 @@ import Img from '../../imgs/UFERSA_PDF.jpg'
 import Footer from "../footer/Footer";
 import { Link } from "react-router-dom";
 const Pilot = () =>{
-    localStorage.clear()
+    const limparLocal = () =>{
+        localStorage.clear()
+    }
     return(
         <React.Fragment>
             <Header link={'/'}/>
@@ -15,7 +17,7 @@ const Pilot = () =>{
                     <h1>GERENCIADOR DE HORÁRIOS</h1>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptatibus unde eos natus, corrupti debitis. Id provident quia officiis, quos rem asperiores! Optio dolorum totam temporibus repudiandae, excepturi est tempora! Lorem ipsum dolor sit, amet consectetur adipisicing elit.!</p>
 
-                    <button> <Link to="/Login" className="acessar">ACESSAR</Link> <i><FaArrowRight/></i></button>
+                    <button onClick={limparLocal}> <Link to="/Login" className="acessar">ACESSAR  <i><FaArrowRight/></i></Link></button>
                 </section>
                 <section className="imgUf">
                     <img src={Img} alt="imagem aerea da UFERSA Pau dos Ferros" />
