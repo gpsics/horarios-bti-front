@@ -6,14 +6,9 @@ import Home from './Components/home/Home';
 import CadastrarProfessor from './Components/professores/cadastrar/CadastrarProfessor';
 import ListarProfessores from './Components/professores/listar/ListarProfessores';
 import ProtectedRoute from './ProtectedRoute';
-import { useState } from 'react';
+
 
 function App() {
-  const [profCadastrados, setProfCadastrados] = useState([]);
-
-  const adicionarProf = (prof) => {
-      setProfCadastrados([...profCadastrados, prof]);
-  };
   return (
     <Router>
       <Routes>
@@ -22,8 +17,9 @@ function App() {
         <Route path='*' element={<Pilot />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path='Home' element={<Home />} />
-          <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor adicionarProf={adicionarProf}/>} />
-          <Route path='professores/listarProfessores' element={<ListarProfessores profs={profCadastrados}/>} />
+          <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor/>} />
+          <Route path='professores/listarProfessores' element={<ListarProfessores />} />
+
         </Route>
       </Routes>
     </Router>

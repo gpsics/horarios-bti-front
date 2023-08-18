@@ -3,15 +3,22 @@ import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './CadastrarProfessor.css'
+import CadastrarArquivo from './CadastrarArquivo'
 
-const CadastrarProfessor = ({ adicionarProf }) => {
+const CadastrarProfessor = () => {
     const [user, setUser] = useState();
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const token = localStorage.getItem('token')
+        setErro('')
+        setMensagem('')
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setMensagem('Você precisa estar logado para cadastrar um professor.');
+            return;
+        }
 
         const url = 'http://127.0.0.1:8000/professores/'
         const requestOptions = {
@@ -53,7 +60,9 @@ const CadastrarProfessor = ({ adicionarProf }) => {
                         {erro && <div className="erroCad">{erro}</div>}
                         {mensagem && <div className="cadSucess">{mensagem}</div>}
                     </section>
-                    <section className='cadArquivo'></section>
+                    <section className='cadArquivo'>
+                        <CadastrarArquivo/>
+                    </section>
                 </section>
             </main>
             <Footer />
