@@ -21,7 +21,7 @@ const CadastrarArquivo = () => {
     setMensagem('')
     const token = localStorage.getItem('token');
     if (!token) {
-      setMensagem('Você precisa estar logado para cadastrar um professor.');
+      setErro('Você precisa estar logado para cadastrar um arquivo.');
       return;
     }
 
@@ -37,10 +37,10 @@ const CadastrarArquivo = () => {
     try {
       const response = await fetch(url, requestOptions);
       if (response.ok) {
-        setMensagem('Professor Cadastrado com sucesso!')
+        setMensagem('Professores Cadastrados com sucesso!')
       } else {
         const data = await response.json()
-        setErro('Erro ao cadastrar professor: ' + data.detail)
+        setErro('Erro ao cadastrar professorES: ' + data.detail)
       }
     } catch (error) {
       console.error(error)

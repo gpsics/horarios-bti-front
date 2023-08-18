@@ -12,7 +12,7 @@
     gap: 10px;
     box-sizing: border-box;
 }
-.cadastroArquivo input[type="file"].custom-file-input {
+.cadastroArquivo > input[type="file"].custom-file-input {
     grid-area: upload;
     border: 5px dashed black;
     margin: 0 auto;
@@ -25,17 +25,6 @@
     height: 100%;
     cursor: pointer;
     box-sizing: border-box;
-    &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        z-index: 1;
-      } /* Altere o cursor quando passar por cima */
   }
 button {
     grid-area: button;
@@ -51,12 +40,12 @@ button {
     transition: background-color 0.3s ease;
 }
 
-.cadIndvidual button:hover {
+.cadastroArquivo button:hover {
     background-color: rgba(7, 7, 7, 0.951);
 }
 .erroCad{
     grid-area: mensagem;
-    text-align: right;
+    text-align:end;
     color: rgb(157, 3, 3);
     font-weight: bold;
     max-width: 450px;
@@ -66,7 +55,7 @@ button {
 }
 .cadSucess{
     grid-area: mensagem;
-    text-align: right;
+    text-align:end;
     color: rgb(2, 98, 2);
     font-weight: bold;
     margin-top: 5px;

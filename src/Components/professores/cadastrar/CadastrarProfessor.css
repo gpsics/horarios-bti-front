@@ -68,7 +68,7 @@
 .cadIndvidual button:hover {
     background-color: rgba(7, 7, 7, 0.951);
 }
-.erroCad{
+.cadIndvidual > .erroCad{
 
     color: rgb(157, 3, 3);
     font-weight: bold;
@@ -77,7 +77,7 @@
     padding: 5px;
     border-radius: 2px;
 }
-.cadSucess{
+.cadIndvidual > .cadSucess{
     color: rgb(2, 98, 2);
     font-weight: bold;
     margin-top: 10px;

@@ -16,7 +16,7 @@ const CadastrarProfessor = () => {
         setMensagem('')
         const token = localStorage.getItem('token');
         if (!token) {
-            setMensagem('Você precisa estar logado para cadastrar um professor.');
+            setErro('Você precisa estar logado para cadastrar um professor.');
             return;
         }
 
