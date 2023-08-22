@@ -44,7 +44,6 @@ const CadComp = () => {
             if (response.ok) {
                 setMensagem('Componente Cadastrado com sucesso!')
             } else {
-                const data = await response.json()
                 setErro('Erro ao cadastrar Componente.')
             }
         } catch (error) {

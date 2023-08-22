@@ -33,7 +33,7 @@ const CadastrarProfessor = () => {
             if (response.ok) {
                 setMensagem('Professor Cadastrado com sucesso!')
             } else {
-                const data = await response.json()
+               
                 setErro('Erro ao cadastrar professor.')
             }
         } catch (error) {
