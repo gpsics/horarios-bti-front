@@ -19,7 +19,6 @@ const CadastrarProfessor = () => {
             setErro('Você precisa estar logado para cadastrar um professor.');
             return;
         }
-
         const url = 'http://127.0.0.1:8000/professores/'
         const requestOptions = {
             method: 'POST',
@@ -62,6 +61,7 @@ const CadastrarProfessor = () => {
                     </section>
                     <section className='cadArquivo'>
                         <CadastrarArquivo/>
+                        <p>OBS: A organização do arquivo exige que cada linha contenha um nome de professor, sem a presença de vírgulas.</p>
                     </section>
                 </section>
             </main>

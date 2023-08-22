@@ -1,8 +1,8 @@
 .cadProf{
     display: grid;
-    min-height: 90vh;
+    min-height: 100vh;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 150px 1fr;
+    grid-template-rows: 60px 130px 1fr;
     grid-template-areas: 
         'title title'
         'individual individual'
@@ -67,21 +67,5 @@
 
 .cadIndvidual button:hover {
     background-color: rgba(7, 7, 7, 0.951);
-}
-.cadIndvidual > .erroCad{
-
-    color: rgb(157, 3, 3);
-    font-weight: bold;
-    max-width: 450px;
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 2px;
-}
-.cadIndvidual > .cadSucess{
-    color: rgb(2, 98, 2);
-    font-weight: bold;
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 2px;
 }
 

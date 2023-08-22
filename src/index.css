@@ -38,3 +38,22 @@ code {
   grid-area: conteudo;
 
 }
+.erroCad{
+  grid-area: mensagem;
+  text-align:start;
+  color: rgb(157, 3, 3);
+  font-weight: bold;
+  max-width: 450px;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 2px;
+}
+.cadSucess{
+  grid-area: mensagem;
+  text-align:start;
+  color: rgb(2, 98, 2);
+  font-weight: bold;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 2px; 
+} 

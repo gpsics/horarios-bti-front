@@ -5,23 +5,23 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 200px 1fr;
-    grid-template-rows: 1fr 40px;
+    grid-template-rows: 1fr 50px;
     grid-template-areas: 
     'upload upload'
     'button mensagem';
-    gap: 10px;
+    gap: 5;
     box-sizing: border-box;
 }
 .cadastroArquivo > input[type="file"].custom-file-input {
     grid-area: upload;
     border: 5px dashed black;
     margin: 0 auto;
-    padding: 5px;
+    padding: 10px;
     border-radius: 8px;
     background-image: url('../../../imgs/upload.png');
     background-position: center;
     background-repeat: no-repeat;
-    width: 80%;
+    width: 100%;
     height: 100%;
     cursor: pointer;
     box-sizing: border-box;
@@ -43,23 +43,3 @@ button {
 .cadastroArquivo button:hover {
     background-color: rgba(7, 7, 7, 0.951);
 }
-.erroCad{
-    grid-area: mensagem;
-    text-align:end;
-    color: rgb(157, 3, 3);
-    font-weight: bold;
-    max-width: 450px;
-    margin-top: 5px;
-    padding: 5px;
-    border-radius: 2px;
-}
-.cadSucess{
-    grid-area: mensagem;
-    text-align:end;
-    color: rgb(2, 98, 2);
-    font-weight: bold;
-    margin-top: 5px;
-    padding: 5px;
-    border-radius: 2px;
-    
-} 

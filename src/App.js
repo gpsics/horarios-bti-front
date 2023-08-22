@@ -6,6 +6,8 @@ import Home from './Components/home/Home';
 import CadastrarProfessor from './Components/professores/cadastrar/CadastrarProfessor';
 import ListarProfessores from './Components/professores/listar/ListarProfessores';
 import ProtectedRoute from './ProtectedRoute';
+import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
+import CadComp from './Components/componentes/cadastro/CadComp';
 
 
 function App() {
@@ -19,7 +21,9 @@ function App() {
           <Route path='Home' element={<Home />} />
           <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor/>} />
           <Route path='professores/listarProfessores' element={<ListarProfessores />} />
+          <Route path='turmas/cadastrarTurma' element={<CadastrarTurma/>} />
 
+          <Route path='componentes/cadastrarComponente' element={<CadComp/>} />
         </Route>
       </Routes>
     </Router>

@@ -53,7 +53,7 @@ const CadastrarArquivo = () => {
   }
   return (
     <>
-      <h3>Cadastrar através de um arquivo CSV</h3>
+      <h3>Cadastrar Multiplos</h3>
       <div className="cadastroArquivo">
         <input type="file" accept=".csv" onChange={handleOnChange} className="custom-file-input" />
         <button onClick={fileSubmit}>Cadastrar Arquivo </button>
