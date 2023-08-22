@@ -45,7 +45,7 @@ const CadComp = () => {
                 setMensagem('Componente Cadastrado com sucesso!')
             } else {
                 const data = await response.json()
-                setErro('Erro ao cadastrar Componente: ' + data.detail)
+                setErro('Erro ao cadastrar Componente.')
             }
         } catch (error) {
             console.error(error)
@@ -70,7 +70,7 @@ const CadComp = () => {
                                 Obrigatório
                             </label>
                             <select value={selectSM} onChange={e => setSelectSM(e.target.value)}>
-                                <option value="">Semestre</option>
+                                <option selected disabled>Semestre</option>
                                 <option value="1">1º Semeste</option>
                                 <option value="2">2º Semeste</option>
                                 <option value="3">3º Semeste</option>
@@ -79,7 +79,7 @@ const CadComp = () => {
                                 <option value="6">6º Semeste</option>
                             </select>
                             <select value={selectCH} onChange={e => setSelectCH(e.target.value)}>
-                                <option value="">Carga Horária</option>
+                                <option selected disabled>Carga Horária</option>
                                 <option value="15">15 Horas</option>
                                 <option value="30">30 Horas</option>
                                 <option value="45">45 Horas</option>
@@ -88,9 +88,9 @@ const CadComp = () => {
                                 <option value="90">90 Horas</option>
                             </select>
                             <select value={selectDP} onChange={e => setSelectDP(e.target.value)}>
-                                <option value="">Departamento</option>
+                                <option selected disabled>Departamento</option>
                                 <option value="DECEN">DECEN</option>
-                                <option value="DECSAH">DECSAH</option>
+                                <option value="DCSAH">DCSAH</option>
                                 <option value="DETEC">DETEC</option>
                             </select>
                             <button type='submit'>Cadastrar</button>

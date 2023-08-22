@@ -5,7 +5,7 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
-const ListarProfessores = ({ profs }) => {
+const ListarProfessores = () => {
     const [professorList, setProfessorList] = useState(profs[0]);
 
     const removerProfessor = (index) => {
@@ -27,7 +27,7 @@ const ListarProfessores = ({ profs }) => {
                                     <tr>
                                         <th>Nº</th>
                                         <th>Nome</th>
-                                        <th></th>
+                                        <th>Carga Horária</th>
                                         <th></th>
                                     </tr>
                                 </thead>
