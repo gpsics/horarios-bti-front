@@ -10,6 +10,7 @@ import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
 import CadComp from './Components/componentes/cadastro/CadComp';
 import EditarProfessor from './Components/professores/editar/EditarProfessor';
 import { useState } from 'react';
+import ListarComponentes from './Components/componentes/listar/ListarComp';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path='turmas/cadastrarTurma' element={<CadastrarTurma/>} />
 
           <Route path='componentes/cadastrarComponente' element={<CadComp/>} />
+          <Route path='/componentes/listarComponentes' element={<ListarComponentes/>} />
         </Route>
       </Routes>
     </Router>

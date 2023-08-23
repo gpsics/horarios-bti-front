@@ -1,0 +1,70 @@
+#listComp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+    top: 0;
+}
+#title{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 15px 0px 0px 15px;
+
+}
+#nenhumCadastro{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 45px 0px 0px 15px;
+}
+.tableList{
+    margin-top: 50px;
+    width: 70%;
+    max-height: 87.2vh;
+    overflow-y:auto;
+}
+/* Estilo para a tabela */
+.componente-table {
+    margin-top: 20px;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 10px;
+    width: 100%;
+    align-self: center;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+/* Estilo para o cabeçalho da tabela */
+.componente-table > thead {
+    background-color: #10396B ;
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+    position: sticky;
+    top: 0px;
+}
+
+/* Estilo para as células do cabeçalho */
+.componente-table th {
+    padding: 10px;
+    text-align: left;
+}
+
+/* Estilo para as células do corpo da tabela */
+.componente-table td {
+    padding: 10px 0px 10px 10px;
+    border-bottom: 1px solid #000;
+    box-sizing: border-box;
+}
+.index{
+    width: 30px;
+}
+/* Estilo para a célula de ação */
+.funcoesIndex:hover{
+    cursor: pointer;
+}
