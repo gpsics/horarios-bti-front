@@ -8,9 +8,17 @@ import ListarProfessores from './Components/professores/listar/ListarProfessores
 import ProtectedRoute from './ProtectedRoute';
 import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
 import CadComp from './Components/componentes/cadastro/CadComp';
+import EditarProfessor from './Components/professores/editar/EditarProfessor';
+import { useState } from 'react';
 
 
 function App() {
+  const [professorSelecionado, setProfessorSelecionado] = useState([]);
+
+  const profEdit = (item) => {
+    setProfessorSelecionado([...professorSelecionado, item]);
+  };
+
   return (
     <Router>
       <Routes>
@@ -20,7 +28,10 @@ function App() {
         <Route path="/" element={<ProtectedRoute />}>
           <Route path='Home' element={<Home />} />
           <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor/>} />
-          <Route path='professores/listarProfessores' element={<ListarProfessores />} />
+          <Route path='professores/editarProfessor' element={<EditarProfessor professor={professorSelecionado}/>} />
+          <Route path='professores/listarProfessores' element={<ListarProfessores profEdit={profEdit}/>} />
+
+
           <Route path='turmas/cadastrarTurma' element={<CadastrarTurma/>} />
 
           <Route path='componentes/cadastrarComponente' element={<CadComp/>} />

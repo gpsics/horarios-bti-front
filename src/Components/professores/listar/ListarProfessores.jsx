@@ -5,11 +5,13 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
+import { useNavigate } from 'react-router-dom'
 
-const ListarProfessores = () => {
+const ListarProfessores = ({profEdit}) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [professors, setProfessors] = useState([]);
+    const navigate = useNavigate();
 
     const removerProfessor = async (id) => {
         setErro('')
@@ -65,7 +67,10 @@ const ListarProfessores = () => {
             console.error('An error occurred:', error);
         }
     };
-
+    const editarProfessor = (item) =>{
+        profEdit(item)
+        navigate("/professores/editarProfessor");
+    }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -92,7 +97,7 @@ const ListarProfessores = () => {
                                             <td>{item.nome_prof}</td>
                                             <td>{item.horas_semanais} Hrs</td>
                                             <td onClick={() => removerProfessor(item.id)} className='funcoesIndex'><AiFillDelete /></td>
-                                            <td className='funcoesIndex'><MdModeEdit /></td>
+                                            <td onClick={() => editarProfessor(item)} className='funcoesIndex'><MdModeEdit /></td>
                                         </tr>
                                     ))}
                                 </tbody>

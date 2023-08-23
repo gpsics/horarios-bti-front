@@ -1,0 +1,61 @@
+.edProf{
+    display: grid;
+    max-height: 100vh;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 60px 150px;
+    grid-template-areas: 
+        'title title'
+        'edicao edicao'
+    ;
+    gap: 10px;
+    padding: 20px 60px;
+    box-sizing: border-box;
+}
+.edProf h1{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    grid-area: title;
+    padding-left: 5px;
+    box-sizing: border-box;
+}
+.editarProf{
+    grid-area: edicao;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #faf7f7;
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    padding: 10px;
+    box-sizing: border-box;
+}
+.editarProf  form {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.editarProf input[type="text"] {
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.editarProf button {
+    padding: 10px 20px;
+    background-color: rgb(20, 20, 20);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.editarProf button:hover {
+    background-color: rgba(7, 7, 7, 0.951);
+}
