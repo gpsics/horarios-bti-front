@@ -5,16 +5,17 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
+
 const ListarProfessores = () => {
-    const [professorList, setProfessorList] = useState([]);
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
+    const [professors, setProfessors] = useState([]);
 
-    const removerProfessor = async (index) => {
+    const removerProfessor = async (id) => {
         setErro('')
         setMensagem('')
         const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/professores/${index}/`;
+        const url = `http://127.0.0.1:8000/professores/${id}/`;
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -25,9 +26,11 @@ const ListarProfessores = () => {
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
-                setMensagem('Professor Deletado com sucesso!')
+                setMensagem('Professor Deletado com sucesso!');
+                // Atualizar o estado removendo o professor da lista
+                setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
             } else {
-                setErro('Erro ao Deletar professor.')
+                setErro('Erro ao Deletar professor.');
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -37,11 +40,11 @@ const ListarProfessores = () => {
     useEffect(() => {
         fetchProfessors();
     }, []);
+
     const fetchProfessors = async () => {
         setErro('')
         setMensagem('')
         const token = localStorage.getItem('token');
-
         const url = 'http://127.0.0.1:8000/professores/';
         const requestOptions = {
             method: 'GET',
@@ -53,8 +56,8 @@ const ListarProfessores = () => {
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
-                const professors = await response.json();
-                setProfessorList(professors)
+                const professorsData = await response.json();
+                setProfessors(professorsData);
             } else {
                 console.log('Erro ao listar professores.')
             }
@@ -71,7 +74,7 @@ const ListarProfessores = () => {
                 <section id="listProf">
                     <h1 id='title'>Listar Professores</h1>
                     <div className="tableList">
-                        {professorList ? (
+                        {professors.length > 0 ? (
                             <><table className="professor-table">
                                 <thead>
                                     <tr>
@@ -79,14 +82,15 @@ const ListarProfessores = () => {
                                         <th>Nome</th>
                                         <th>Horas Semanais</th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {professorList.map((item) => (
+                                    {professors.map((item) => (
                                         <tr key={item.id}>
                                             <td className='index'>{item.id}</td>
                                             <td>{item.nome_prof}</td>
-                                            <td>{item.horas_semanais}</td>
+                                            <td>{item.horas_semanais} Hrs</td>
                                             <td onClick={() => removerProfessor(item.id)} className='funcoesIndex'><AiFillDelete /></td>
                                             <td className='funcoesIndex'><MdModeEdit /></td>
                                         </tr>
@@ -105,9 +109,7 @@ const ListarProfessores = () => {
                         )}
                     </div>
                 </section>
-
             </main>
-
             <Footer />
         </React.Fragment>
     )
