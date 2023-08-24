@@ -14,11 +14,11 @@ const ListarComponentes = () => {
     const [componentes, setComponentes] = useState([]);
     //const navigate = useNavigate();
 
-    const removerComponente = async (id) => {
+    const removerComponente = async (codigo) => {
         setErro('')
         setMensagem('')
         const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${id}/`;
+        const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -31,7 +31,7 @@ const ListarComponentes = () => {
             if (response.ok) {
                 setMensagem('Componente Deletado com sucesso!');
                 // Atualizar o estado removendo o professor da lista
-                setComponentes(prevComponentes => prevComponentes.filter(comp => comp.id !== id));
+                setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
             } else {
                 setErro('Erro ao Deletar Componente.');
             }
@@ -84,7 +84,6 @@ const ListarComponentes = () => {
                             <><table className="componente-table">
                                 <thead>
                                     <tr>
-                                        <th>Nº</th>
                                         <th>Código</th>
                                         <th>Componente</th>
                                         <th></th>
@@ -94,13 +93,12 @@ const ListarComponentes = () => {
                                 </thead>
                                 <tbody>
                                     {componentes.map((item) => (
-                                        <tr key={item.id}>
-                                            <td className='index'>{item.id}</td>
+                                        <tr key={item.codigo}>
+                                            <td>{item.codigo}</td>
                                             <td>{item.nome}</td>
-                                            <td>{item.codigo} Hrs</td>
                                             <td className='funcoesIndex'><GrView/></td>
                                             <td className='funcoesIndex'><MdModeEdit /></td>
-                                            <td onClick={() => removerComponente(item.id)} className='funcoesIndex'><AiFillDelete /></td>
+                                            <td onClick={() => removerComponente(item.codigo)} className='funcoesIndex'><AiFillDelete /></td>
                                         </tr>
                                     ))}
                                 </tbody>
