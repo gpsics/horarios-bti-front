@@ -5,8 +5,7 @@ import Menu from '../../menuLateral/Menu'
 import './EditarProfessor.css'
 
 const EditarProfessor = ({professor}) => {
-    const [prof, setProf] = useState(professor)
-    const [newName, setNewName] = useState('')
+    const [newName, setNewName] = useState(professor.nome_prof)
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const updateProfessor = async (e) => {
@@ -19,9 +18,9 @@ const EditarProfessor = ({professor}) => {
             return;
         }
     
-        const url = `http://127.0.0.1:8000/professores/${prof.id}/`;
+        const url = `http://127.0.0.1:8000/professores/${professor.id}/`;
         const requestOptions = {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`,
@@ -33,7 +32,6 @@ const EditarProfessor = ({professor}) => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 setMensagem('Professor editado com sucesso.');
-                setProf([])
             } else {
                 const data = await response.json();
                 setErro('Erro ao editar professor:', data.detail);
@@ -49,7 +47,7 @@ const EditarProfessor = ({professor}) => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo edProf">
-                    <h1>Editar o Professor {prof.nome_prof}</h1>
+                    <h1>Editar o Professor</h1>
                     <section className="editarProf">
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />

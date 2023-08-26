@@ -14,10 +14,10 @@ import ListarComponentes from './Components/componentes/listar/ListarComp';
 
 
 function App() {
-  const [professorSelecionado, setProfessorSelecionado] = useState([]);
+  const [professorSelecionado, setProfessorSelecionado] = useState(null);
 
   const profEdit = (item) => {
-    setProfessorSelecionado([...professorSelecionado, item]);
+    setProfessorSelecionado(item);
   };
 
   return (
@@ -28,15 +28,15 @@ function App() {
         <Route path='*' element={<Pilot />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path='Home' element={<Home />} />
-          <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor/>} />
+          <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor />} />
           <Route path='professores/editarProfessor' element={<EditarProfessor professor={professorSelecionado}/>} />
-          <Route path='professores/listarProfessores' element={<ListarProfessores profEdit={profEdit}/>} />
+          <Route path='professores/listarProfessores' element={<ListarProfessores profEdit={profEdit} />} />
 
 
-          <Route path='turmas/cadastrarTurma' element={<CadastrarTurma/>} />
+          <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
 
-          <Route path='componentes/cadastrarComponente' element={<CadComp/>} />
-          <Route path='/componentes/listarComponentes' element={<ListarComponentes/>} />
+          <Route path='componentes/cadastrarComponente' element={<CadComp />} />
+          <Route path='/componentes/listarComponentes' element={<ListarComponentes />} />
         </Route>
       </Routes>
     </Router>
