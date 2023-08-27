@@ -61,7 +61,7 @@ const EditarComponente = (componente) => {
               <div className="columnsFather">
                 <div className="columnSon">
 
-                  <input type="text" placeholder={componente.nome} value={newName} onChange={e => setNewName(e.target.value)} className='inputField' />
+                  <input type="text" placeholder='Nome do Componente' value={newName} onChange={e => setNewName(e.target.value)} className='inputField' />
 
                   <label >
                     <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />
@@ -70,7 +70,7 @@ const EditarComponente = (componente) => {
                 </div>
                 <div className="columnSon">
                   <select value={newSemester} onChange={e => setNewSemester(e.target.value)} className='selectField' >
-                    <option selected disabled>{componente.num_semestre}º Semestre</option>
+                    <option selected disabled>Semestre</option>
                     <option value="1">1º Semeste</option>
                     <option value="2">2º Semeste</option>
                     <option value="3">3º Semeste</option>
@@ -79,7 +79,7 @@ const EditarComponente = (componente) => {
                     <option value="6">6º Semeste</option>
                   </select>
                   <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField' >
-                    <option selected disabled>{componente.carga_horaria} Horas</option>
+                    <option selected disabled>Horas</option>
                     <option value="15">15 Horas</option>
                     <option value="30">30 Horas</option>
                     <option value="45">45 Horas</option>
@@ -88,7 +88,7 @@ const EditarComponente = (componente) => {
                     <option value="90">90 Horas</option>
                   </select>
                   <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' >
-                    <option selected disabled>{componente.departamento}</option>
+                    <option selected disabled>Departamento</option>
                     <option value="DECEN">DECEN</option>
                     <option value="DCSAH">DCSAH</option>
                     <option value="DETEC">DETEC</option>

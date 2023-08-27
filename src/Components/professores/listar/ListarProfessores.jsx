@@ -97,10 +97,10 @@ const ListarProfessores = ({ profEdit }) => {
                                             <td>{item.nome_prof}</td>
                                             <td>{item.horas_semanais} Hrs</td>
                                             <td className='funcoesIndex'>
-                                                <AiFillDelete onClick={() => removerProfessor(item.id)} />
+                                                <MdModeEdit onClick={() => editarProfessor(item)} />
                                             </td>
                                             <td className='funcoesIndex'>
-                                                <MdModeEdit onClick={() => editarProfessor(item)} />
+                                                <AiFillDelete onClick={() => removerProfessor(item.id)} />
                                             </td>
                                         </tr>
                                     ))}
