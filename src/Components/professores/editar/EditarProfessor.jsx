@@ -47,7 +47,7 @@ const EditarProfessor = ({professor}) => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo edProf">
-                    <h1>Editar o Professor</h1>
+                    <h1>Editar Professor</h1>
                     <section className="editarProf">
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />

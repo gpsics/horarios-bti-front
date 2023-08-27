@@ -7,7 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 
-const ListarProfessores = ({profEdit}) => {
+const ListarProfessores = ({ profEdit }) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [professors, setProfessors] = useState([]);
@@ -67,7 +67,7 @@ const ListarProfessores = ({profEdit}) => {
             console.error('An error occurred:', error);
         }
     };
-    const editarProfessor = (item) =>{
+    const editarProfessor = (item) => {
         profEdit(item)
         navigate("/professores/editarProfessor");
     }
@@ -96,8 +96,12 @@ const ListarProfessores = ({profEdit}) => {
                                             <td className='index'>{item.id}</td>
                                             <td>{item.nome_prof}</td>
                                             <td>{item.horas_semanais} Hrs</td>
-                                            <td onClick={() => removerProfessor(item.id)} className='funcoesIndex'><AiFillDelete /></td>
-                                            <td onClick={() => editarProfessor(item)} className='funcoesIndex'><MdModeEdit /></td>
+                                            <td className='funcoesIndex'>
+                                                <AiFillDelete onClick={() => removerProfessor(item.id)} />
+                                            </td>
+                                            <td className='funcoesIndex'>
+                                                <MdModeEdit onClick={() => editarProfessor(item)} />
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

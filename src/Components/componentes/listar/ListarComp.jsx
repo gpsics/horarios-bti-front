@@ -6,13 +6,13 @@ import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { GrView } from "react-icons/gr";
-//import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-const ListarComponentes = () => {
+const ListarComponentes = ({compEdit, compVerDados}) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [componentes, setComponentes] = useState([]);
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const removerComponente = async (codigo) => {
         setErro('')
@@ -30,7 +30,7 @@ const ListarComponentes = () => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 setMensagem('Componente Deletado com sucesso!');
-                // Atualizar o estado removendo o professor da lista
+                // Atualizar o estado removendo o componente da lista
                 setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
             } else {
                 setErro('Erro ao Deletar Componente.');
@@ -68,10 +68,14 @@ const ListarComponentes = () => {
             console.error('An error occurred:', error);
         }
     };
-    // const editarComponente = (item) =>{
-    //     profEdit(item)
-    //     navigate("/professores/editarProfessor");
-    // }
+    const editarComponente = (item) =>{
+        compEdit(item)
+        navigate("/componentes/editarComponente");
+    }
+    const verComponente = (item) =>{
+        compVerDados(item)
+        navigate("/componentes/verDadosComponente");
+    }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -96,9 +100,9 @@ const ListarComponentes = () => {
                                         <tr key={item.codigo}>
                                             <td>{item.codigo}</td>
                                             <td>{item.nome}</td>
-                                            <td className='funcoesIndex'><GrView/></td>
-                                            <td className='funcoesIndex'><MdModeEdit /></td>
-                                            <td onClick={() => removerComponente(item.codigo)} className='funcoesIndex'><AiFillDelete /></td>
+                                            <td className='funcoesIndex'><GrView onClick={() => verComponente(item)}/></td>
+                                            <td className='funcoesIndex'><MdModeEdit onClick={() => editarComponente(item)}/></td>
+                                            <td className='funcoesIndex'><AiFillDelete onClick={() => removerComponente(item.codigo)} /></td>
                                         </tr>
                                     ))}
                                 </tbody>
