@@ -65,7 +65,7 @@ const CadComp = () => {
             <Header link={'/Home'} />
             <menu id='entidades'>
                 <div className="menu"><Menu /></div>
-                <section className='conteudo cadTur'>
+                <section className='conteudo cadComp'>
                     <h3>Cadastrar Componente</h3>
                     <section className='formCadComp'>
                         <form onSubmit={handleSubmit} className='formContainer'>

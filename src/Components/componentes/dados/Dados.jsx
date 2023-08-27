@@ -43,16 +43,34 @@ const Dados = ({ compEdit, componente }) => {
             <Header link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
-                <section className="conteudo verComp">
+                <article className="conteudo verComp">
                     <h1>Dados do Componente {componente.nome}</h1>
                     <section className="verDadosComp">
                         <ul>
-                            <li><span className='itens'><b>Nome: </b></span>{componente.nome}</li>
-                            <li><span className='itens'><b>Código: </b></span>{componente.codigo}</li>
-                            <li><span className='itens'><b>Semestre: </b></span>{componente.num_semestre}</li>
-                            <li><span className='itens'><b>Carga Horária: </b></span>{componente.carga_horaria}</li>
-                            <li><span className='itens'><b>Unidade Responsável: </b></span>{componente.departamento}</li>
-                            <li><span className='itens'><b>Este componente é: </b></span>{componente.obrigatorio ? 'Obrigatório' : 'Optativo'}</li>
+                            <li>
+                                <b>Nome: </b>
+                                <span className="itens">{componente.nome}</span>
+                            </li>
+                            <li>
+                                <b>Código: </b>
+                                <span className="itens">{componente.codigo}</span>
+                            </li>
+                            <li>
+                                <b>Semestre: </b>
+                                <span className="itens">{componente.num_semestre}º Semestre</span>
+                            </li>
+                            <li>
+                                <b>Carga Horária: </b>
+                                <span className="itens">{componente.carga_horaria}Hrs</span>
+                            </li>
+                            <li>
+                                <b>Unidade Responsável: </b>
+                                <span className="itens">{componente.departamento}</span>
+                            </li>
+                            <li>
+                                <b>Este componente é: </b>
+                                <span className="itens">{componente.obrigatorio ? 'Obrigatório' : 'Optativo'}</span>
+                            </li>
                         </ul>
                     </section>
                     <section className='opcoes'>
@@ -60,10 +78,22 @@ const Dados = ({ compEdit, componente }) => {
                             {erro && <div className="erroCad">{erro}</div>}
                             {mensagem && <div className="cadSucess">{mensagem}</div>}
                         </div>
-                        <button id='editar' onClick={() => editarComponente(componente)}>Editar<MdModeEdit /></button>
-                        <button id='excluir' onClick={() => removerComponente(componente.codigo)}>Excluir<AiFillDelete /></button>
+                        <div className='botoes'>
+                            <button id='editar' onClick={() => editarComponente({componente})}>
+                                <p>Editar</p> 
+                                <i>
+                                    <MdModeEdit />
+                                </i>
+                            </button>
+                            <button id='excluir' onClick={() => removerComponente(componente.codigo)}>
+                                <p>Excluir</p>
+                                <i>
+                                    <AiFillDelete />
+                                </i>
+                            </button>
+                        </div>
                     </section>
-                </section>
+                </article>
             </main>
             <Footer />
         </React.Fragment>

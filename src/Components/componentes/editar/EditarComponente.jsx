@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
-
-const EditarComponente = (componente) => {
+import '../cadastro/CadComp.css'
+const EditarComponente = ({componente}) => {
   const [newName, setNewName] = useState(componente.nome)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
   const [newCH, setNewCH] = useState(componente.carga_horaria)
@@ -11,6 +11,7 @@ const EditarComponente = (componente) => {
   const [newChecked, setNewChecked] = useState(componente.obrigatorio)
   const [erro, setErro] = useState('')
   const [mensagem, setMensagem] = useState('')
+  console.log(componente)
   const updateComponente = async (e) => {
     e.preventDefault()
     setErro('')
@@ -54,9 +55,9 @@ const EditarComponente = (componente) => {
       <Header link={'/Home'} />
       <main id="entidades">
         <div id="menu"><Menu /></div>
-        <section className="conteudo edComp">
+        <section className="conteudo cadComp">
           <h1>Editar Componente</h1>
-          <section className="editarComp">
+          <section className="formCadComp">
             <form onSubmit={updateComponente} className='formContainer'>
               <div className="columnsFather">
                 <div className="columnSon">

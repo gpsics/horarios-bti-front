@@ -29,9 +29,10 @@ function App() {
   }
   
   const [componenteEditar, setComponenteEditar] = useState(null)
-  const compEdit = item => {
+  const compEdit = (item) => {
     setComponenteEditar(item)
   }
+  console.log(componenteEditar)
   return (
     <Router>
       <Routes>
@@ -54,7 +55,6 @@ function App() {
           <Route path='/componentes/verDadosComponente' element={<Dados compEdit={compEdit} componente={compSelecionado} />} />
           <Route path='/componentes/editarComponente' element={<EditarComponente componente={componenteEditar} />} />
           
-
         </Route>
       </Routes>
     </Router>

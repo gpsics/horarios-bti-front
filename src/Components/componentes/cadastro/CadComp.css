@@ -1,4 +1,4 @@
-.cadTur{
+.cadComp{
     display: grid;
     max-height: 100vh;
     grid-template-rows: 60px 1fr;
