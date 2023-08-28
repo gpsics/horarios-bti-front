@@ -58,8 +58,6 @@ const CadComp = () => {
         }
 
     };
-
-
     return (
         <React.Fragment>
             <Header link={'/Home'} />

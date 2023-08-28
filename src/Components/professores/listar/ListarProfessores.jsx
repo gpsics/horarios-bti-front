@@ -11,6 +11,7 @@ const ListarProfessores = ({ profEdit }) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [professors, setProfessors] = useState([]);
+    const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
 
     const removerProfessor = async (id) => {
@@ -60,6 +61,7 @@ const ListarProfessores = ({ profEdit }) => {
             if (response.ok) {
                 const professorsData = await response.json();
                 setProfessors(professorsData);
+                setProfsBusca(professorsData)
             } else {
                 console.log('Erro ao listar professores.')
             }
@@ -70,6 +72,15 @@ const ListarProfessores = ({ profEdit }) => {
     const editarProfessor = (item) => {
         profEdit(item)
         navigate("/professores/editarProfessor");
+    }
+    const buscarProfessor = ({target}) => {
+        if(!target.value){
+            setProfsBusca(professors)
+            return
+        }else{
+            const filterProfs = profsBusca.filter(({ nome_prof }) => nome_prof.toUpperCase().startsWith(target.value.toUpperCase()));
+            setProfsBusca(filterProfs)
+        }
     }
     return (
         <React.Fragment>
@@ -86,12 +97,12 @@ const ListarProfessores = ({ profEdit }) => {
                                         <th>Nº</th>
                                         <th>Nome</th>
                                         <th>Horas Semanais</th>
-                                        <th></th>
+                                        <th><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor}/></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {professors.map((item) => (
+                                    {profsBusca.map((item) => (
                                         <tr key={item.id}>
                                             <td className='index'>{item.id}</td>
                                             <td>{item.nome_prof}</td>
