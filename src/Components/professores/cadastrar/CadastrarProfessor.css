@@ -2,7 +2,7 @@
     display: grid;
     min-height: 100vh;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 130px 1fr;
+    grid-template-rows: 60px 130px 450px;
     grid-template-areas: 
         'title title'
         'individual individual'
@@ -17,11 +17,11 @@
     flex-direction: column;
     justify-content: flex-start;
     grid-area: title;
-    padding-left: 5px;
+    padding-left: 3px;
     box-sizing: border-box;
 }
 .cadIndvidual{
-
+   
     grid-area: individual;
 }
 .cadArquivo{
@@ -43,7 +43,7 @@
 .cadIndvidual form {
     margin-top: 10px;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
 }
 

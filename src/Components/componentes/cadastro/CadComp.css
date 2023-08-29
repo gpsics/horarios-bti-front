@@ -1,9 +1,9 @@
-.cadComp{
+.cadComp {
     display: grid;
     max-height: 100vh;
-    grid-template-rows: 60px 1fr;
+    grid-template-rows: 60px 400px;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: 
+    grid-template-areas:
         'title title'
         'cadastro cadastro'
     ;
@@ -11,25 +11,28 @@
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.cadTur h1{
+
+.cadComp h1 {
     grid-area: title;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-left: 5px;
+    padding-left: 40px;
     box-sizing: border-box;
 }
-.formCadComp{
+
+.formCadComp {
     grid-area: cadastro;
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: 
+    grid-template-areas:
         'form form'
     ;
     box-sizing: border-box;
 }
-.formCadComp form{
+
+.formCadComp form {
     grid-area: form;
     margin: 0 auto;
     display: flex;
@@ -43,7 +46,8 @@
     box-sizing: border-box;
 
 }
-form .columnsFather{
+
+form .columnsFather {
     margin: 0 auto;
     height: 80%;
     width: 100%;
@@ -51,6 +55,7 @@ form .columnsFather{
     justify-content: space-around;
     box-sizing: border-box;
 }
+
 .columnSon {
     max-width: 45%;
     flex: 1;
@@ -58,21 +63,57 @@ form .columnsFather{
     flex-direction: column;
     justify-content: space-evenly;
 }
-.inputField, .selectField {
+
+.inputField,
+.selectField {
     margin-bottom: 10px;
     padding: 8px;
     border: 1px solid #000000;
     border-radius: 5px;
     font-size: 16px;
 }
-.columnSon label{
+
+.columnSon label {
     height: 36px;
     padding: 8px;
     font-size: 1.1em;
 }
-.columnSon input[type="checkbox"]{
+
+.columnSon input[type="checkbox"] {
     margin-right: 3px;
-}   
-.erroCad, .casSucess, button{
-    margin-right: 15px;
+}
+
+.footerCad {
+    display: flex;
+    margin-right: 20px;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 95%;
+}
+.footerCad button {
+
+    margin-top: 5px;
+    background-color: rgb(20, 20, 20);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 160px;
+    height: 35px;
+    transition: background-color 0.3s ease;
+}
+
+.footerCadArq button:hover {
+    background-color: rgb(32, 31, 31);
+}
+.edColun{
+    position: relative;
+}
+#ed1{
+    position: absolute;
+    top: 30px;
+    margin-top: 11px;
+    height: 36px;
+    width: 100%;
 }

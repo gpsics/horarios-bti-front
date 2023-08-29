@@ -5,6 +5,7 @@ import Footer from '../../footer/Footer'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import './Dados.css'
 
 const Dados = ({ compEdit, componente }) => {
     const [erro, setErro] = useState('')
@@ -38,13 +39,15 @@ const Dados = ({ compEdit, componente }) => {
         compEdit(item)
         navigate("/componentes/editarComponente");
     }
+   
+     
     return (
         <React.Fragment>
             <Header link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <article className="conteudo verComp">
-                    <h1>Dados do Componente {componente.nome}</h1>
+                    <h1>Dados do Componente </h1>
                     <section className="verDadosComp">
                         <ul>
                             <li>

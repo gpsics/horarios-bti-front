@@ -3,7 +3,8 @@ import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
-const EditarComponente = ({componente}) => {
+const EditarComponente = ({ componente }) => {
+  
   const [newName, setNewName] = useState(componente.nome)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
   const [newCH, setNewCH] = useState(componente.carga_horaria)
@@ -63,13 +64,6 @@ const EditarComponente = ({componente}) => {
                 <div className="columnSon">
 
                   <input type="text" placeholder='Nome do Componente' value={newName} onChange={e => setNewName(e.target.value)} className='inputField' />
-
-                  <label >
-                    <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />
-                    Obrigatório
-                  </label>
-                </div>
-                <div className="columnSon">
                   <select value={newSemester} onChange={e => setNewSemester(e.target.value)} className='selectField' >
                     <option selected disabled>Semestre</option>
                     <option value="1">1º Semeste</option>
@@ -79,7 +73,14 @@ const EditarComponente = ({componente}) => {
                     <option value="5">5º Semeste</option>
                     <option value="6">6º Semeste</option>
                   </select>
-                  <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField' >
+                  <label >
+                    <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />
+                    Obrigatório
+                  </label>
+                </div>
+                <div className="columnSon edColun">
+                  
+                  <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField' id='ed1' >
                     <option selected disabled>Horas</option>
                     <option value="15">15 Horas</option>
                     <option value="30">30 Horas</option>
@@ -88,17 +89,22 @@ const EditarComponente = ({componente}) => {
                     <option value="75">75 Horas</option>
                     <option value="90">90 Horas</option>
                   </select>
-                  <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' >
+                  <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' id='ed2'>
                     <option selected disabled>Departamento</option>
                     <option value="DECEN">DECEN</option>
                     <option value="DCSAH">DCSAH</option>
                     <option value="DETEC">DETEC</option>
                   </select>
+                  
                 </div>
               </div>
-              <button type='submit'>Confirmar</button>
-              {erro && <div className="erroCad">{erro}</div>}
-              {mensagem && <div className="cadSucess">{mensagem}</div>}
+              <div className="footerCad">
+                <div>
+                  {erro && <div className="erroCad">{erro}</div>}
+                  {mensagem && <div className="cadSucess">{mensagem}</div>}
+                </div>
+                <button type='submit'>Cadastrar</button>
+              </div>
             </form>
           </section>
         </section>

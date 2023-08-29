@@ -73,11 +73,11 @@ const ListarProfessores = ({ profEdit }) => {
         profEdit(item)
         navigate("/professores/editarProfessor");
     }
-    const buscarProfessor = ({target}) => {
-        if(!target.value){
+    const buscarProfessor = ({ target }) => {
+        if (!target.value) {
             setProfsBusca(professors)
             return
-        }else{
+        } else {
             const filterProfs = profsBusca.filter(({ nome_prof }) => nome_prof.toUpperCase().startsWith(target.value.toUpperCase()));
             setProfsBusca(filterProfs)
         }
@@ -90,23 +90,26 @@ const ListarProfessores = ({ profEdit }) => {
                 <section id="listProf">
                     <h1 id='title'>Listar Professores</h1>
                     <div className="tableList">
-                        {professors.length > 0 ? (
+                        {professors.length >= 0 ? (
                             <><table className="professor-table">
-                                <thead>
+                                <thead id=''>
                                     <tr>
                                         <th>Nº</th>
                                         <th>Nome</th>
-                                        <th>Horas Semanais</th>
-                                        <th><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor}/></th>
+                                        <th id='horasSemanais'>Horas Semanais</th>
+                                        <th></th>
+                                        <th id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {profsBusca.map((item) => (
+                                    
+                                    {profsBusca.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td className='index'>{item.id}</td>
+                                            <td className='index'>{index}</td>
                                             <td>{item.nome_prof}</td>
-                                            <td>{item.horas_semanais} Hrs</td>
+                                            <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
+                                            <td></td>
                                             <td className='funcoesIndex'>
                                                 <MdModeEdit onClick={() => editarProfessor(item)} />
                                             </td>

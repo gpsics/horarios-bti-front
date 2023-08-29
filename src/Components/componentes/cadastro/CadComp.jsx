@@ -64,7 +64,7 @@ const CadComp = () => {
             <menu id='entidades'>
                 <div className="menu"><Menu /></div>
                 <section className='conteudo cadComp'>
-                    <h3>Cadastrar Componente</h3>
+                    <h1>Cadastrar Componente</h1>
                     <section className='formCadComp'>
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
@@ -105,9 +105,13 @@ const CadComp = () => {
                                     </select>
                                 </div>
                             </div>
-                            <button type='submit'>Cadastrar</button>
-                            {erro && <div className="erroCad">{erro}</div>}
-                            {mensagem && <div className="cadSucess">{mensagem}</div>}
+                            <div className="footerCad">
+                                <div>
+                                    {erro && <div className="erroCad">{erro}</div>}
+                                    {mensagem && <div className="cadSucess">{mensagem}</div>}
+                                </div>
+                                <button type='submit'>Cadastrar</button>
+                            </div>
                         </form>
                     </section>
                 </section>

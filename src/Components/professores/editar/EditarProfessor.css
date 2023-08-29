@@ -2,7 +2,7 @@
     display: grid;
     max-height: 100vh;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 150px;
+    grid-template-rows: 60px 130px;
     grid-template-areas: 
         'title title'
         'edicao edicao'
@@ -16,7 +16,6 @@
     flex-direction: column;
     justify-content: flex-start;
     grid-area: title;
-    padding-left: 5px;
     box-sizing: border-box;
 }
 .editarProf{
@@ -34,7 +33,7 @@
 .editarProf  form {
     margin-top: 10px;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
 }
 
