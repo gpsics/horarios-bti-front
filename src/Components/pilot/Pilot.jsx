@@ -15,7 +15,7 @@ const Pilot = () =>{
             <main id="pilot">
                 <section className="descricao">
                     <h1>GERENCIADOR DE HORÁRIOS</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex voluptatibus unde eos natus, corrupti debitis. Id provident quia officiis, quos rem asperiores! Optio dolorum totam temporibus repudiandae, excepturi est tempora! Lorem ipsum dolor sit, amet consectetur adipisicing elit.!</p>
+                    <p>Este projeto consiste na elaboração de um programa para gerenciar os horários de um semestre das turmas do curso do Bacharelado em Tecnologia da Informação (BTI) do Campus Pau dos Ferros (CMPF) da Universidade Federal Rural do Semi-Árido (UFERSA). </p>
 
                     <button onClick={limparLocal}> <Link to="/Login" className="acessar">ACESSAR  <i><FaArrowRight/></i></Link></button>
                 </section>

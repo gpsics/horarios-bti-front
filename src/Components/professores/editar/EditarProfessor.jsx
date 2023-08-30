@@ -3,42 +3,47 @@ import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './EditarProfessor.css'
+import Sucess from '../../alerts/Sucess'
+import Confirm from '../../alerts/Confirm'
 
 const EditarProfessor = ({professor}) => {
     const [newName, setNewName] = useState(professor.nome_prof)
     const [erro, setErro] = useState('')
-    const [mensagem, setMensagem] = useState('')
     const updateProfessor = async (e) => {
         e.preventDefault()
-        setErro('')
-        setMensagem('')
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setErro('Você precisa estar logado para editar professor.');
-            return;
-        }
-    
-        const url = `http://127.0.0.1:8000/professores/${professor.id}/`;
-        const requestOptions = {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify({ nome_prof: newName }),
-        };
-    
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                setMensagem('Professor editado com sucesso.');
-            } else {
-                const data = await response.json();
-                setErro('Erro ao editar professor:', data.detail);
+        Confirm.editar().then(async(result) => {
+            if(result.isConfirmed){
+                setErro('')
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setErro('Você precisa estar logado para editar professor.');
+                    return;
+                }
+            
+                const url = `http://127.0.0.1:8000/professores/${professor.id}/`;
+                const requestOptions = {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Token ${token}`,
+                    },
+                    body: JSON.stringify({ nome_prof: newName }),
+                };
+            
+                try {
+                    const response = await fetch(url, requestOptions);
+                    if (response.ok) {
+                        Sucess.editado()
+                    } else {
+                        const data = await response.json();
+                        setErro('Erro ao editar professor:', data.detail);
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+
             }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
+        })
     };
     
     return (
@@ -54,7 +59,6 @@ const EditarProfessor = ({professor}) => {
                             <button type='submit'>Editar</button>
                         </form>
                         {erro && <div className="erroCad">{erro}</div>}
-                        {mensagem && <div className="cadSucess">{mensagem}</div>}
                     </section>
                 </section>
             </main>

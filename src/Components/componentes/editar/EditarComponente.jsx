@@ -3,6 +3,9 @@ import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
+import Sucess from '../../alerts/Sucess'
+import Confirm from '../../alerts/Confirm'
+
 const EditarComponente = ({componente}) => {
   const [newName, setNewName] = useState(componente.nome_comp)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
@@ -10,45 +13,49 @@ const EditarComponente = ({componente}) => {
   const [newDP, setNewDP] = useState(componente.departamento)
   const [newChecked, setNewChecked] = useState(componente.obrigatorio)
   const [erro, setErro] = useState('')
-  const [mensagem, setMensagem] = useState('')
-  console.log(componente)
+
   const updateComponente = async (e) => {
     e.preventDefault()
-    setErro('')
-    setMensagem('')
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setErro('Você precisa estar logado para editar componente.');
-      return;
-    }
+    Confirm.editar().then(async (result) => {
+      if(result.isConfirmed){
+        setErro('')
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setErro('Você precisa estar logado para editar componente.');
+          return;
+        }
+    
+        const url = `http://127.0.0.1:8000/componentes/${componente.codigo}/`;
+        const requestOptions = {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${token}`,
+          },
+          body: JSON.stringify({
+            nome_comp: newName,
+            num_semestre: newSemester,
+            carga_horaria: newCH,
+            departamento: newDP,
+            obrigatorio: newChecked,
+          }),
+        };
+    
+        try {
+          const response = await fetch(url, requestOptions);
+          if (response.ok) {
+            Sucess.editado()
+          } else {
+            const data = await response.json();
+            setErro('Erro ao editar componente:', data.detail);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
 
-    const url = `http://127.0.0.1:8000/componentes/${componente.codigo}/`;
-    const requestOptions = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${token}`,
-      },
-      body: JSON.stringify({
-        nome_comp: newName,
-        num_semestre: newSemester,
-        carga_horaria: newCH,
-        departamento: newDP,
-        obrigatorio: newChecked,
-      }),
-    };
-
-    try {
-      const response = await fetch(url, requestOptions);
-      if (response.ok) {
-        setMensagem('componente editado com sucesso.');
-      } else {
-        const data = await response.json();
-        setErro('Erro ao editar componente:', data.detail);
       }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    })
+    
   };
   return (
     <React.Fragment>
@@ -100,7 +107,6 @@ const EditarComponente = ({componente}) => {
               <div className="footerCad">
                 <div>
                   {erro && <div className="erroCad">{erro}</div>}
-                  {mensagem && <div className="cadSucess">{mensagem}</div>}
                 </div>
                 <button type='submit'>Cadastrar</button>
               </div>

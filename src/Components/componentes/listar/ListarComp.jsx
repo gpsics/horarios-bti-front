@@ -7,7 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
-import ConfirmDelete from '../../confirmDelete/ConfirmDelete'
+import Confirm from '../../alerts/Confirm'
 
 const ListarComponentes = ({compEdit, compVerDados}) => {
     const [erro, setErro] = useState('')
@@ -17,7 +17,7 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
     const navigate = useNavigate();
 
     const removerComponente = async (codigo) => {
-        ConfirmDelete.confirm().then(async (result) =>{
+        Confirm.excluir().then(async (result) =>{
             if(result.isConfirmed){
                 setErro('')
                 setMensagem('')

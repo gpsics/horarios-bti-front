@@ -6,20 +6,19 @@ import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
-import ConfirmDelete from '../../confirmDelete/ConfirmDelete'
+import Confirm from '../../alerts/Confirm'
+import Sucess from '../../alerts/Sucess'
 
 const ListarProfessores = ({ profEdit }) => {
     const [erro, setErro] = useState('')
-    const [mensagem, setMensagem] = useState('')
     const [professors, setProfessors] = useState([]);
     const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
 
     const removerProfessor = async (id) => {
-        ConfirmDelete.confirm().then(async (result) => {
+        Confirm.excluir().then(async (result) => {
             if(result.isConfirmed){
                 setErro('')
-                setMensagem('')
                 const token = localStorage.getItem('token');
                 const url = `http://127.0.0.1:8000/professores/${id}/`;
                 const requestOptions = {
@@ -32,8 +31,7 @@ const ListarProfessores = ({ profEdit }) => {
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
-                        setMensagem('Professor Deletado com sucesso!');
-                        // Atualizar o estado removendo o professor da lista
+                        Sucess.delete()
                         setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                         setProfsBusca(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                     } else {
@@ -53,7 +51,6 @@ const ListarProfessores = ({ profEdit }) => {
 
     const fetchProfessors = async () => {
         setErro('')
-        setMensagem('')
         const token = localStorage.getItem('token');
         const url = 'http://127.0.0.1:8000/professores/';
         const requestOptions = {
@@ -128,7 +125,6 @@ const ListarProfessores = ({ profEdit }) => {
                             </table>
                                 <div>
                                     {erro && <div className="erroCad">{erro}</div>}
-                                    {mensagem && <div className="cadSucess">{mensagem}</div>}
                                 </div>
                             </>
                         ) : (

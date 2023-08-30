@@ -3,6 +3,8 @@ import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './CadComp.css'
+import Sucess from '../../alerts/Sucess'
+import Confirm from '../../alerts/Confirm'
 
 const CadComp = () => {
     const [codigo, setCodigo] = useState('')
@@ -12,50 +14,55 @@ const CadComp = () => {
     const [selectSM, setSelectSM] = useState();
     const [isChecked, setIsChecked] = useState(false);
     const [erro, setErro] = useState('')
-    const [mensagem, setMensagem] = useState('')
+ 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErro('')
-        setMensagem('')
+        Confirm.cadastrar().then(async (result) => {
+            if(result.isConfirmed){
+                setErro('')
+        
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setErro('Você precisa estar logado para cadastrar um componente.');
+                    return;
+                }
+                const url = 'http://127.0.0.1:8000/componentes/'
+                const requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Token ${token}`,
+                    },
+                    body: JSON.stringify({
+                        nome_comp: nome,
+                        codigo: codigo,
+                        num_semestre: selectSM,
+                        carga_horaria: selectCH,
+                        departamento: selectDP,
+                        obrigatorio: isChecked,
+                    }),
+                };
+                try {
+                    const response = await fetch(url, requestOptions);
+                    if (response.ok) {
+                        setNome()
+                        setCodigo()
+                        setIsChecked()
+                        setSelectCH()
+                        setSelectDP()
+                        setSelectSM()
+                        
+                        Sucess.cadastro()
+                    } else {
+                        setErro('Erro ao cadastrar Componente.')
+                    }
+                } catch (error) {
+                    console.error(error)
+                }
 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setErro('Você precisa estar logado para cadastrar um componente.');
-            return;
-        }
-        const url = 'http://127.0.0.1:8000/componentes/'
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify({
-                nome_comp: nome,
-                codigo: codigo,
-                num_semestre: selectSM,
-                carga_horaria: selectCH,
-                departamento: selectDP,
-                obrigatorio: isChecked,
-            }),
-        };
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                setNome()
-                setCodigo()
-                setIsChecked()
-                setSelectCH()
-                setSelectDP()
-                setSelectSM()
-                setMensagem('Componente Cadastrado com sucesso!')
-            } else {
-                setErro('Erro ao cadastrar Componente.')
             }
-        } catch (error) {
-            console.error(error)
-        }
+        })
 
     };
     return (
@@ -81,12 +88,12 @@ const CadComp = () => {
                                 <div className="columnSon">
                                     <select value={selectSM} onChange={e => setSelectSM(e.target.value)} className='selectField' >
                                         <option selected disabled>Semestre</option>
-                                        <option value="1">1º Semeste</option>
-                                        <option value="2">2º Semeste</option>
-                                        <option value="3">3º Semeste</option>
-                                        <option value="4">4º Semeste</option>
-                                        <option value="5">5º Semeste</option>
-                                        <option value="6">6º Semeste</option>
+                                        <option value="1">1º Semestre</option>
+                                        <option value="2">2º Semestre</option>
+                                        <option value="3">3º Semestre</option>
+                                        <option value="4">4º Semestre</option>
+                                        <option value="5">5º Semestre</option>
+                                        <option value="6">6º Semestre</option>
                                     </select>
                                     <select value={selectCH} onChange={e => setSelectCH(e.target.value)} className='selectField' >
                                         <option selected disabled>Carga Horária</option>
@@ -108,7 +115,6 @@ const CadComp = () => {
                             <div className="footerCad">
                                 <div>
                                     {erro && <div className="erroCad">{erro}</div>}
-                                    {mensagem && <div className="cadSucess">{mensagem}</div>}
                                 </div>
                                 <button type='submit'>Cadastrar</button>
                             </div>

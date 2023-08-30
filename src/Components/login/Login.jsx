@@ -26,8 +26,8 @@ const Login = () => {
                     localStorage.setItem('token', data.token)
                     setUsername({token: data.token})
                     setPassword({token: data.token})
-                    // window.location.href = '/home';
-                    if(localStorage.getItem !== undefined){
+                    const isAuth= localStorage.getItem('token');
+                    if(isAuth){
                         navigate("/Home");
                     }else{
                         setUsername('')
@@ -36,8 +36,7 @@ const Login = () => {
                     }
             });
             event.preventDefault()
-        }catch (error) {
-            
+        }catch (error) {            
             console.error(error);
         }
     }
@@ -58,9 +57,7 @@ const Login = () => {
                                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="infoLogin" placeholder='Password'/>
                                 
                             </div>
-                            <label className="conectado">
-                                <input type="checkbox" /><p>Deixar-me conectado.</p>
-                            </label>
+                            
                             <input type="submit" value="ENTRAR"  className="submit"/>
                         </form>
                         {erro && <div className="erro">{erro}</div>}

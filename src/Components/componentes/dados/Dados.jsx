@@ -6,17 +6,16 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import './Dados.css'
-import ConfirmDelete from '../../confirmDelete/ConfirmDelete';
+import Sucess from '../../alerts/Sucess';
+import Confirm from '../../alerts/Confirm';
 
 const Dados = ({ compEdit, componente }) => {
     const [erro, setErro] = useState('')
-    const [mensagem, setMensagem] = useState('')
     const navigate = useNavigate();
     const removerComponente = async (codigo) => {
-        ConfirmDelete.confirm().then(async (result) => {
+        Confirm.excluir().then(async (result) => {
             if(result.isConfirmed){
                 setErro('')
-                setMensagem('')
                 const token = localStorage.getItem('token');
                 const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
                 const requestOptions = {
@@ -29,8 +28,8 @@ const Dados = ({ compEdit, componente }) => {
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
-                        setMensagem('Componente Deletado com sucesso!');
-                        navigate('/Home')
+                        Sucess.delete()
+                        navigate('/componentes/listarComponentes')
                     } else {
                         setErro('Erro ao Deletar Componente.');
                     }
@@ -45,7 +44,6 @@ const Dados = ({ compEdit, componente }) => {
         compEdit(item)
         navigate("/componentes/editarComponente");
     }
-   
      
     return (
         <React.Fragment>
@@ -85,7 +83,7 @@ const Dados = ({ compEdit, componente }) => {
                     <section className='opcoes'>
                         <div>
                             {erro && <div className="erroCad">{erro}</div>}
-                            {mensagem && <div className="cadSucess">{mensagem}</div>}
+                            
                         </div>
                         <div className='botoes'>
                             <button id='editar' onClick={() => editarComponente(componente)}>
