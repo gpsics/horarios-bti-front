@@ -6,6 +6,7 @@ import Menu from '../../menuLateral/Menu'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
+import ConfirmDelete from '../../confirmDelete/ConfirmDelete'
 
 const ListarProfessores = ({ profEdit }) => {
     const [erro, setErro] = useState('')
@@ -15,29 +16,34 @@ const ListarProfessores = ({ profEdit }) => {
     const navigate = useNavigate();
 
     const removerProfessor = async (id) => {
-        setErro('')
-        setMensagem('')
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/professores/${id}/`;
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        };
+        ConfirmDelete.confirm().then(async (result) => {
+            if(result.isConfirmed){
+                setErro('')
+                setMensagem('')
+                const token = localStorage.getItem('token');
+                const url = `http://127.0.0.1:8000/professores/${id}/`;
+                const requestOptions = {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                };
+        
+                try {
+                    const response = await fetch(url, requestOptions);
+                    if (response.ok) {
+                        setMensagem('Professor Deletado com sucesso!');
+                        // Atualizar o estado removendo o professor da lista
+                        setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
+                    } else {
+                        setErro('Erro ao Deletar professor.');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
 
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                setMensagem('Professor Deletado com sucesso!');
-                // Atualizar o estado removendo o professor da lista
-                setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
-            } else {
-                setErro('Erro ao Deletar professor.');
             }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
+        })
     };
 
     useEffect(() => {
