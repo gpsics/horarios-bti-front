@@ -35,6 +35,7 @@ const ListarProfessores = ({ profEdit }) => {
                         setMensagem('Professor Deletado com sucesso!');
                         // Atualizar o estado removendo o professor da lista
                         setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
+                        setProfsBusca(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                     } else {
                         setErro('Erro ao Deletar professor.');
                     }
@@ -105,12 +106,13 @@ const ListarProfessores = ({ profEdit }) => {
                                         <td className='th' id='horasSemanais'>Horas Semanais</td>
                                         <td className='th' id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></td>
                                         <td className='th'></td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {profsBusca.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td className='index'>{index}</td>
+                                            <td className='index'>{index + 1}</td>
                                             <td>{item.nome_prof}</td>
                                             <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
                                             <td></td>

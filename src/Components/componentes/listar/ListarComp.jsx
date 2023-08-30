@@ -7,6 +7,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
+import ConfirmDelete from '../../confirmDelete/ConfirmDelete'
 
 const ListarComponentes = ({compEdit, compVerDados}) => {
     const [erro, setErro] = useState('')
@@ -16,29 +17,35 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
     const navigate = useNavigate();
 
     const removerComponente = async (codigo) => {
-        setErro('')
-        setMensagem('')
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        };
+        ConfirmDelete.confirm().then(async (result) =>{
+            if(result.isConfirmed){
+                setErro('')
+                setMensagem('')
+                const token = localStorage.getItem('token');
+                const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
+                const requestOptions = {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                };
+        
+                try {
+                    const response = await fetch(url, requestOptions);
+                    if (response.ok) {
+                        setMensagem('Componente Deletado com sucesso!');
+                        // Atualizar o estado removendo o componente da lista
+                        setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
+                        setCompsBusca(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
+                    } else {
+                        setErro('Erro ao Deletar Componente.');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
 
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                setMensagem('Componente Deletado com sucesso!');
-                // Atualizar o estado removendo o componente da lista
-                setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
-            } else {
-                setErro('Erro ao Deletar Componente.');
             }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
+        })
     };
 
     useEffect(() => {
@@ -83,7 +90,7 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
             setCompsBusca(componentes)
             return
         } else {
-            const filterComps = compsBusca.filter(({ nome }) => nome.toUpperCase().startsWith(target.value.toUpperCase()));
+            const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
             setCompsBusca(filterComps)
         }
     }
@@ -111,7 +118,7 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
                                     {compsBusca.map((item) => (
                                         <tr key={item.codigo}>
                                             <td>{item.codigo}</td>
-                                            <td>{item.nome}</td>
+                                            <td>{item.nome_comp}</td>
                                             <td className='funcoesIndex' id='view'><GrView id='icon' onClick={() => verComponente(item)}/></td>
                                             <td className='funcoesIndex'><MdModeEdit onClick={() => editarComponente(item)}/></td>
                                             <td className='funcoesIndex'><AiFillDelete onClick={() => removerComponente(item.codigo)} /></td>

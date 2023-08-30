@@ -6,34 +6,40 @@ import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import './Dados.css'
+import ConfirmDelete from '../../confirmDelete/ConfirmDelete';
 
 const Dados = ({ compEdit, componente }) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const navigate = useNavigate();
     const removerComponente = async (codigo) => {
-        setErro('')
-        setMensagem('')
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
-        const requestOptions = {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        };
+        ConfirmDelete.confirm().then(async (result) => {
+            if(result.isConfirmed){
+                setErro('')
+                setMensagem('')
+                const token = localStorage.getItem('token');
+                const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
+                const requestOptions = {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                };
+        
+                try {
+                    const response = await fetch(url, requestOptions);
+                    if (response.ok) {
+                        setMensagem('Componente Deletado com sucesso!');
+                        navigate('/Home')
+                    } else {
+                        setErro('Erro ao Deletar Componente.');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
 
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                setMensagem('Componente Deletado com sucesso!');
-                navigate('/Home')
-            } else {
-                setErro('Erro ao Deletar Componente.');
             }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
+        })
     };
     const editarComponente = (item) => {
         compEdit(item)
@@ -52,7 +58,7 @@ const Dados = ({ compEdit, componente }) => {
                         <ul>
                             <li>
                                 <b>Nome: </b>
-                                <span className="itens">{componente.nome}</span>
+                                <span className="itens">{componente.nome_comp}</span>
                             </li>
                             <li>
                                 <b>Código: </b>

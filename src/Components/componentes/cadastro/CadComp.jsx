@@ -32,7 +32,7 @@ const CadComp = () => {
                 Authorization: `Token ${token}`,
             },
             body: JSON.stringify({
-                nome: nome,
+                nome_comp: nome,
                 codigo: codigo,
                 num_semestre: selectSM,
                 carga_horaria: selectCH,
