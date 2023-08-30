@@ -4,7 +4,7 @@ import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
 const EditarComponente = ({componente}) => {
-  const [newName, setNewName] = useState(componente.nome)
+  const [newName, setNewName] = useState(componente.nome_comp)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
   const [newCH, setNewCH] = useState(componente.carga_horaria)
   const [newDP, setNewDP] = useState(componente.departamento)
@@ -30,7 +30,7 @@ const EditarComponente = ({componente}) => {
         Authorization: `Token ${token}`,
       },
       body: JSON.stringify({
-        nome: newName,
+        nome_comp: newName,
         num_semestre: newSemester,
         carga_horaria: newCH,
         departamento: newDP,
