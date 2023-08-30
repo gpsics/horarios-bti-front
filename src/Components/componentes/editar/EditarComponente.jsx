@@ -3,8 +3,7 @@ import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
-const EditarComponente = ({ componente }) => {
-  
+const EditarComponente = ({componente}) => {
   const [newName, setNewName] = useState(componente.nome)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
   const [newCH, setNewCH] = useState(componente.carga_horaria)

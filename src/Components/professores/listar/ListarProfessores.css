@@ -53,9 +53,10 @@
 }
 
 /* Estilo para as células do cabeçalho */
-.professor-table th {
+.professor-table .th {
     padding: 10px;
     text-align: left;
+    border-bottom: none;
 }
 
 /* Estilo para as células do corpo da tabela */
@@ -76,12 +77,12 @@
     text-align: center;
 }
 #busca{
-    position: absolute;
-    right: 10px;
+    float: right;
 }
 #busca input{
-    border: 1px solid #ffffff;
-    background-color: white;
     border-radius: 3px;
-    padding: 2px;
+}
+#edi{
+    text-align: right;
+    padding-right: 5px;
 }

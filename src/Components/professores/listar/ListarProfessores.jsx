@@ -90,27 +90,25 @@ const ListarProfessores = ({ profEdit }) => {
                 <section id="listProf">
                     <h1 id='title'>Listar Professores</h1>
                     <div className="tableList">
-                        {professors.length >= 0 ? (
+                        {professors.length > 0 ? (
                             <><table className="professor-table">
                                 <thead id=''>
                                     <tr>
-                                        <th>Nº</th>
-                                        <th>Nome</th>
-                                        <th id='horasSemanais'>Horas Semanais</th>
-                                        <th></th>
-                                        <th id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></th>
-                                        <th></th>
+                                        <td className='th'>Nº</td>
+                                        <td className='th'>Nome</td>
+                                        <td className='th' id='horasSemanais'>Horas Semanais</td>
+                                        <td className='th' id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></td>
+                                        <td className='th'></td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     {profsBusca.map((item, index) => (
                                         <tr key={item.id}>
                                             <td className='index'>{index}</td>
                                             <td>{item.nome_prof}</td>
                                             <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
                                             <td></td>
-                                            <td className='funcoesIndex'>
+                                            <td className='funcoesIndex' id='edi'>
                                                 <MdModeEdit onClick={() => editarProfessor(item)} />
                                             </td>
                                             <td className='funcoesIndex'>

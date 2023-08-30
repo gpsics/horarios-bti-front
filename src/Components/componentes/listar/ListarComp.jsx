@@ -12,6 +12,7 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
     const [erro, setErro] = useState('')
     const [mensagem, setMensagem] = useState('')
     const [componentes, setComponentes] = useState([]);
+    const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
 
     const removerComponente = async (codigo) => {
@@ -61,6 +62,7 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
             if (response.ok) {
                 const componentesData = await response.json();
                 setComponentes(componentesData);
+                setCompsBusca(componentesData)
             } else {
                 console.log('Erro ao listar componentes.')
             }
@@ -76,6 +78,15 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
         compVerDados(item)
         navigate("/componentes/verDadosComponente");
     }
+    const buscarComponente = ({ target }) => {
+        if (!target.value) {
+            setCompsBusca(componentes)
+            return
+        } else {
+            const filterComps = compsBusca.filter(({ nome }) => nome.toUpperCase().startsWith(target.value.toUpperCase()));
+            setCompsBusca(filterComps)
+        }
+    }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -90,17 +101,18 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
                                     <tr>
                                         <th>Código</th>
                                         <th>Componente</th>
-                                        <th></th>
+                                        <th id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarComponente} /></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {componentes.map((item) => (
+                                    
+                                    {compsBusca.map((item) => (
                                         <tr key={item.codigo}>
                                             <td>{item.codigo}</td>
                                             <td>{item.nome}</td>
-                                            <td className='funcoesIndex'><GrView onClick={() => verComponente(item)}/></td>
+                                            <td className='funcoesIndex' id='view'><GrView id='icon' onClick={() => verComponente(item)}/></td>
                                             <td className='funcoesIndex'><MdModeEdit onClick={() => editarComponente(item)}/></td>
                                             <td className='funcoesIndex'><AiFillDelete onClick={() => removerComponente(item.codigo)} /></td>
                                         </tr>
