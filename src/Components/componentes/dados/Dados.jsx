@@ -82,7 +82,7 @@ const Dados = ({ compEdit, componente }) => {
                             {mensagem && <div className="cadSucess">{mensagem}</div>}
                         </div>
                         <div className='botoes'>
-                            <button id='editar' onClick={() => editarComponente({componente})}>
+                            <button id='editar' onClick={() => editarComponente(componente)}>
                                 <p>Editar</p> 
                                 <i>
                                     <MdModeEdit />
