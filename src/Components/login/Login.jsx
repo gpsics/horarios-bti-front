@@ -50,11 +50,11 @@ const Login = () => {
                         <h2>Login</h2>
                         <form  onSubmit={handleSubmit} >
                             <div className='inputLogin'>
-                                <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="infoLogin" placeholder='User'/>
+                                <input type="text" value={username} onChange={e => setUsername(e.target.value)} className="infoLogin" placeholder='Usuário'/>
                                 
                             </div>
                             <div className='inputLogin'>
-                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="infoLogin" placeholder='Password'/>
+                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="infoLogin" placeholder='Senha'/>
                                 
                             </div>
                             

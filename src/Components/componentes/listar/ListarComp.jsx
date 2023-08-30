@@ -8,19 +8,18 @@ import { MdModeEdit } from "react-icons/md";
 import { GrView } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
+import Sucess from '../../alerts/Sucess'
 
-const ListarComponentes = ({compEdit, compVerDados}) => {
+const ListarComponentes = ({ compEdit, compVerDados }) => {
     const [erro, setErro] = useState('')
-    const [mensagem, setMensagem] = useState('')
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
 
     const removerComponente = async (codigo) => {
-        Confirm.excluir().then(async (result) =>{
-            if(result.isConfirmed){
+        Confirm.excluir().then(async (result) => {
+            if (result.isConfirmed) {
                 setErro('')
-                setMensagem('')
                 const token = localStorage.getItem('token');
                 const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
                 const requestOptions = {
@@ -29,11 +28,11 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
                         Authorization: `Token ${token}`,
                     },
                 };
-        
+
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
-                        setMensagem('Componente Deletado com sucesso!');
+                        Sucess.delete()
                         // Atualizar o estado removendo o componente da lista
                         setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
                         setCompsBusca(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
@@ -54,7 +53,6 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
 
     const fetchComponente = async () => {
         setErro('')
-        setMensagem('')
         const token = localStorage.getItem('token');
         const url = 'http://127.0.0.1:8000/componentes/';
         const requestOptions = {
@@ -77,11 +75,11 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
             console.error('An error occurred:', error);
         }
     };
-    const editarComponente = (item) =>{
+    const editarComponente = (item) => {
         compEdit(item)
         navigate("/componentes/editarComponente");
     }
-    const verComponente = (item) =>{
+    const verComponente = (item) => {
         compVerDados(item)
         navigate("/componentes/verDadosComponente");
     }
@@ -103,32 +101,41 @@ const ListarComponentes = ({compEdit, compVerDados}) => {
                     <h1 id='title'>Listar Componentes</h1>
                     <div className="tableList">
                         {componentes.length > 0 ? (
-                            <><table className="componente-table">
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Componente</th>
-                                        <th id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarComponente} /></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    {compsBusca.map((item) => (
-                                        <tr key={item.codigo}>
-                                            <td>{item.codigo}</td>
-                                            <td>{item.nome_comp}</td>
-                                            <td className='funcoesIndex' id='view'><GrView id='icon' onClick={() => verComponente(item)}/></td>
-                                            <td className='funcoesIndex'><MdModeEdit onClick={() => editarComponente(item)}/></td>
-                                            <td className='funcoesIndex'><AiFillDelete onClick={() => removerComponente(item.codigo)} /></td>
+                            <>
+                                <section id='busca'>
+                                    <input type="text" placeholder='Buscar por Nome' onChange={buscarComponente} />
+                                </section>
+                                <table className="componente-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Componente</th>
+                                            <th ></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {compsBusca.map((item) => (
+                                            <tr key={item.codigo}>
+                                                <td>{item.codigo}</td>
+                                                <td>{item.nome_comp}</td>
+                                                <td className='funcoesIndex' id='view'>
+                                                    <GrView onClick={() => verComponente(item)} />
+                                                </td>
+                                                <td className='funcoesIndex'>
+                                                    <MdModeEdit onClick={() => editarComponente(item)} />
+                                                </td>
+                                                <td className='funcoesIndex'>
+                                                    <AiFillDelete onClick={() => removerComponente(item.codigo)} />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                                 <div>
                                     {erro && <div className="erroCad">{erro}</div>}
-                                    {mensagem && <div className="cadSucess">{mensagem}</div>}
+                                    
                                 </div>
                             </>
                         ) : (

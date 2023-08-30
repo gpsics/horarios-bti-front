@@ -17,7 +17,7 @@ const ListarProfessores = ({ profEdit }) => {
 
     const removerProfessor = async (id) => {
         Confirm.excluir().then(async (result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 setErro('')
                 const token = localStorage.getItem('token');
                 const url = `http://127.0.0.1:8000/professores/${id}/`;
@@ -27,7 +27,7 @@ const ListarProfessores = ({ profEdit }) => {
                         Authorization: `Token ${token}`,
                     },
                 };
-        
+
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
@@ -95,34 +95,38 @@ const ListarProfessores = ({ profEdit }) => {
                     <h1 id='title'>Listar Professores</h1>
                     <div className="tableList">
                         {professors.length > 0 ? (
-                            <><table className="professor-table">
-                                <thead id=''>
-                                    <tr>
-                                        <td className='th'>Nº</td>
-                                        <td className='th'>Nome</td>
-                                        <td className='th' id='horasSemanais'>Horas Semanais</td>
-                                        <td className='th' id='busca'><input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></td>
-                                        <td className='th'></td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {profsBusca.map((item, index) => (
-                                        <tr key={item.id}>
-                                            <td className='index'>{index + 1}</td>
-                                            <td>{item.nome_prof}</td>
-                                            <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
-                                            <td></td>
-                                            <td className='funcoesIndex' id='edi'>
-                                                <MdModeEdit onClick={() => editarProfessor(item)} />
-                                            </td>
-                                            <td className='funcoesIndex'>
-                                                <AiFillDelete onClick={() => removerProfessor(item.id)} />
-                                            </td>
+                            <>
+                                <section id='busca'>
+                                    <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></section>
+                                <table className="professor-table">
+                                    <thead >
+                                        <tr>
+                                            <td className='th'>Nº</td>
+                                            <td className='th'>Nome</td>
+                                            <td className='th' id='horasSemanais'>Horas Semanais</td>
+                                            <td className='th' ></td>
+                                            <td className='th'></td>
+                                            
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        {profsBusca.map((item, index) => (
+                                            <tr key={item.id}>
+                                                <td className='index'>{index + 1}</td>
+                                                <td>{item.nome_prof}</td>
+                                                <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
+                                                <td></td>
+                                                <td className='funcoesIndex' >
+                                                    <MdModeEdit onClick={() => editarProfessor(item)} />
+                                                </td>
+                                                <td className='funcoesIndex'>
+                                                    <AiFillDelete onClick={() => removerProfessor(item.id)} />
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                                 <div>
                                     {erro && <div className="erroCad">{erro}</div>}
                                 </div>

@@ -8,6 +8,8 @@ import SubMenu from './SubMenu';
 import { IconContext } from 'react-icons/lib';
 
 const Nav = styled.div`
+  background: #243e6a;
+  border-radius: 0px 40px 40px 0px;
   height: 80px;
   width: 100px;
   display: ${({ $menu }) => ($menu ? 'none' : 'flex')};
@@ -18,7 +20,7 @@ const Nav = styled.div`
 const NavIcon = styled(Link)`
   margin-left: 1.5rem;
   font-size: 2rem;
-  height: 80px; /* Você pode ajustar isso conforme necessário */
+  height: 80px; 
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -27,11 +29,11 @@ const NavIcon = styled(Link)`
 const MenuNav = styled.nav`
   background: #243e6a;
   width: 250px;
-  min-height: 100vh; /* Defina a altura para ocupar toda a tela */
-  position: relative; /* Use "fixed" para garantir que o menu permaneça visível mesmo ao rolar */
+  min-height: 100vh; 
+  position: relative; 
   top: 0;
   left: ${({ menu }) => (menu ? '0' : '-100%')};
-  transition: 150ms;
+  // transition: 150ms;
   z-index: 10;
 `;
 

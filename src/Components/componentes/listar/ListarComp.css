@@ -13,7 +13,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    margin: 15px 0px 0px 15px;
+    margin: 15px 0px 0px 35px;
 
 }
 #nenhumCadastro{
@@ -63,22 +63,20 @@
 }
 .index{
     width: 30px;
+    margin: 0 auto;
+}
+.funcoesIndex{
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
 }
 /* Estilo para a célula de ação */
 .funcoesIndex:hover{
     cursor: pointer;
-}
-#busca{
-    float: right;
+    background-color: #C4D7ED ;
 }
 #busca input{
-    border-radius: 3px;
-    padding: 3px;
-}
-#view{
-    text-align: right;
-    padding-right: 10px;
-}
-#view #icon{
-    margin-right: 15px;
+    padding: 5px;
+    width: 200px;
+    border-radius: 4px;
 }

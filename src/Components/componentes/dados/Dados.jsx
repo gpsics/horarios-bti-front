@@ -44,7 +44,7 @@ const Dados = ({ compEdit, componente }) => {
         compEdit(item)
         navigate("/componentes/editarComponente");
     }
-     
+    
     return (
         <React.Fragment>
             <Header link={'/Home'} />
