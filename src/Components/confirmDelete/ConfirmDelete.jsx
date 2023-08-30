@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const ConfirmDelete = {
     confirm: () => {
         return Swal.fire({
