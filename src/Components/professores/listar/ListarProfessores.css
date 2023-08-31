@@ -16,7 +16,7 @@
     margin: 15px 0px 0px 15px;
 
 }
-#nenhumCadastro{
+#nenhumPROF{
     position: absolute;
     top: 0;
     left: 0;
@@ -74,6 +74,10 @@
 .funcoesIndex:hover{
     cursor: pointer;
     background-color: #C4D7ED ;
+}
+#busca{
+    float: right;
+    margin-bottom: 10px;
 }
 #busca input{
     padding: 5px;

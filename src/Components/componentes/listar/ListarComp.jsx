@@ -139,7 +139,7 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
                                 </div>
                             </>
                         ) : (
-                            <div id='nenhumCadastro'>
+                            <div id='nenhumCOMP'>
                                 <p>Não tem nenhum componente cadastrado.</p>
                             </div>
                         )}
