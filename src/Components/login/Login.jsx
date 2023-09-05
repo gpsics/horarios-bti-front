@@ -23,17 +23,26 @@ const Login = () => {
             fetch(url, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    localStorage.setItem('token', data.token)
-                    setUsername({token: data.token})
-                    setPassword({token: data.token})
-                    const isAuth= localStorage.getItem('token');
-                    if(isAuth){
+                    if (response.ok) {
+                        localStorage.setItem('token', data.token);
                         navigate("/Home");
-                    }else{
-                        setUsername('')
-                        setPassword('')
-                        setErro('O usuário ou a senha estão incorretos.')
+                    } else {
+                        setUsername('');
+                        setPassword('');
+                        setErro('O usuário ou a senha estão incorretos.');
+                        localStorage.removeItem('token'); // Remova o token se a autenticação falhar.
                     }
+                    // localStorage.setItem('token', data.token)
+                    // setUsername({token: data.token})
+                    // setPassword({token: data.token})
+                    // const isAuth= localStorage.getItem('token');
+                    // if(isAuth){
+                    //     navigate("/Home");
+                    // }else{
+                    //     setUsername('')
+                    //     setPassword('')
+                    //     setErro('O usuário ou a senha estão incorretos.')
+                    // }
             });
             event.preventDefault()
         }catch (error) {            
