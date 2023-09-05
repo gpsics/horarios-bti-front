@@ -97,14 +97,16 @@ const ListarProfessores = ({ profEdit }) => {
                         {professors.length > 0 ? (
                             <>
                                 <section id='busca'>
-                                    <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} /></section>
+                                    <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} />
+                                </section>
                                 <table className="professor-table">
                                     <thead >
                                         <tr>
                                             <td className='th'>Nº</td>
                                             <td className='th'>Nome</td>
                                             <td className='th' id='horasSemanais'>Horas Semanais</td>
-                                            <td className='th' ></td>
+                                            <td className='th'></td>
+                                            <td className='th'></td>
                                             <td className='th'></td>
                                             
                                         </tr>
