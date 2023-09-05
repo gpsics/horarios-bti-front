@@ -6,6 +6,7 @@ import BuscarDocente from './BuscarDocente'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import { useDocentes } from './DocentesContext'
+import TabelaHorarios from './TabelaHorarios'
 const CadastrarTurma = () => {
   const [codigoComp, setCodigoComp] = useState()
   const [numTurma, setNumTurma] = useState()
@@ -76,8 +77,10 @@ const CadastrarTurma = () => {
             <div className="buscarDocente">
               <BuscarDocente />
             </div>
-            <div className="docentesSelecionados"></div>
-            <div className="tabelaHorarios"></div>
+            
+            <div className="tabelaHorarios">
+              <TabelaHorarios/>
+            </div>
             <div className="botaoCad">
               <div>
                 {erro && <div className="erroCad">{erro}</div>}
