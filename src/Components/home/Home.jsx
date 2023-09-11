@@ -4,17 +4,19 @@ import Header from "../header/Header";
 import Menu from "../menuLateral/Menu";
 import Footer from "../footer/Footer";
 
-const Home = () =>{
-    return(
+const Home = () => {
+    return (
         <React.Fragment>
-            <Header link={'/Home'}/>
-            <main id="Home">
-                <div id="filtroHome">
-                    <div id="menu"><Menu/></div>
+            <Header link={'/Home'} />
+
+            <main id="entidades" className="imgFundo">
+                <div id="menu" ><Menu /></div>
+                <div className="conteudo home">
                     <h1>GERENCIADOR DE HORÁRIOS</h1>
                 </div>
             </main>
-            <Footer/>
+
+            <Footer />
         </React.Fragment>
     )
 }

@@ -57,7 +57,7 @@ const CadastrarArquivo = () => {
       <div className="cadastroArquivo">
         <input type="file" accept=".csv" onChange={handleOnChange} className="custom-file-input" />
         <div className="footerCadArq">
-          <button onClick={fileSubmit}>Cadastrar Arquivo </button>
+          <button onClick={fileSubmit} className='botaoCadastrar'>Cadastrar Arquivo </button>
           {erro && <div className="erroCad">{erro}</div>}
           {mensagem && <div className="cadSucess">{mensagem}</div>}
         </div>

@@ -1,0 +1,109 @@
+.cadasrarTurma{
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+        'titulo titulo'
+        'informacoes informacoes'
+    ;
+    gap: 10px;
+    padding: 20px 60px;
+    box-sizing: border-box;
+}
+.cadasrarTurma >h1{
+    grid-area: titulo;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+.formCadTurma{
+    grid-area: informacoes;
+    padding: 10px;
+    display: grid;
+    grid-template-rows: 50px 120px 1fr 40px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+        'form form'
+        'buscDocente buscDocente'
+        'tabelaHorarios tabelaHorarios'
+        'footer footer'
+    ;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.851);
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    box-sizing: border-box;
+}
+.dadosTurma{
+    grid-area: form;
+    
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.buscarDocente{
+    grid-area: buscDocente;
+    
+}
+.tabelaHorarios{
+    grid-area: tabelaHorarios;
+    
+}
+.botaoCad {
+    grid-area: footer;
+    width: 90%;
+    margin: 0 auto;
+    
+}
+.tabelaHorarios > table{
+    min-width: 90%;
+    margin: 0 auto;
+   
+    border-collapse: collapse;
+    padding-top: 0px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 20px rgba(67, 66, 66, 0.356);
+}
+.tabelaHorarios th{
+    background-color: #10396B ;
+    color: white;
+    border-bottom:  1px solid rgb(0, 0, 0);
+    height: 30px;
+}
+.tabelaHorarios >table >tbody > tr{
+    border-top:  1px solid rgb(0, 0, 0);
+    border-bottom:  1px solid rgb(0, 0, 0);
+}
+#ultimaLinha{
+    border-bottom: none;
+}
+#pontaEsquerda{
+    border-top-left-radius: 8px;
+}
+#pontaDireita{
+    border-top-right-radius: 8px;
+}
+.tabelaHorarios .column01{
+    width: 200px;
+    text-align: center;
+}
+.botaoCad{
+    grid-area: footer;
+    display: flex;
+    justify-content: space-between;
+}
+.input{
+    width: 250px;
+    height: 30px;
+    border-radius: 4px;
+    text-indent: 5px;
+}
+.buscar{
+    height: 30px;
+    width: 99.8%;
+    border-radius: 4px;
+    text-indent: 5px;
+}

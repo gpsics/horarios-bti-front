@@ -1,6 +1,6 @@
 .cadProf{
     display: grid;
-    min-height: 100vh;
+    max-width: 100%;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 60px 130px 450px;
     grid-template-areas: 
@@ -54,18 +54,5 @@
     font-size: 16px;
 }
 
-.cadIndvidual button {
-    padding: 10px 20px;
-    background-color: rgb(20, 20, 20);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-.cadIndvidual button:hover {
-    background-color: rgba(7, 7, 7, 0.951);
-}
 

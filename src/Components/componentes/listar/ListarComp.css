@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
+    min-height: 100%;
     position: relative;
     padding: 10px;
     box-sizing: border-box;
@@ -26,7 +26,7 @@
     margin-top: 50px;
     width: 70%;
     max-height: 87.2vh;
-    overflow-y:auto;
+
 }
 /* Estilo para a tabela */
 .componente-table {
@@ -37,7 +37,7 @@
     width: 100%;
     align-self: center;
     max-height: 100%;
-    overflow-y: auto;
+
 }
 
 /* Estilo para o cabeçalho da tabela */

@@ -116,7 +116,7 @@ const CadComp = () => {
                                 <div>
                                     {erro && <div className="erroCad">{erro}</div>}
                                 </div>
-                                <button type='submit'>Cadastrar</button>
+                                <button type='submit' className='botaoCadastrar'>Cadastrar</button>
                             </div>
                         </form>
                     </section>

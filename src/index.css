@@ -1,6 +1,7 @@
 * {
   padding: 0px;
   margin: 0px;
+  box-sizing: border-box;
 }
 
 :root {
@@ -16,6 +17,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #E1E6FA;
   /* background-color: #F0F0F0; */
+  box-sizing: border-box;
 }
 
 code {
@@ -26,16 +28,18 @@ code {
 #entidades {
   display: grid;
   grid-template-columns: 250px 1fr;
-  min-height: 87.2vh;
+  min-height: 100vh;
   grid-template-areas: 'menulateral conteudo';
+  box-sizing: border-box;
 }
-
 #menu {
   grid-area: menulateral;
+  max-height: 100%;
 }
 
 .conteudo {
   grid-area: conteudo;
+  height: 100%;
 
 }
 .erroCad{
@@ -56,4 +60,19 @@ code {
   margin-top: 5px;
   padding: 5px;
   border-radius: 2px; 
+}
+.botaoCadastrar {
+  padding: 10px 20px;
+  background-color: rgb(20, 20, 20);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.botaoCadastrar:hover {
+  cursor: pointer;
+  background-color: rgba(40, 40, 40, 0.951);
+  box-shadow: 3px 3px 10px rgba(51, 51, 51, 0.242);
 } 

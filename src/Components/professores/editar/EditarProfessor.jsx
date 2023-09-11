@@ -56,7 +56,7 @@ const EditarProfessor = ({professor}) => {
                     <section className="editarProf">
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                            <button type='submit'>Editar</button>
+                            <button type='submit' className='botaoCadastrar'>Editar</button>
                         </form>
                         {erro && <div className="erroCad">{erro}</div>}
                     </section>

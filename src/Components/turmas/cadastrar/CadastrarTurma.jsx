@@ -7,6 +7,7 @@ import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import { useDocentes } from './DocentesContext'
 import TabelaHorarios from './TabelaHorarios'
+import './CadastrarTurma.css'
 const CadastrarTurma = () => {
   const [codigoComp, setCodigoComp] = useState()
   const [numTurma, setNumTurma] = useState()
@@ -66,13 +67,13 @@ const CadastrarTurma = () => {
       <Header link={'/Home'} />
       <main id='entidades'>
         <div className="menu"><Menu /></div>
-        <section className='conteudo cadTur'>
-          <h3>Cadastrar Turma</h3>
+        <section className='conteudo cadasrarTurma'>
+          <h1>Cadastrar Turma</h1>
           <section className='formCadTurma'>
             <div className="dadosTurma">
-              <input type="text" placeholder='Código do Componente' value={codigoComp} onChange={e => setCodigoComp(e.target.value)} className='inputField' />
-              <input type="text" placeholder='Número da Turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} className='inputField' />
-              <input type="text" placeholder='Número de Vagas' value={vagas} onChange={e => setVagas(e.target.value)} className='inputField' />
+              <input type="text" placeholder='Código do Componente' value={codigoComp} onChange={e => setCodigoComp(e.target.value)} className='input' />
+              <input type="text" placeholder='Número da Turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} className='input' />
+              <input type="text" placeholder='Número de Vagas' value={vagas} onChange={e => setVagas(e.target.value)} className='input' />
             </div>
             <div className="buscarDocente">
               <BuscarDocente />
@@ -85,7 +86,7 @@ const CadastrarTurma = () => {
               <div>
                 {erro && <div className="erroCad">{erro}</div>}
               </div>
-              <button onClick={() => handleSubmit}>Cadastrar</button>
+              <button onClick={() => handleSubmit} className='botaoCadastrar'>Cadastrar</button>
             </div>
           </section>
         </section>

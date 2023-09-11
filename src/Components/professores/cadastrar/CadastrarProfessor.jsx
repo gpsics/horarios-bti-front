@@ -58,7 +58,7 @@ const CadastrarProfessor = () => {
                         <h3>Cadastrar Individualmente</h3>
                         <form onSubmit={handleSubmit} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={user} onChange={e => setUser(e.target.value)} />
-                            <button type='submit'>Cadastrar</button>
+                            <button type='submit' className='botaoCadastrar'>Cadastrar</button>
                         </form>
                         {erro && <div className="erroCad">{erro}</div>}
                         

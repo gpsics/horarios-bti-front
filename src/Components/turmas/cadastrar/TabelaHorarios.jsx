@@ -35,68 +35,68 @@ const TabelaHorarios = () => {
       <table>
         <thead>
             <tr>
-                <th>HORÁRIOS</th>
+                <th className='column01' id='pontaEsquerda'>HORÁRIOS</th>
                 <th>SEG</th>
                 <th>TER</th>
                 <th>QUA</th>
                 <th>QUI</th>
-                <th>SEX</th>
+                <th id='pontaDireita'>SEX</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>07:00 - 07:55</td>
+                <td className='column01'>07:00 - 07:55</td>
             </tr>
             <tr>
-                <td>07:55 - 08:50</td>
+                <td className='column01'>07:55 - 08:50</td>
             </tr>
             <tr>
-                <td>08:50 - 09:45</td>
+                <td className='column01'>08:50 - 09:45</td>
             </tr>
             <tr>
-                <td>09:55 - 10:50</td>
+                <td className='column01'>09:55 - 10:50</td>
             </tr>
             <tr>
-                <td>10:50 - 11:45</td>
+                <td className='column01'>10:50 - 11:45</td>
             </tr>
             <tr>
-                <td>11:45 - 12:40</td>
-            </tr>
-
-            <br />
-
-            <tr>
-                <td>13:00 - 13:55</td>
-            </tr>
-            <tr>
-                <td>13:55 - 14:50</td>
-            </tr>
-            <tr>
-                <td>14:50 - 15:45</td>
-            </tr>
-            <tr>
-                <td>15:45 - 16:50</td>
-            </tr>
-            <tr>
-                <td>16:50 - 17:45</td>
-            </tr>
-            <tr>
-                <td>17:45 - 18:40</td>
+                <td className='column01'>11:45 - 12:40</td>
             </tr>
 
             <br />
 
             <tr>
-                <td>18:50 - 19:45</td>
+                <td className='column01'>13:00 - 13:55</td>
             </tr>
             <tr>
-                <td>19:45 - 20:40</td>
+                <td className='column01'>13:55 - 14:50</td>
             </tr>
             <tr>
-                <td>20:40 - 21:35</td>
+                <td className='column01'>14:50 - 15:45</td>
             </tr>
             <tr>
-                <td>21:35 - 22:30</td>
+                <td className='column01'>15:45 - 16:50</td>
+            </tr>
+            <tr>
+                <td className='column01'>16:50 - 17:45</td>
+            </tr>
+            <tr>
+                <td className='column01'>17:45 - 18:40</td>
+            </tr>
+
+            <br />
+
+            <tr>
+                <td className='column01'>18:50 - 19:45</td>
+            </tr>
+            <tr>
+                <td className='column01'>19:45 - 20:40</td>
+            </tr>
+            <tr>
+                <td className='column01'>20:40 - 21:35</td>
+            </tr>
+            <tr id='ultimaLinha'>
+                <td className='column01'>21:35 - 22:30</td>
             </tr>
         </tbody>
       </table>
