@@ -10,10 +10,12 @@ import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
 import CadComp from './Components/componentes/cadastro/CadComp';
 import EditarProfessor from './Components/professores/editar/EditarProfessor';
 import { useState } from 'react';
-import ListarComponentes from './Components/componentes/listar/ListarComp';
+// import ListarComponentes from './Components/componentes/listar/ListarComp';
 import Dados from './Components/componentes/dados/Dados';
 import EditarComponente from './Components/componentes/editar/EditarComponente';
 import { DocentesProvider } from './Components/turmas/cadastrar/DocentesContext';
+import ListarTurmas from './Components/turmas/listagem/ListarTurmas';
+import ListarComponentes from './Components/componentes/listar/ListarComponentes';
 
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
   const compEdit = (item) => {
     setComponenteEditar(item)
   }
+
+  //Funcoes destinadas para turmas
   console.log(componenteEditar)
   return (
     <DocentesProvider>
@@ -48,9 +52,10 @@ function App() {
             <Route path='professores/editarProfessor' element={<EditarProfessor professor={professorSelecionado} />} />
             <Route path='professores/listarProfessores' element={<ListarProfessores profEdit={profEdit} />} />
             {/* Rotas para turmas */}
-            
-              <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
-            
+
+            <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
+            <Route path='turmas/listarTurmas' element={<ListarTurmas/>}/>
+
             {/* Rotas para componente curricular */}
             <Route path='componentes/cadastrarComponente' element={<CadComp />} />
             <Route path='/componentes/listarComponentes' element={<ListarComponentes compEdit={compEdit} compVerDados={compVerDados} />} />

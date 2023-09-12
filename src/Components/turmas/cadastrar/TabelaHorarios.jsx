@@ -32,7 +32,7 @@ const TabelaHorarios = () => {
   return (
     <>
       <h2>Tabela de Horários</h2>
-      <table>
+      <table className='padraoTabelas'>
         <thead>
             <tr>
                 <th className='column01' id='pontaEsquerda'>HORÁRIOS</th>

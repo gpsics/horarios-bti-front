@@ -1,4 +1,4 @@
-.listarProfessores{
+.listarComponentes{
     min-height: 100%;
     display: grid;
     grid-template-rows: 50px 50px 1fr;
@@ -12,13 +12,13 @@
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.listarProfessores > h1{
+.listarComponentes > h1{
     grid-area: titulo;
     flex-direction: column;
     justify-content: flex-start;
     box-sizing: border-box;
 }
-.listarProfessores > #busca{
+.listarComponentes > #busca{
     grid-area: busca;
     display: flex;
     justify-content: end;
@@ -31,18 +31,11 @@
     text-indent: 5px;
 
 }
-.listarProfessores > table{
+.listarComponentes > table{
     grid-area: lista;
     max-height: 100px;
 }
-.listarProfessores #nenhumCOMP{
+.listarComponentes #nenhumCOMP{
     grid-area: busca;
     padding-left: 10px;
-}
-.listarProfessores .index{
-    width: 70px;
-    text-align: center;
-}
-.listarProfessores #horasSemanais{
-    text-align: center;
 }

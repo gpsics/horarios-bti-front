@@ -32,6 +32,7 @@ code {
   grid-template-areas: 'menulateral conteudo';
   box-sizing: border-box;
 }
+
 #menu {
   grid-area: menulateral;
   max-height: 100%;
@@ -42,9 +43,10 @@ code {
   height: 100%;
 
 }
-.erroCad{
+
+.erroCad {
   grid-area: mensagem;
-  text-align:start;
+  text-align: start;
   color: rgb(157, 3, 3);
   font-weight: bold;
   max-width: 450px;
@@ -52,15 +54,7 @@ code {
   padding: 5px;
   border-radius: 2px;
 }
-.cadSucess{
-  grid-area: mensagem;
-  text-align:start;
-  color: rgb(2, 98, 2);
-  font-weight: bold;
-  margin-top: 5px;
-  padding: 5px;
-  border-radius: 2px; 
-}
+
 .botaoCadastrar {
   padding: 10px 20px;
   background-color: rgb(20, 20, 20);
@@ -75,4 +69,53 @@ code {
   cursor: pointer;
   background-color: rgba(40, 40, 40, 0.951);
   box-shadow: 3px 3px 10px rgba(51, 51, 51, 0.242);
-} 
+}
+
+/* CSS TABELAS */
+.padraoTabelas {
+  min-width: 80%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.851);
+  border-collapse: collapse;
+  padding-top: 0px;
+  border-radius: 8px;
+  box-shadow: 4px 4px 20px rgba(67, 66, 66, 0.356);
+}
+
+.padraoTabelas th {
+  background-color: #10396B;
+  color: white;
+  border-bottom: 1px solid rgb(0, 0, 0);
+  height: 40px;
+}
+
+#pontaEsquerda {
+  border-top-left-radius: 8px;
+}
+
+#pontaDireita {
+  border-top-right-radius: 8px;
+}
+
+.padraoTabelas> tbody > tr {
+  height: 35px;
+}
+.padraoTabelas .espacoColuna{
+  width: 15%;
+}
+.padraoTabelas .funcoesIndex{
+  width: 10%;
+  text-align: center;
+}
+.padraoTabelas th,
+.padraoTabelas td {
+  text-align: left;
+}
+.padraoTabelas .primeiraColuna {
+  text-align: left;
+  text-indent: 10%;
+}
+.padraoTabelas .funcoesIndex:hover {
+  cursor: pointer;
+  background-color: #C4D7ED;
+}

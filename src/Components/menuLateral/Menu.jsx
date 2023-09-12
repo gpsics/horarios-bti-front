@@ -29,7 +29,7 @@ const NavIcon = styled(Link)`
 const MenuNav = styled.nav`
   background: #243e6a;
   width: 250px;
-  height: 97%;
+  min-height: 97%;
   position: relative; 
   top: 0;
   left: ${({ menu }) => (menu ? '0' : '-100%')};
