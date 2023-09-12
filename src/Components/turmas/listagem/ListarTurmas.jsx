@@ -87,7 +87,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                 <div className="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
                     <h1>Listar Turmas</h1>
-                    {turmas.length >= 0 ? (
+                    {turmas.length > 0 ? (
                         <>
                             <table className='padraoTabelas'>
                                 <thead>
@@ -102,7 +102,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {/* <tr>
                                         <td className='primeiraColuna'>PEX1234</td>
                                         <td className='centralizarTexto'>01</td>
                                         <td className='centralizarTexto'>23M45</td>
@@ -111,7 +111,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                         <td className='funcoesIndex'><MdModeEdit /></td>
                                         <td className='funcoesIndex'><AiFillDelete /></td>
 
-                                    </tr>
+                                    </tr> */}
                                     {turmas.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.cod_componente}</td>
@@ -137,7 +137,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                         </>
                     ) : (
                         <div id='nenhumCOMP'>
-                            <p>Não tem nenhum componente cadastrado.</p>
+                            <p>Não tem nenhuma turma cadastrada.</p>
                         </div>
                     )}
 

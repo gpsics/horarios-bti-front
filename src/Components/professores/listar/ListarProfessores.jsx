@@ -93,127 +93,64 @@ const ListarProfessores = ({ profEdit }) => {
                 <div id="menu"><Menu /></div>
                 <section className='conteudo listarProfessores'>
                     <h1>Listar Professores</h1>
-                    <>
-                        <section id='busca'>
-                            <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} />
-                        </section>
-                        <table className='padraoTabelas'>
-                            <thead>
-                                <tr>
-                                    <th id='pontaEsquerda' className='index'>Nº</th>
-                                    <th>NOME</th>
-                                    <th id='horasSemanais'>HORAS SEMANAIS</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th id='pontaDireita'></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr>
-                                {profsBusca.map((item, index) => (
-                                    <tr key={item.id}>
-                                        <td className='index'>{index + 1}</td>
-                                        <td>{item.nome_prof}</td>
-                                        <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
-                                        <td></td>
-                                        <td className='funcoesIndex' >
-                                            <MdModeEdit onClick={() => editarProfessor(item)} />
-                                        </td>
-                                        <td className='funcoesIndex'>
-                                            <AiFillDelete onClick={() => removerProfessor(item.id)} />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <div>
-                            {erro && <div className="erroCad">{erro}</div>}
+                    {professors.length > 0 ? (
+                        <>
 
+                            <section id='busca'>
+                                <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} />
+                            </section>
+                            <table className='padraoTabelas'>
+                                <thead>
+                                    <tr>
+                                        <th id='pontaEsquerda' className='index'>Nº</th>
+                                        <th>NOME</th>
+                                        <th id='horasSemanais'>HORAS SEMANAIS</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th id='pontaDireita'></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {/* <tr>
+                                    <td className='index'>1</td>
+                                    <td>LUAN ALVES DE PAIVA</td>
+                                    <td id='horasSemanais'>16 Hrs</td>
+                                    <td></td>
+                                    <td className='funcoesIndex'>
+                                        <MdModeEdit />
+                                    </td>
+                                    <td className='funcoesIndex'>
+                                        <AiFillDelete />
+                                    </td>
+                                </tr> */}
+
+                                    {profsBusca.map((item, index) => (
+                                        <tr key={item.id}>
+                                            <td className='index'>{index + 1}</td>
+                                            <td>{item.nome_prof}</td>
+                                            <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
+                                            <td></td>
+                                            <td className='funcoesIndex' >
+                                                <MdModeEdit onClick={() => editarProfessor(item)} />
+                                            </td>
+                                            <td className='funcoesIndex'>
+                                                <AiFillDelete onClick={() => removerProfessor(item.id)} />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div>
+                                {erro && <div className="erroCad">{erro}</div>}
+
+                            </div>
+                        </>
+
+                    ) : (
+                        <div id='nenhumCOMP'>
+                            <p>Não tem nenhum professor cadastrado.</p>
                         </div>
-                    </>
+                    )}
                 </section>
             </main>
             <Footer />

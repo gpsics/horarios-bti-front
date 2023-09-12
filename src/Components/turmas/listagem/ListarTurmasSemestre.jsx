@@ -8,19 +8,18 @@ import { GrView } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
-import './ListarComponente.css'
-
-const ListarComponentes = ({ compEdit, compVerDados }) => {
+import './ListarTurmas.css'
+const ListarTurmasSemestre = ({ turmaEdit, turVerDados }) => {
     const [erro, setErro] = useState('')
-    const [componentes, setComponentes] = useState([]);
-    const [compsBusca, setCompsBusca] = useState([])
+    const [turmas, setTurmas] = useState([]);
+    const [turmasSemestre, setTurmasSemestre] = useState([])
     const navigate = useNavigate();
-    const removerComponente = async (codigo) => {
+    const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 setErro('')
                 const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
+                const url = `http://127.0.0.1:8000/turmas/${id}/`;
                 const requestOptions = {
                     method: 'DELETE',
                     headers: {
@@ -32,11 +31,10 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
                         Sucess.delete()
-                        // Atualizar o estado removendo o componente da lista
-                        setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
-                        setCompsBusca(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
+                        setTurmas(prevTurmas => prevTurmas.filter(turmaa => turmaa.id !== id));
+
                     } else {
-                        setErro('Erro ao Deletar Componente.');
+                        setErro('Erro ao Deletar turma.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -47,13 +45,13 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
     };
 
     useEffect(() => {
-        fetchComponente();
+        fetchTurmas();
     }, []);
 
-    const fetchComponente = async () => {
+    const fetchTurmas = async () => {
         setErro('')
         const token = localStorage.getItem('token');
-        const url = 'http://127.0.0.1:8000/componentes/';
+        const url = 'http://127.0.0.1:8000/turmas/';
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -64,86 +62,80 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
-                const componentesData = await response.json();
-                setComponentes(componentesData);
-                setCompsBusca(componentesData)
+                const turmasData = await response.json();
+                setTurmas(turmasData);
+                setTurmasSemestre(turmasData)
             } else {
-                console.log('Erro ao listar componentes.')
+                console.log('Erro ao listar turmas.')
             }
         } catch (error) {
             console.error('An error occurred:', error);
         }
     };
-    const editarComponente = (item) => {
-        compEdit(item)
-        navigate("/componentes/editarComponente");
+    const verTurma = (item) => {
+        turVerDados(item)
+        navigate("/turmas/verDadosTurma");
     }
-    const verComponente = (item) => {
-        compVerDados(item)
-        navigate("/componentes/verDadosComponente");
+    const editarTurma = (item) => {
+        turmaEdit(item)
+        navigate("/turmas/editarTurma");
     }
     const buscarComponente = ({ target }) => {
         if (!target.value) {
-            setCompsBusca(componentes)
+            setTurmasSemestre(turmas)
             return
         } else {
-            const filterCodigo = compsBusca.filter(({ codigo }) => codigo.toUpperCase().startsWith(target.value.toUpperCase()))
+            const filterCodigo = turmasSemestre.filter(({}) => codigo.toUpperCase().startsWith(target.value.toUpperCase()))
             const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
-
-            setCompsBusca({ filterComps, filterCodigo })
+            
+            setCompsBusca({filterComps, filterCodigo})
         }
     }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
-            <main id='entidades'>
+            <main id="entidades">
                 <div className="menu"><Menu /></div>
-                <section className='conteudo listarComponentes'>
-                    <h1>Listar Componentes</h1>
-                    {componentes.length > 0 ? (
+                <section className="conteudo listarTurmas">
+                    <h1>Listar Turmas</h1>
+                    {turmas.length >= 0 ? (
                         <>
-                            <section id='busca'>
-                                <input type="text" placeholder='Buscar por Nome ou Código' onChange={buscarComponente} />
-                            </section>
                             <table className='padraoTabelas'>
                                 <thead>
                                     <tr>
                                         <th id='pontaEsquerda' className='primeiraColuna'>CÓDIGO</th>
-                                        <th>COMPONENTE</th>
-                                        <th className='espacoColuna'></th>
-                                        <th ></th>
+                                        <th className='centralizarTexto'>TURMA</th>
+                                        <th className='centralizarTexto'>HORÁRIOS</th>
+                                        <td></td>
+                                        <th></th>
                                         <th></th>
                                         <th id='pontaDireita'></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* <tr>
+                                    <tr>
                                         <td className='primeiraColuna'>PEX1234</td>
-                                        <td>Arquitetura de Software</td>
-                                        <td className='espacoColuna'></td>
-                                        <td className='funcoesIndex'>
-                                            <GrView />
-                                        </td>
-                                        <td className='funcoesIndex'>
-                                            <MdModeEdit />
-                                        </td>
-                                        <td className='funcoesIndex'>
-                                            <AiFillDelete />
-                                        </td>
-                                    </tr> */}
+                                        <td className='centralizarTexto'>01</td>
+                                        <td className='centralizarTexto'>23M45</td>
+                                        <td></td>
+                                        <td className='funcoesIndex'><GrView /></td>
+                                        <td className='funcoesIndex'><MdModeEdit /></td>
+                                        <td className='funcoesIndex'><AiFillDelete /></td>
 
-                                    {compsBusca.map((item) => (
-                                        <tr key={item.codigo}>
-                                            <td className='primeiraColuna'>{item.codigo}</td>
-                                            <td>{item.nome_comp}</td>
-                                            <td className='funcoesIndex'>
-                                                <GrView onClick={() => verComponente(item)} />
+                                    </tr>
+                                    {turmas.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.cod_componente}</td>
+                                            <td>{item.num_turma}</td>
+                                            <td>{item.horario}</td>
+                                            <td className='funcoesIndex' id='view'>
+                                                <GrView onClick={() => verTurma(item)} />
                                             </td>
                                             <td className='funcoesIndex'>
-                                                <MdModeEdit onClick={() => editarComponente(item)} />
+                                                <MdModeEdit onClick={() => editarTurma(item)} />
                                             </td>
                                             <td className='funcoesIndex'>
-                                                <AiFillDelete onClick={() => removerComponente(item.codigo)} />
+                                                <AiFillDelete onClick={() => removerTurma(item.id)} />
                                             </td>
                                         </tr>
                                     ))}
@@ -167,4 +159,4 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
     )
 }
 
-export default ListarComponentes
+export default ListarTurmasSemestre
