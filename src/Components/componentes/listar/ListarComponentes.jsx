@@ -99,7 +99,7 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
             <main id='entidades'>
                 <div className="menu"><Menu /></div>
                 <section className='conteudo listarComponentes'>
-                    <h1>Listar Componentes</h1>
+                    <h1>Listar </h1>
                     {componentes.length > 0 ? (
                         <>
                             <section id='busca'>

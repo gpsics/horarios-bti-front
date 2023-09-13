@@ -16,6 +16,7 @@ import EditarComponente from './Components/componentes/editar/EditarComponente';
 import { DocentesProvider } from './Components/turmas/cadastrar/DocentesContext';
 import ListarTurmas from './Components/turmas/listagem/ListarTurmas';
 import ListarComponentes from './Components/componentes/listar/ListarComponentes';
+import Teste from './Components/turmas/listagem/Teste';
 
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
             <Route path='/componentes/listarComponentes' element={<ListarComponentes compEdit={compEdit} compVerDados={compVerDados} />} />
             <Route path='/componentes/verDadosComponente' element={<Dados compEdit={compEdit} componente={compSelecionado} />} />
             <Route path='/componentes/editarComponente' element={<EditarComponente componente={componenteEditar} />} />
+
+            {/* Página teste */}
+            <Route path='/teste' element={<Teste/>} />
           </Route>
         </Routes>
       </Router>

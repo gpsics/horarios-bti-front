@@ -86,7 +86,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
             <main id="entidades">
                 <div className="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
-                    <h1>Listar Turmas</h1>
+                    <h1>Listar Turmaaaaaa</h1>
                     {turmas.length > 0 ? (
                         <>
                             <table className='padraoTabelas'>
