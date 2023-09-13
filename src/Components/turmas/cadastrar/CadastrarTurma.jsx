@@ -78,9 +78,9 @@ const CadastrarTurma = () => {
             <div className="buscarDocente">
               <BuscarDocente />
             </div>
-            
+
             <div className="tabelaHorarios">
-              <TabelaHorarios/>
+              <TabelaHorarios />
             </div>
             <div className="botaoCad">
               <div>

@@ -21,7 +21,7 @@
 .listarProfessores > #busca{
     grid-area: busca;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: stretch;
     margin-right: 10%;
 }

@@ -145,7 +145,6 @@ const ListarProfessores = ({ profEdit }) => {
 
                             </div>
                         </>
-
                     ) : (
                         <div id='nenhumCOMP'>
                             <p>Não tem nenhum professor cadastrado.</p>

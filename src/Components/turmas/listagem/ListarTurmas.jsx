@@ -103,9 +103,9 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                 </thead>
                                 <tbody>
                                     {/* <tr>
-                                        <td className='primeiraColuna'>PEX1234</td>
-                                        <td className='centralizarTexto'>01</td>
-                                        <td className='centralizarTexto'>23M45</td>
+                                        <td className='primeiraColuna'>http://127.0.0.1:800/componentes/PEX1234/</td>
+                                        <td className='centralizarTexto'>1</td>
+                                        <td className='centralizarTexto'>23M45 3T23</td>
                                         <td></td>
                                         <td className='funcoesIndex'><GrView /></td>
                                         <td className='funcoesIndex'><MdModeEdit /></td>
