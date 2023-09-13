@@ -37,10 +37,10 @@ const BuscarDocente = () => {
 
     const buscarDocen = ({ target }) => {
         if (!target.value) {
-            setDocentesBusca(docentes);
+            setDocentesBusca();
             return;
         } else {
-            const filterDocentes = docentesBusca.filter(({ nome_prof }) =>
+            const filterDocentes = docentes.filter(({ nome_prof }) =>
                 nome_prof.toUpperCase().startsWith(target.value.toUpperCase())
             );
             setDocentesBusca(filterDocentes);
@@ -60,14 +60,14 @@ const BuscarDocente = () => {
             <section className='buscarDocente'>
                 <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
                 <div className="listDocentes">
-                    {docentesBusca.length >= 0 ? (
+                    {docentesBusca.length > 0 ? (
                         <>
                             <ul>
                                 {docentesBusca.map((item, index) => (
                                     <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
                                 ))}
                             </ul>
-                            {docenteSelecionado !== null && docenteSelecionado.length >= 0 ? (
+                            {docenteSelecionado !== null && docenteSelecionado.length > 0 ? (
                                 <>
                                     <h2>Docentes Selecionados</h2>
                                     <ul>
