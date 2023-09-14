@@ -114,11 +114,11 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                     </tr> */}
                                     {turmas.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.cod_componente}</td>
-                                            <td>{item.num_turma}</td>
-                                            <td>{item.horario}</td>
+                                            <td  className='primeiraColuna'>{item.cod_componente}</td>
+                                            <td className='centralizarTexto'>{item.num_turma}</td>
+                                            <td className='centralizarTexto'>{item.horario}</td>
                                             <td></td>
-                                            <td className='funcoesIndex' id='view'>
+                                            <td className='funcoesIndex'>
                                                 <GrView onClick={() => verTurma(item)} />
                                             </td>
                                             <td className='funcoesIndex'>
