@@ -87,15 +87,16 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                 <div className="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
                     <h1>Listar Turmas</h1>
-                    {turmas.length >= 0 ? (
+                    {turmas.length > 0 ? (
                         <>
                             <table className='padraoTabelas'>
                                 <thead>
                                     <tr>
                                         <th id='pontaEsquerda' className='primeiraColuna'>CÓDIGO</th>
+                                        <th className='nomeComponente'>COMPONENTE</th>
                                         <th className='centralizarTexto'>TURMA</th>
                                         <th className='centralizarTexto'>HORÁRIOS</th>
-                                        <td></td>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th id='pontaDireita'></th>
@@ -103,7 +104,8 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                 </thead>
                                 <tbody>
                                     {/* <tr>
-                                        <td className='primeiraColuna'>http://127.0.0.1:800/componentes/PEX1234/</td>
+                                        <td className='primeiraColuna'>PEX1234</td>
+                                        <td className='nomeComponente'>ARQUITETURA DE SOFTWARE </td>
                                         <td className='centralizarTexto'>1</td>
                                         <td className='centralizarTexto'>23M45 3T23</td>
                                         <td></td>
@@ -112,9 +114,13 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                         <td className='funcoesIndex'><AiFillDelete /></td>
 
                                     </tr> */}
+                                    
+                                    
+                                    
                                     {turmas.map((item, index) => (
                                         <tr key={index}>
-                                            <td  className='primeiraColuna'>{item.cod_componente}</td>
+                                            <td  className='primeiraColuna'>{item.cod_componente.codigo}</td>
+                                            <td className='nomeComponente'>{item.cod_componente.nome_comp} </td>
                                             <td className='centralizarTexto'>{item.num_turma}</td>
                                             <td className='centralizarTexto'>{item.horario}</td>
                                             <td></td>

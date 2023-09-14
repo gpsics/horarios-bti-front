@@ -17,6 +17,7 @@ import { DocentesProvider } from './Components/turmas/cadastrar/DocentesContext'
 import ListarTurmas from './Components/turmas/listagem/ListarTurmas';
 import ListarComponentes from './Components/componentes/listar/ListarComponentes';
 import Teste from './Components/turmas/listagem/Teste';
+import DadosTurma from './Components/turmas/dados/DadosTurma';
 
 
 function App() {
@@ -38,6 +39,15 @@ function App() {
   }
 
   //Funcoes destinadas para turmas
+  const [turmaSelecionada, setTurmaSelecionada] = useState(null)
+  const turVerDados = (item) => {
+    setTurmaSelecionada(item)
+  }
+
+  // const [turmaEditar, setTurmaEditar] = useState(null)
+  const turmaEdit = (item) => {
+    setComponenteEditar(item)
+  }
   console.log(componenteEditar)
   return (
     <DocentesProvider>
@@ -55,7 +65,8 @@ function App() {
             {/* Rotas para turmas */}
 
             <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
-            <Route path='turmas/listarTurmas' element={<ListarTurmas/>}/>
+            <Route path='turmas/listarTurmas' element={<ListarTurmas turmaEdit={turmaEdit} turVerDados={turVerDados}/>}/>
+            <Route path='turmas/verDadosTurma' element={<DadosTurma turmaEdit={turmaEdit} turma={turmaSelecionada} /> } />
 
             {/* Rotas para componente curricular */}
             <Route path='componentes/cadastrarComponente' element={<CadComp />} />

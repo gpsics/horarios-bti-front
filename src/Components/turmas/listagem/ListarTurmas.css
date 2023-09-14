@@ -31,3 +31,13 @@
 .listarTurmas .centralizarTexto{
     text-align: center;
 }
+.listarTurmas .nomeComponente{
+    max-width: 300px;
+    padding-left: 4px;
+
+    word-wrap: break-word;
+    box-sizing: border-box;
+}
+.listarTurmas .funcoesIndex{
+    width: 6%;
+}
