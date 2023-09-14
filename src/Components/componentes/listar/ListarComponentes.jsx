@@ -99,7 +99,7 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
             <main id='entidades'>
                 <div className="menu"><Menu /></div>
                 <section className='conteudo listarComponentes'>
-                    <h1>Listar </h1>
+                    <h1>Listar Componentes</h1>
                     {componentes.length > 0 ? (
                         <>
                             <section id='busca'>
@@ -136,6 +136,7 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
                                         <tr key={item.codigo}>
                                             <td className='primeiraColuna'>{item.codigo}</td>
                                             <td>{item.nome_comp}</td>
+                                            <td className='espacoColuna'></td>
                                             <td className='funcoesIndex'>
                                                 <GrView onClick={() => verComponente(item)} />
                                             </td>

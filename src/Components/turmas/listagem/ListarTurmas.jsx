@@ -86,8 +86,8 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
             <main id="entidades">
                 <div className="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
-                    <h1>Listar Turmaaaaaa</h1>
-                    {turmas.length > 0 ? (
+                    <h1>Listar Turmas</h1>
+                    {turmas.length >= 0 ? (
                         <>
                             <table className='padraoTabelas'>
                                 <thead>
@@ -117,6 +117,7 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
                                             <td>{item.cod_componente}</td>
                                             <td>{item.num_turma}</td>
                                             <td>{item.horario}</td>
+                                            <td></td>
                                             <td className='funcoesIndex' id='view'>
                                                 <GrView onClick={() => verTurma(item)} />
                                             </td>
