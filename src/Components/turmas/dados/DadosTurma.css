@@ -1,0 +1,101 @@
+.verTurma{
+    display: grid;
+    max-height: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 60px 200px 100px;
+    grid-template-areas: 
+        'title title'
+        'dados dados'
+        'opcoes opcoes'
+    ;
+    gap: 10px;
+    padding: 20px 60px;
+    box-sizing: border-box;
+}
+.verTurma h1{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    grid-area: title;
+    box-sizing: border-box;
+}
+.verDadosTurma{
+    grid-area: dados;
+    background-color: #faf7f7;
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.verDadosTurma ul {
+    margin: 0 auto; 
+    position:relative;         
+    padding: 25px 0px 0px 50px;
+    width:100%;         
+    height:100%;
+    box-sizing: border-box;        
+  }
+  
+  
+.verDadosTurma li:nth-child(odd) {          
+    clear:both;                
+    float:left;                
+    width:60%;               
+  }
+  
+.verDadosTurma li {
+    list-style-type: none;
+    margin: 0 auto;           
+    list-style-type: none;     
+    margin:0;                  
+    box-sizing: border-box;    
+    height:33.33%;
+    
+}
+.itens{
+    color: #494949;
+}
+.opcoes{
+    grid-area: opcoes;
+    display: flex;
+    justify-content: space-between;
+}
+
+#excluir, #editar{
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100px;
+    height: 35px;
+}
+#editar{
+    background-color: #2673D4 ;
+    margin-right:5px;
+}
+#excluir{
+    background-color: #d42626 ;
+}
+#excluir:hover{
+    background-color: #c35858 ;
+}
+#editar:hover{
+    background-color: #478bde ;
+}
+.botoes{
+    display: flex;
+}
+.botoes i {
+    display: flex;
+    align-items: center;
+    margin-left: 3px;
+    color: white;
+}
