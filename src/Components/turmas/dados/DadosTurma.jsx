@@ -7,6 +7,7 @@ import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
+import './DadosTurma.css'
 
 const DadosTurma = ({ turmaEdit, turma }) => {
     const [erro, setErro] = useState('')
@@ -72,20 +73,14 @@ const DadosTurma = ({ turmaEdit, turma }) => {
                                 <b>Vagas: </b>
                                 <span className="itens">{turma.num_vagas}</span>
                             </li>
-                            {turma.professor.length > 0 ? (
-                                <>
-                                    {turma.professor.map((item) => (
+                            {turma.professor.map((item) => (
 
-                                        <li key={turma.professor.id}>
-                                            <b>Docente {turma.professor.id}: </b>
-                                            <span className="itens">{turma.professor.nome_prof}</span>
-                                        </li>
-                                    ))}
-                                </>
+                                <li key={turma.professor.id}>
+                                    <b>Docente {turma.professor.id}: </b>
+                                    <span className="itens">{turma.professor.nome_prof}</span>
+                                </li>
+                            ))}
 
-                            ) : (
-                                <li><b>Não tem docente nessa turma.</b></li>
-                            )}
                             <li>
                                 <b>Horários: </b>
                                 <span className="itens">{turma.horario}</span>
