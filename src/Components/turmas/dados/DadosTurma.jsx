@@ -8,15 +8,15 @@ import { useNavigate } from 'react-router-dom';
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
 
-const DadosTurma = ({turmaEdit, turma}) => {
+const DadosTurma = ({ turmaEdit, turma }) => {
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
-    const removerTurma = async (codigo) => {
+    const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 setErro('')
                 const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/turmas/${codigo}/`;
+                const url = `http://127.0.0.1:8000/turmas/${id}/`;
                 const requestOptions = {
                     method: 'DELETE',
                     headers: {
@@ -72,10 +72,20 @@ const DadosTurma = ({turmaEdit, turma}) => {
                                 <b>Vagas: </b>
                                 <span className="itens">{turma.num_vagas}</span>
                             </li>
-                            <li>
-                                <b>Docente: </b>
-                                <span className="itens">{turma.professor.nome_prof}</span>
-                            </li>
+                            {turma.professor.length > 0 ? (
+                                <>
+                                    {turma.professor.map((item) => (
+
+                                        <li key={turma.professor.id}>
+                                            <b>Docente {turma.professor.id}: </b>
+                                            <span className="itens">{turma.professor.nome_prof}</span>
+                                        </li>
+                                    ))}
+                                </>
+
+                            ) : (
+                                <li><b>Não tem docente nessa turma.</b></li>
+                            )}
                             <li>
                                 <b>Horários: </b>
                                 <span className="itens">{turma.horario}</span>
@@ -102,7 +112,7 @@ const DadosTurma = ({turmaEdit, turma}) => {
                                     <MdModeEdit />
                                 </i>
                             </button>
-                            <button id='excluir' onClick={() => removerTurma(turma.codigo)}>
+                            <button id='excluir' onClick={() => removerTurma(turma.id)}>
                                 <p>Excluir</p>
                                 <i>
                                     <AiFillDelete />
