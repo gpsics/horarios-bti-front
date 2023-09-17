@@ -28,27 +28,27 @@ function App() {
   };
 
   // Funções destinadas para componentes curriculares
-  const [compSelecionado, setCompSelecionado] = useState(null)
-  const compVerDados = (item) => {
-    setCompSelecionado(item)
-  }
+  // const [compSelecionado, setCompSelecionado] = useState(null)
+  // const compVerDados = (item) => {
+  //   setCompSelecionado(item)
+  // }
 
-  const [componenteEditar, setComponenteEditar] = useState(null)
-  const compEdit = (item) => {
-    setComponenteEditar(item)
-  }
+  // const [componenteEditar, setComponenteEditar] = useState(null)
+  // const compEdit = (item) => {
+  //   setComponenteEditar(item)
+  // }
 
-  //Funcoes destinadas para turmas
-  const [turmaSelecionada, setTurmaSelecionada] = useState(null)
-  const turVerDados = (item) => {
-    setTurmaSelecionada(item)
-  }
+  // //Funcoes destinadas para turmas
+  // const [turmaSelecionada, setTurmaSelecionada] = useState(null)
+  // const turVerDados = (item) => {
+  //   setTurmaSelecionada(item)
+  // }
 
   // const [turmaEditar, setTurmaEditar] = useState(null)
-  const turmaEdit = (item) => {
-    setComponenteEditar(item)
-  }
-  console.log(componenteEditar)
+  // const turmaEdit = (item) => {
+  //   setComponenteEditar(item)
+  // }
+
   return (
     <DocentesProvider>
       <Router>
@@ -65,14 +65,22 @@ function App() {
             {/* Rotas para turmas */}
 
             <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
-            <Route path='turmas/listarTurmas' element={<ListarTurmas turmaEdit={turmaEdit} turVerDados={turVerDados}/>}/>
-            <Route path='turmas/verDadosTurma' element={<DadosTurma turmaEdit={turmaEdit} turma={turmaSelecionada} /> } />
+            <Route path='turmas/listarTurmas' element={<ListarTurmas />}/>
+            <Route path='turmas/verDadosTurma/:idTurma' element={<DadosTurma  /> } />
+
+            {/* <Route path='turmas/listarTurmas' element={<ListarTurmas turmaEdit={turmaEdit} turVerDados={turVerDados}/>}/>
+            <Route path='turmas/verDadosTurma/:idTurma' element={<DadosTurma turmaEdit={turmaEdit} turma={turmaSelecionada} /> } /> */}
 
             {/* Rotas para componente curricular */}
             <Route path='componentes/cadastrarComponente' element={<CadComp />} />
-            <Route path='/componentes/listarComponentes' element={<ListarComponentes compEdit={compEdit} compVerDados={compVerDados} />} />
-            <Route path='/componentes/verDadosComponente' element={<Dados compEdit={compEdit} componente={compSelecionado} />} />
-            <Route path='/componentes/editarComponente' element={<EditarComponente componente={componenteEditar} />} />
+            <Route path='/componentes/listarComponentes' element={<ListarComponentes  />} />
+            <Route path='/componentes/verDadosComponente/:idComp' element={<Dados  />} />
+            <Route path='/componentes/editarComponente/:idComp' element={<EditarComponente />} />
+
+
+            {/* <Route path='/componentes/listarComponentes' element={<ListarComponentes compEdit={compEdit} compVerDados={compVerDados} />} />
+            <Route path='/componentes/verDadosComponente/:idComp' element={<Dados compEdit={compEdit} componente={compSelecionado} />} />
+            <Route path='/componentes/editarComponente/:idComp' element={<EditarComponente componente={componenteEditar} />} /> */}
 
             {/* Página teste */}
             <Route path='/teste' element={<Teste/>} />

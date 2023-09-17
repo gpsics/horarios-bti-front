@@ -10,7 +10,8 @@ import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import './ListarComponente.css'
 
-const ListarComponentes = ({ compEdit, compVerDados }) => {
+// { compEdit, compVerDados }
+const ListarComponentes = () => {
     const [erro, setErro] = useState('')
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
@@ -75,12 +76,12 @@ const ListarComponentes = ({ compEdit, compVerDados }) => {
         }
     };
     const editarComponente = (item) => {
-        compEdit(item)
-        navigate("/componentes/editarComponente");
+        // compEdit(item)
+        navigate(`/componentes/editarComponente/:${item.codigo} `);
     }
     const verComponente = (item) => {
-        compVerDados(item)
-        navigate("/componentes/verDadosComponente");
+        // compVerDados(item)
+        navigate(`/componentes/verDadosComponente/:${item.codigo}`);
     }
     const buscarComponente = ({ target }) => {
         if (!target.value) {

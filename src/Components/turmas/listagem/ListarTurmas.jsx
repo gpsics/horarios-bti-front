@@ -9,7 +9,9 @@ import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import './ListarTurmas.css'
-const ListarTurmas = ({ turmaEdit, turVerDados }) => {
+
+// { turmaEdit, turVerDados }
+const ListarTurmas = () => {
     const [erro, setErro] = useState('')
     const [turmas, setTurmas] = useState([]);
 
@@ -72,11 +74,11 @@ const ListarTurmas = ({ turmaEdit, turVerDados }) => {
         }
     };
     const verTurma = (item) => {
-        turVerDados(item)
-        navigate("/turmas/verDadosTurma");
+        // turVerDados(item)
+        navigate(`/turmas/verDadosTurma/:${item.id}`);
     }
     const editarTurma = (item) => {
-        turmaEdit(item)
+        // turmaEdit(item)
         navigate("/turmas/editarTurma");
     }
 

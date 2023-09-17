@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
@@ -6,7 +7,10 @@ import '../cadastro/CadComp.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 
-const EditarComponente = ({componente}) => {
+// {componente}
+const EditarComponente = () => {
+  const { idComp } = useParams()
+  const [componente, setComponente] = useState([]);
   const [newName, setNewName] = useState(componente.nome_comp)
   const [newSemester, setNewSemester] = useState(componente.num_semestre)
   const [newCH, setNewCH] = useState(componente.carga_horaria)
@@ -17,14 +21,14 @@ const EditarComponente = ({componente}) => {
   const updateComponente = async (e) => {
     e.preventDefault()
     Confirm.editar().then(async (result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         setErro('')
         const token = localStorage.getItem('token');
         if (!token) {
           setErro('Você precisa estar logado para editar componente.');
           return;
         }
-    
+
         const url = `http://127.0.0.1:8000/componentes/${componente.codigo}/`;
         const requestOptions = {
           method: 'PUT',
@@ -40,7 +44,7 @@ const EditarComponente = ({componente}) => {
             obrigatorio: newChecked,
           }),
         };
-    
+
         try {
           const response = await fetch(url, requestOptions);
           if (response.ok) {
@@ -55,8 +59,36 @@ const EditarComponente = ({componente}) => {
 
       }
     })
-    
+
   };
+ 
+
+  const fetchComponente = useCallback (async () => {
+    setErro('')
+    const token = localStorage.getItem('token');
+    const url = `http://127.0.0.1:8000/componentes/${idComp}`;
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    };
+
+    try {
+      const response = await fetch(url, requestOptions);
+      if (response.ok) {
+        const componentesData = await response.json();
+        setComponente(componentesData);
+      } else {
+        console.log('Erro ao listar componentes.')
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  }, [idComp] );
+  useEffect(() => {
+    fetchComponente();
+  }, [fetchComponente]);
   return (
     <React.Fragment>
       <Header link={'/Home'} />
@@ -85,7 +117,7 @@ const EditarComponente = ({componente}) => {
                   </label>
                 </div>
                 <div className="columnSon edColun">
-                  
+
                   <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField' id='ed1' >
                     <option selected disabled>Horas</option>
                     <option value="15">15 Horas</option>
@@ -101,7 +133,7 @@ const EditarComponente = ({componente}) => {
                     <option value="DCSAH">DCSAH</option>
                     <option value="DETEC">DETEC</option>
                   </select>
-                  
+
                 </div>
               </div>
               <div className="footerCad">

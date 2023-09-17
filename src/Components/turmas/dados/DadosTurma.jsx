@@ -1,17 +1,49 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
 import './DadosTurma.css'
 
-const DadosTurma = ({ turmaEdit, turma }) => {
+// { turmaEdit }
+const DadosTurma = () => {
+    const { idTurma } = useParams()
+    const [turma, setTurma] = useState([]);
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
+    
+
+    const fetchTurmas =useCallback( async () => {
+        setErro('')
+        const token = localStorage.getItem('token');
+        const url = `http://127.0.0.1:8000/turmas/${idTurma}`;
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        };
+
+        try {
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                const turmasData = await response.json();
+                setTurma(turmasData);
+            } else {
+                console.log('Erro ao listar turmas.')
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }, [idTurma]);
+    useEffect(() => {
+        fetchTurmas();
+    }, [fetchTurmas]);
+
     const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
@@ -40,8 +72,9 @@ const DadosTurma = ({ turmaEdit, turma }) => {
             }
         })
     };
+    
     const editarTurma = (item) => {
-        turmaEdit(item)
+        // turmaEdit(item)
         navigate("/turmas/editarTurma");
     }
     return (
@@ -73,14 +106,14 @@ const DadosTurma = ({ turmaEdit, turma }) => {
                                 <b>Vagas: </b>
                                 <span className="itens">{turma.num_vagas}</span>
                             </li>
-                            {turma.professor.map((item) => (
-
-                                <li key={turma.professor.id}>
-                                    <b>Docente {turma.professor.id}: </b>
-                                    <span className="itens">{turma.professor.nome_prof}</span>
-                                </li>
-                            ))}
-
+                            <li>
+                                <b>Docente(s)</b>
+                                {turma.professor.map((prof) => (
+                                    <li key={prof.id}>
+                                        <span className="itens">{prof.nome_prof}</span>
+                                    </li>
+                                ))}
+                            </li>
                             <li>
                                 <b>Horários: </b>
                                 <span className="itens">{turma.horario}</span>
@@ -92,6 +125,43 @@ const DadosTurma = ({ turmaEdit, turma }) => {
                             <li>
                                 <b>Semestre: </b>
                                 <span className="itens">{turma.cod_componente.num_semestre}º Semestre</span>
+                            </li>
+                            <li>
+                                <b>Componente: </b>
+                                <span className="itens">Engenharia de Software</span>
+                            </li>
+                            <li>
+                                <b>Código: </b>
+                                <span className="itens">PEX1234</span>
+                            </li>
+                            <li>
+                                <b>Carga Horária: </b>
+                                <span className="itens">12 Hrs</span>
+                            </li>
+                            <li>
+                                <b>Unidade Responsável: </b>
+                                <span className="itens">DETEC</span>
+                            </li>
+                            <li>
+                                <b>Vagas: </b>
+                                <span className="itens">12 </span>
+                            </li>
+                            <li >
+                                <b>Docente : </b>
+                                <span className="itens">LUAN ALVES DE PAIVA</span>
+                            </li>
+
+                            <li>
+                                <b>Horários: </b>
+                                <span className="itens">23M45 23T45</span>
+                            </li>
+                            <li>
+                                <b>Turma: </b>
+                                <span className="itens">01</span>
+                            </li>
+                            <li>
+                                <b>Semestre: </b>
+                                <span className="itens">1º Semestre</span>
                             </li>
                         </ul>
                     </section>

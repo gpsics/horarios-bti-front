@@ -2,7 +2,7 @@
     display: grid;
     max-height: 100%;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 300px 100px;
+    grid-template-rows: 60px 250px 100px;
     grid-template-areas: 
         'title title'
         'dados dados'

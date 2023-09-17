@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import { AiFillDelete } from "react-icons/ai";
 import { MdModeEdit } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Dados.css'
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
 
-const Dados = ({ compEdit, componente }) => {
+// { compEdit, componente }
+const Dados = () => {
+    const {idComp} = useParams()
+    const [componente, setComponente] = useState([]);
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
     const removerComponente = async (codigo) => {
@@ -40,9 +43,39 @@ const Dados = ({ compEdit, componente }) => {
             }
         })
     };
+    
+
+    const fetchComponente = useCallback(async () => {
+        setErro('');
+        const token = localStorage.getItem('token');
+        const url = `http://127.0.0.1:8000/componentes/${idComp}`;
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        };
+    
+        try {
+          const response = await fetch(url, requestOptions);
+          if (response.ok) {
+            const componentesData = await response.json();
+            setComponente(componentesData);
+          } else {
+            console.log('Erro ao listar componentes.');
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }, [idComp]); // Adicione idComp como dependência
+    
+      useEffect(() => {
+        fetchComponente(); // Chama a função fetchComponente dentro do useEffect
+      }, [fetchComponente]);
+    
     const editarComponente = (item) => {
-        compEdit(item)
-        navigate("/componentes/editarComponente");
+        // compEdit(item)
+        navigate(`/componentes/editarComponente/:${item.codigo}`);
     }
     
     return (
