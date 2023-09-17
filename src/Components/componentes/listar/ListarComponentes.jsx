@@ -88,10 +88,22 @@ const ListarComponentes = () => {
             setCompsBusca(componentes)
             return
         } else {
+            // filtragem de todos os componentes seja por nome ou codigo
             const filterCodigo = compsBusca.filter(({ codigo }) => codigo.toUpperCase().startsWith(target.value.toUpperCase()))
+
             const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
 
-            setCompsBusca({ filterComps, filterCodigo })
+            // Concatenar os dois arrays de filtros
+            filterComps.concat(filterCodigo)
+
+            // mapear para nao ter repetição
+            const map = new Map()
+            filterComps.forEach(item => {
+                map.set(item.codigo, item)
+            })
+            const newArray = Array.from(map.values())
+            // envia os newArray sem repetição
+            setCompsBusca({newArray})
         }
     }
     return (
