@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 
-const ListarProfessores = ({ profEdit }) => {
+// { profEdit }
+const ListarProfessores = () => {
     const [erro, setErro] = useState('')
     const [professors, setProfessors] = useState([]);
     const [profsBusca, setProfsBusca] = useState([])
@@ -74,8 +75,7 @@ const ListarProfessores = ({ profEdit }) => {
         }
     };
     const editarProfessor = (item) => {
-        profEdit(item)
-        navigate("/professores/editarProfessor");
+        navigate(`/professores/editarProfessor/${item.id}`);
     }
     const buscarProfessor = ({ target }) => {
         if (!target.value) {

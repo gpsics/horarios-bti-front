@@ -75,7 +75,7 @@ const Dados = () => {
     
     const editarComponente = (item) => {
         // compEdit(item)
-        navigate(`/componentes/editarComponente/:${item.codigo}`);
+        navigate(`/componentes/editarComponente/${item.codigo}`);
     }
     
     return (

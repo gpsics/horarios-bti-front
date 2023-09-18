@@ -61,9 +61,9 @@ const EditarComponente = () => {
     })
 
   };
- 
 
-  const fetchComponente = useCallback (async () => {
+
+  const fetchComponente = useCallback(async () => {
     setErro('')
     const token = localStorage.getItem('token');
     const url = `http://127.0.0.1:8000/componentes/${idComp}`;
@@ -85,7 +85,7 @@ const EditarComponente = () => {
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  }, [idComp] );
+  }, [idComp]);
   useEffect(() => {
     fetchComponente();
   }, [fetchComponente]);

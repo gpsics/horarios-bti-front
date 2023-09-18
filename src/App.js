@@ -9,7 +9,7 @@ import ProtectedRoute from './ProtectedRoute';
 import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
 import CadComp from './Components/componentes/cadastro/CadComp';
 import EditarProfessor from './Components/professores/editar/EditarProfessor';
-import { useState } from 'react';
+// import { useState } from 'react';
 // import ListarComponentes from './Components/componentes/listar/ListarComp';
 import Dados from './Components/componentes/dados/Dados';
 import EditarComponente from './Components/componentes/editar/EditarComponente';
@@ -22,10 +22,10 @@ import DadosTurma from './Components/turmas/dados/DadosTurma';
 
 function App() {
   // Funções destinadas para professor
-  const [professorSelecionado, setProfessorSelecionado] = useState(null);
-  const profEdit = (item) => {
-    setProfessorSelecionado(item);
-  };
+  // const [professorSelecionado, setProfessorSelecionado] = useState(null);
+  // const profEdit = (item) => {
+  //   setProfessorSelecionado(item);
+  // };
 
   // Funções destinadas para componentes curriculares
   // const [compSelecionado, setCompSelecionado] = useState(null)
@@ -60,8 +60,8 @@ function App() {
             <Route path='Home' element={<Home />} />
             {/* Rotas para professor */}
             <Route path='professores/cadastrarProfessor' element={<CadastrarProfessor />} />
-            <Route path='professores/editarProfessor' element={<EditarProfessor professor={professorSelecionado} />} />
-            <Route path='professores/listarProfessores' element={<ListarProfessores profEdit={profEdit} />} />
+            <Route path='professores/editarProfessor/:idProf' element={<EditarProfessor  />} />
+            <Route path='professores/listarProfessores' element={<ListarProfessores  />} />
             {/* Rotas para turmas */}
 
             <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />

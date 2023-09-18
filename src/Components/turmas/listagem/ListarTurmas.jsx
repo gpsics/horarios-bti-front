@@ -75,7 +75,7 @@ const ListarTurmas = () => {
     };
     const verTurma = (item) => {
         // turVerDados(item)
-        navigate(`/turmas/verDadosTurma/:${item.id}`);
+        navigate(`/turmas/verDadosTurma/${item.id}`);
     }
     const editarTurma = (item) => {
         // turmaEdit(item)
@@ -116,12 +116,12 @@ const ListarTurmas = () => {
                                         <td className='funcoesIndex'><AiFillDelete /></td>
 
                                     </tr> */}
-                                    
-                                    
-                                    
+
+
+
                                     {turmas.map((item, index) => (
                                         <tr key={index}>
-                                            <td  className='primeiraColuna'>{item.cod_componente.codigo}</td>
+                                            <td className='primeiraColuna'>{item.cod_componente.codigo}</td>
                                             <td className='nomeComponente'>{item.cod_componente.nome_comp} </td>
                                             <td className='centralizarTexto'>{item.num_turma}</td>
                                             <td className='centralizarTexto'>{item.horario}</td>

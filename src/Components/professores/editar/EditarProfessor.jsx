@@ -1,25 +1,29 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './EditarProfessor.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
+import { useParams } from 'react-router-dom'
 
-const EditarProfessor = ({professor}) => {
+// {professor}
+const EditarProfessor = () => {
+    const { idProf } = useParams()
+    const [professor, setProfessor] = useState([])
     const [newName, setNewName] = useState(professor.nome_prof)
     const [erro, setErro] = useState('')
     const updateProfessor = async (e) => {
         e.preventDefault()
-        Confirm.editar().then(async(result) => {
-            if(result.isConfirmed){
+        Confirm.editar().then(async (result) => {
+            if (result.isConfirmed) {
                 setErro('')
                 const token = localStorage.getItem('token');
                 if (!token) {
                     setErro('Você precisa estar logado para editar professor.');
                     return;
                 }
-            
+
                 const url = `http://127.0.0.1:8000/professores/${professor.id}/`;
                 const requestOptions = {
                     method: 'PATCH',
@@ -29,7 +33,7 @@ const EditarProfessor = ({professor}) => {
                     },
                     body: JSON.stringify({ nome_prof: newName }),
                 };
-            
+
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
@@ -45,7 +49,36 @@ const EditarProfessor = ({professor}) => {
             }
         })
     };
-    
+
+
+    const fetchProfessors = useCallback(async () => {
+        setErro('')
+        const token = localStorage.getItem('token');
+        const url = 'http://127.0.0.1:8000/professores/';
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        };
+
+        try {
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                const professorsData = await response.json();
+                setProfessor(professorsData);
+            } else {
+                console.log('Erro ao listar professores.')
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }, [idProf]);
+
+    useEffect(() => {
+        fetchProfessors();
+    }, [fetchProfessors]);
+
     return (
         <React.Fragment>
             <Header link={'/Home'} />

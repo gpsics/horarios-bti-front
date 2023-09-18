@@ -15,9 +15,9 @@ const DadosTurma = () => {
     const [turma, setTurma] = useState([]);
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
-    
 
-    const fetchTurmas =useCallback( async () => {
+
+    const fetchTurmas = useCallback(async () => {
         setErro('')
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/turmas/${idTurma}`;
@@ -72,10 +72,10 @@ const DadosTurma = () => {
             }
         })
     };
-    
+
     const editarTurma = (item) => {
         // turmaEdit(item)
-        navigate("/turmas/editarTurma");
+        navigate(`/turmas/editarTurma/${item.id}`);
     }
     return (
         <React.Fragment>

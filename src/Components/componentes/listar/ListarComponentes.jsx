@@ -77,35 +77,36 @@ const ListarComponentes = () => {
     };
     const editarComponente = (item) => {
         // compEdit(item)
-        navigate(`/componentes/editarComponente/:${item.codigo} `);
+        navigate(`/componentes/editarComponente/${item.codigo} `);
     }
     const verComponente = (item) => {
         // compVerDados(item)
-        navigate(`/componentes/verDadosComponente/:${item.codigo}`);
+        navigate(`/componentes/verDadosComponente/${item.codigo}`);
     }
     const buscarComponente = ({ target }) => {
         if (!target.value) {
-            setCompsBusca(componentes)
-            return
+            setCompsBusca(componentes);
+            return;
         } else {
-            // filtragem de todos os componentes seja por nome ou codigo
-            const filterCodigo = compsBusca.filter(({ codigo }) => codigo.toUpperCase().startsWith(target.value.toUpperCase()))
-
+            // Filtragem de todos os componentes seja por nome ou código
+            const filterCodigo = compsBusca.filter(({ codigo }) => codigo.toUpperCase().startsWith(target.value.toUpperCase()));
             const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
-
+    
             // Concatenar os dois arrays de filtros
-            filterComps.concat(filterCodigo)
-
-            // mapear para nao ter repetição
-            const map = new Map()
-            filterComps.forEach(item => {
-                map.set(item.codigo, item)
-            })
-            const newArray = Array.from(map.values())
-            // envia os newArray sem repetição
-            setCompsBusca({newArray})
+            const concatenatedArray = filterComps.concat(filterCodigo);
+    
+            // Mapear para não ter repetição
+            const map = new Map();
+            concatenatedArray.forEach(item => {
+                map.set(item.codigo, item);
+            });
+            const newArray = Array.from(map.values());
+    
+            // Enviar o newArray sem repetição
+            setCompsBusca(newArray);
         }
-    }
+    };
+    
     return (
         <React.Fragment>
             <Header link={'/Home'} />
