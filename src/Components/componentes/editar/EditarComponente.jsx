@@ -9,27 +9,26 @@ import Confirm from '../../alerts/Confirm'
 
 // {componente}
 const EditarComponente = () => {
-  const { idComp } = useParams()
-  const [componente, setComponente] = useState([]);
-  const [newName, setNewName] = useState(componente.nome_comp)
-  const [newSemester, setNewSemester] = useState(componente.num_semestre)
-  const [newCH, setNewCH] = useState(componente.carga_horaria)
-  const [newDP, setNewDP] = useState(componente.departamento)
-  const [newChecked, setNewChecked] = useState(componente.obrigatorio)
-  const [erro, setErro] = useState('')
+  const { idComp } = useParams();
+  const [newName, setNewName] = useState('');
+  const [newSemester, setNewSemester] = useState('');
+  const [newCH, setNewCH] = useState('');
+  const [newDP, setNewDP] = useState('');
+  const [newChecked, setNewChecked] = useState(false);
+  const [erro, setErro] = useState('');
 
   const updateComponente = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     Confirm.editar().then(async (result) => {
       if (result.isConfirmed) {
-        setErro('')
+        setErro('');
         const token = localStorage.getItem('token');
         if (!token) {
           setErro('Você precisa estar logado para editar componente.');
           return;
         }
 
-        const url = `http://127.0.0.1:8000/componentes/${componente.codigo}/`;
+        const url = `http://127.0.0.1:8000/componentes/${idComp}/`;
         const requestOptions = {
           method: 'PUT',
           headers: {
@@ -48,7 +47,7 @@ const EditarComponente = () => {
         try {
           const response = await fetch(url, requestOptions);
           if (response.ok) {
-            Sucess.editado()
+            Sucess.editado();
           } else {
             const data = await response.json();
             setErro('Erro ao editar componente:', data.detail);
@@ -56,15 +55,12 @@ const EditarComponente = () => {
         } catch (error) {
           console.error('An error occurred:', error);
         }
-
       }
-    })
-
+    });
   };
 
-
   const fetchComponente = useCallback(async () => {
-    setErro('')
+    setErro('');
     const token = localStorage.getItem('token');
     const url = `http://127.0.0.1:8000/componentes/${idComp}`;
     const requestOptions = {
@@ -78,14 +74,20 @@ const EditarComponente = () => {
       const response = await fetch(url, requestOptions);
       if (response.ok) {
         const componentesData = await response.json();
-        setComponente(componentesData);
+        
+        setNewName(componentesData.nome_comp);
+        setNewSemester(componentesData.num_semestre);
+        setNewCH(componentesData.carga_horaria);
+        setNewDP(componentesData.departamento);
+        setNewChecked(componentesData.obrigatorio);
       } else {
-        console.log('Erro ao listar componentes.')
+        console.log('Erro ao listar componentes.');
       }
     } catch (error) {
       console.error('An error occurred:', error);
     }
   }, [idComp]);
+
   useEffect(() => {
     fetchComponente();
   }, [fetchComponente]);
