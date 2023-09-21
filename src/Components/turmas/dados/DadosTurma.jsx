@@ -13,11 +13,6 @@ import './DadosTurma.css'
 const DadosTurma = () => {
     const { idTurma } = useParams()
     const [turma, setTurma] = useState(null);
-    // const [codComp, setCodComp] = useState('')
-    // const [nomeComp, setNomeComp] = useState('')
-    // const [numSemestre, setNumSemestre] = useState('')
-    // const [cargaHoraria, setCargaHoraria] = useState('')
-    // const [departamento, setDepartamento] = useState()
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
 
@@ -91,43 +86,58 @@ const DadosTurma = () => {
                 <article className="conteudo verTurma">
                     <h1>Dados de Turma </h1>
                     <section className="verDadosTurma">
-                        {/* <li>
-                            <b>Componente: </b>
-                            <span className="itens">Engenharia de Software</span>
-                        </li>
-                        <li>
-                            <b>Código: </b>
-                            <span className="itens">PEX1234</span>
-                        </li>
-                        <li>
-                            <b>Carga Horária: </b>
-                            <span className="itens">12 Hrs</span>
-                        </li>
-                        <li>
-                            <b>Unidade Responsável: </b>
-                            <span className="itens">DETEC</span>
-                        </li>
-                        <li>
-                            <b>Vagas: </b>
-                            <span className="itens">12 </span>
-                        </li>
-                        <li >
-                            <b>Docente : </b>
-                            <span className="itens">LUAN ALVES DE PAIVA</span>
-                        </li>
-
-                        <li>
-                            <b>Horários: </b>
-                            <span className="itens">23M45 23T45</span>
-                        </li>
-                        <li>
-                            <b>Turma: </b>
-                            <span className="itens">01</span>
-                        </li>
-                        <li>
-                            <b>Semestre: </b>
-                            <span className="itens">1º Semestre</span>
-                        </li> */}
+                        {/* <ul>
+                            <li>
+                                <b>Componente: </b>
+                                <span className="itens">Engenharia de Software</span>
+                            </li>
+                            <li>
+                                <b>Código: </b>
+                                <span className="itens">PEX1234</span>
+                            </li>
+                            <li>
+                                <b>Carga Horária: </b>
+                                <span className="itens">12 Hrs</span>
+                            </li>
+                            <li>
+                                <b>Unidade Responsável: </b>
+                                <span className="itens">DETEC</span>
+                            </li>
+                            <li>
+                                <b>Vagas: </b>
+                                <span className="itens">12 </span>
+                            </li>
+                            <li>
+                                <b>Horários: </b>
+                                <span className="itens">23M45 23T45</span>
+                            </li>
+                            <li>
+                                <b>Turma: </b>
+                                <span className="itens">01</span>
+                            </li>
+                            <li>
+                                <b>Semestre: </b>
+                                <span className="itens">1º Semestre</span>
+                            </li>
+                            <li className='docentesDaTurma'>
+                                <b>Docente(s): </b>
+                                <ul>
+                                        <li >
+                                             <span className="itens">LUAN ALVES DE PAIVA</span>
+                                        </li>
+                                        <li>
+                                            <span className="itens">LUAN ALVES DE PAIVA</span>
+                                        </li>
+                                        <li>
+                                            <span className="itens">LUAN ALVES DE PAIVA</span>
+                                        </li>
+                                        <li>
+                                            <span className="itens">LUAN ALVES DE PAIVA</span>
+                                        </li>
+                                </ul>
+                                <span className="itens">Nenhum docente atribuído</span>
+                            </li>
+                        </ul> */}
                         {turma && (
 
                             <ul>
@@ -152,6 +162,14 @@ const DadosTurma = () => {
                                     <span className="itens">{turma.num_vagas || 'Vagas não disponíveis'}</span>
                                 </li>
                                 <li>
+                                    <b>Horários: </b>
+                                    <span className="itens">{turma.horario || 'Horários não disponíveis'}</span>
+                                </li>
+                                <li>
+                                    <b>Turma: </b>
+                                    <span className="itens">{turma.num_turma || 'Turma não disponível'}</span>
+                                </li>
+                                <li className='docentesDaTurma'>
                                     <b>Docente(s):</b>
                                     {turma.professor && turma.professor.length > 0 ? (
                                         <ul>
@@ -164,14 +182,6 @@ const DadosTurma = () => {
                                     ) : (
                                         <span className="itens">Nenhum docente atribuído</span>
                                     )}
-                                </li>
-                                <li>
-                                    <b>Horários: </b>
-                                    <span className="itens">{turma.horario || 'Horários não disponíveis'}</span>
-                                </li>
-                                <li>
-                                    <b>Turma: </b>
-                                    <span className="itens">{turma.num_turma || 'Turma não disponível'}</span>
                                 </li>
                             </ul>
 

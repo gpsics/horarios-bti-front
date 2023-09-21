@@ -2,7 +2,7 @@
     display: grid;
     max-height: 100%;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 250px 100px;
+    grid-template-rows: 60px 350px 100px;
     grid-template-areas: 
         'title title'
         'dados dados'
@@ -59,6 +59,12 @@
 .itens{
     color: #494949;
 }
+.docentesDaTurma > ul {
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
 .opcoes{
     grid-area: opcoes;
     display: flex;
