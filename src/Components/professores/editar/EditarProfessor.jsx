@@ -10,8 +10,7 @@ import { useParams } from 'react-router-dom'
 // {professor}
 const EditarProfessor = () => {
     const { idProf } = useParams()
-    const [professor, setProfessor] = useState([])
-    const [newName, setNewName] = useState(professor.nome_prof)
+    const [newName, setNewName] = useState('')
     const [erro, setErro] = useState('')
     const updateProfessor = async (e) => {
         e.preventDefault()
@@ -24,7 +23,7 @@ const EditarProfessor = () => {
                     return;
                 }
 
-                const url = `http://127.0.0.1:8000/professores/${professor.id}/`;
+                const url = `http://127.0.0.1:8000/professores/${idProf}/`;
                 const requestOptions = {
                     method: 'PATCH',
                     headers: {
@@ -54,7 +53,7 @@ const EditarProfessor = () => {
     const fetchProfessors = useCallback(async () => {
         setErro('')
         const token = localStorage.getItem('token');
-        const url = 'http://127.0.0.1:8000/professores/';
+        const url = `http://127.0.0.1:8000/professores/${idProf}`;
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -66,7 +65,7 @@ const EditarProfessor = () => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 const professorsData = await response.json();
-                setProfessor(professorsData);
+                setNewName(professorsData.nome_prof);
             } else {
                 console.log('Erro ao listar professores.')
             }

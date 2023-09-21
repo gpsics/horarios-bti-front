@@ -13,6 +13,11 @@ import './DadosTurma.css'
 const DadosTurma = () => {
     const { idTurma } = useParams()
     const [turma, setTurma] = useState([]);
+    // const [codComp, setCodComp] = useState('')
+    // const [nomeComp, setNomeComp] = useState('')
+    // const [numSemestre, setNumSemestre] = useState('')
+    // const [cargaHoraria, setCargaHoraria] = useState('')
+    // const [departamento, setDepartamento] = useState()
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
 
@@ -32,7 +37,8 @@ const DadosTurma = () => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 const turmasData = await response.json();
-                setTurma(turmasData);
+                
+                setTurma(turmasData.data);
             } else {
                 console.log('Erro ao listar turmas.')
             }
