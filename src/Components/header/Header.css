@@ -37,12 +37,17 @@ header{
 /* ResponsiveHeader.css */
 
 /* Adjustments for screens up to 768px wide */
-@media (max-width: 768px) {
+@media (max-width: 770px) {
     header {
+        flex-direction: column;
+        align-items: flex-start;
         padding: 15px 10px;
     }
+    .dataLocal{
+        display: none;
+    }
 
-    .dataLocal {
+    /* .dataLocal {
         flex-direction: column;
         align-items: flex-start;
         margin-top: 10px;
@@ -55,7 +60,5 @@ header{
     .loginOrLogout i {
         margin-left: 0;
         margin-top: 10px;
-    }
+    } */
 }
-
-/* Additional media queries for other screen sizes if needed */

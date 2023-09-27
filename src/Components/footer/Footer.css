@@ -30,4 +30,13 @@ hr{
    }
 .ufersa h3{
     margin-left: 6px;
-}   
+}
+@media(max-width: 770px){
+    footer{
+        justify-content: space-between;
+        padding: 10px 5px;
+    }
+    .ufersa h3{
+        font-size: 1em;
+    }
+}

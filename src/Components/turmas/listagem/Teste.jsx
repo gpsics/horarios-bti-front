@@ -1,109 +1,87 @@
 import React, { useState } from 'react';
 
-const Teste = () => {
+const horariosColuna = [
+    { Horario: '07:00 - 07:55' },
+    { Horario: '07:55 - 08:50' },
+    { Horario: '08:50 - 09:45' },
+    { Horario: '09:55 - 10:50' },
+    { Horario: '10:50 - 11:45' },
+    { Horario: '11:45 - 12:40' },
+    { Horario: '13:00 - 13:55' },
+    { Horario: '13:55 - 14:50' },
+    { Horario: '14:50 - 15:45' },
+    { Horario: '15:55 - 16:50' },
+    { Horario: '16:50 - 17:45' },
+    { Horario: '17:45 - 18:40' },
+    { Horario: '18:50 - 19:45' },
+    { Horario: '19:45 - 20:40' },
+    { Horario: '20:40 - 21:35' },
+    { Horario: '21:35 - 22:30' },
+
+]
+console.log(horariosColuna)
+const arrayTable = [];
+for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
+    for (let horaDia = 1; horaDia <= 6; horaDia++) {
+        arrayTable.push({
+            dia: diaSemana,
+            turno: 'M',
+            hora: horaDia,
+        });
+    }
+    for (let horaDia = 1; horaDia <= 6; horaDia++) {
+        arrayTable.push({
+            dia: diaSemana,
+            turno: 'T',
+            hora: horaDia,
+        });
+    }
+    for (let horaDia = 1; horaDia <= 4; horaDia++) {
+        arrayTable.push({
+            dia: diaSemana,
+            turno: 'N',
+            hora: horaDia,
+        });
+    }
+}
+
+
+const HorarioTable = () => {
     const [horarioInformado, setHorarioInformado] = useState('');
-    const [tabela, setTabela] = useState({});
+    const [horariosOcupados, setHorariosOcupados] = useState(new Map());
+    const diaSegunda = arrayTable.filter(item => item.dia === 2);
+    const diaTerca = arrayTable.filter(item => item.dia === 3);
+    const diaQuarta = arrayTable.filter(item => item.dia === 4);
+    const diaQuinta = arrayTable.filter(item => item.dia === 5);
+    const diaSexta = arrayTable.filter(item => item.dia === 6);
 
-    const diasSemana = {
-        2: 'segunda',
-        3: 'terça',
-        4: 'quarta',
-        5: 'quinta',
-        6: 'sexta',
-        7: 'sábado',
-    };
-    const horarioDia = {
-        1: 'Primeiro Horário',
-        2: 'Segundo Horário',
-        3: 'Terceiro Horário',
-        4: 'Quarto Horário',
-        5: 'Quinto Horário',
-        6: 'Sexto Horário',
-    };
-    const horariosColuna = {
-        M1: '07:00 - 07:55',
-        M2: '07:55 - 08:50',
-        M3: '08:50 - 09:45',
-        M4: '09:55 - 10:50',
-        M5: '10:50 - 11:45',
-        M6: '11:45 - 12:40',
-        T1: '13:00 - 13:55',
-        T2: '13:55 - 14:50',
-        T3: '14:50 - 15:45',
-        T4: '15:55 - 16:50',
-        T5: '16:50 - 17:45',
-        T6: '17:45 - 18:40',
-        N1: '18:50 - 19:45',
-        N2: '19:45 - 20:40',
-        N3: '20:40 - 21:35',
-        N4: '21:35 - 22:30',
-    };
-
-    const lerHorario = (event) => {
-        event.preventDefault();
-        const regex = /^(\d+)([MTN])(\d+)$/;
-
-        const match = horarioInformado.match(regex);
+    const lerHorario = () => {
+        const match = horarioInformado.match(/^(\d+)([MTN])(\d+)$/);
 
         if (match) {
             const diaSemana = match[1].split('').map((dia) => parseInt(dia));
             const turno = match[2];
             const horario = match[3].split('').map((hora) => parseInt(hora));
 
-            const novaTabela = { ...tabela };
-
             diaSemana.forEach((dia) => {
-                if (!novaTabela[dia]) {
-                    novaTabela[dia] = {};
-                }
-                novaTabela[dia][turno] = horario;
+                horario.forEach((hora) => {
+                    const chave = `${dia}${turno}${hora}`;
+                    setHorariosOcupados((prevHorarios) => {
+                        const newHorarios = new Map(prevHorarios);
+                        newHorarios.set(chave, {
+                            dia, turno, hora
+                        });
+                        return newHorarios;
+                    });
+                });
             });
-
-            setTabela(novaTabela);
         } else {
-            console.log('A string não corresponde ao padrão esperado.');
+            setHorariosOcupados(new Map());
         }
     };
 
-    const renderTabela = () => {
-    const diasDaSemana = Object.values(diasSemana);
-    const turnos = ['M', 'T', 'N'];
-
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Horários</th>
-                    {diasDaSemana.map((dia, index) => (
-                        <th key={index}>{dia}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {Object.keys(horariosColuna).map((horario, index) => (
-                    <tr key={index}>
-                        <td>{horariosColuna[horario]}</td>
-                        {diasDaSemana.map((dia, diaIndex) => (
-                            <td key={diaIndex}>
-                                {turnos.map((turno, turnoIndex) => {
-                                    const valorCelula =
-                                        tabela[diaIndex + 2] &&
-                                        tabela[diaIndex + 2][turno] &&
-                                        tabela[diaIndex + 2][turno].includes(index + 1)
-                                            ? 'X'
-                                            : '';
-                                    return <div key={turnoIndex}>{valorCelula}</div>;
-                                })}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    );
-};
- 
-    
+    const newArray = Array.from(horariosOcupados.values());
+    console.log(newArray)
 
     return (
         <React.Fragment>
@@ -116,9 +94,50 @@ const Teste = () => {
                 className="input"
             />
             <button onClick={lerHorario}>Cadastrar</button>
-            {renderTabela()}
+
+            <table className="padraoTabelas">
+                <thead>
+                    <tr>
+                        <th id="pontaEsquerda">HORÁRIOS</th>
+                        <th>SEG</th>
+                        <th>TER</th>
+                        <th>QUA</th>
+                        <th>QUI</th>
+                        <th id='pontaDireita'>SEX</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {horariosColuna.map((horario, index) => (
+                        <tr key={index}>
+                            <td>{horario.Horario}</td>
+                            <td>
+                                {diaSegunda[index] && `${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
+                            </td>
+
+                            <td>
+                                {diaTerca[index] && `${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
+                            </td>
+
+                            <td>
+                                {diaQuarta[index] && `${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
+                            </td>
+
+                            <td>
+                                {diaQuinta[index] && `${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
+                            </td>
+
+                            <td>
+                                {diaSexta[index] && `${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
+                            </td>
+                        </tr>
+                    ))}
+
+
+                </tbody>
+            </table>
+
         </React.Fragment>
     );
 };
 
-export default Teste;
+export default HorarioTable;
