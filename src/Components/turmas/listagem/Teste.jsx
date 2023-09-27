@@ -49,6 +49,7 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 const HorarioTable = () => {
     const [horarioInformado, setHorarioInformado] = useState('');
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
+    const [horariosMarcados, setHorariosMarcados] = useState([])
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
@@ -83,6 +84,20 @@ const HorarioTable = () => {
     const newArray = Array.from(horariosOcupados.values());
     console.log(newArray)
 
+    const handleHorarioSelecionado = (event) => {
+        const horarioSelecionado = event.target.value;
+
+        if (horariosMarcados.includes(horarioSelecionado)) {
+            // Se o objeto já estiver marcado, remova-o dos horários marcados
+            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
+        } else {
+            // Se o objeto não estiver marcado, adicione-o aos horários marcados
+            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
+        }
+    };
+
+    console.log(horariosMarcados)
+
     return (
         <React.Fragment>
             <h2>Informe o horário</h2>
@@ -110,24 +125,55 @@ const HorarioTable = () => {
                     {horariosColuna.map((horario, index) => (
                         <tr key={index}>
                             <td>{horario.Horario}</td>
+                            
                             <td>
                                 {diaSegunda[index] && `${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
+                                <input
+                                    type="checkbox"
+                                    value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
+                                    onChange={handleHorarioSelecionado}
+                                    checked={horariosMarcados.includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                />
                             </td>
 
                             <td>
                                 {diaTerca[index] && `${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
+                                <input
+                                    type="checkbox"
+                                    value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
+                                    onChange={handleHorarioSelecionado}
+                                    checked={horariosMarcados.includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                />
                             </td>
 
                             <td>
                                 {diaQuarta[index] && `${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
+                                <input
+                                    type="checkbox"
+                                    value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
+                                    onChange={handleHorarioSelecionado}
+                                    checked={horariosMarcados.includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                />
                             </td>
 
                             <td>
                                 {diaQuinta[index] && `${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
+                                <input
+                                    type="checkbox"
+                                    value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
+                                    onChange={handleHorarioSelecionado}
+                                    checked={horariosMarcados.includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                />
                             </td>
 
                             <td>
                                 {diaSexta[index] && `${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
+                                <input
+                                    type="checkbox"
+                                    value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
+                                    onChange={handleHorarioSelecionado}
+                                    checked={horariosMarcados.includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                />
                             </td>
                         </tr>
                     ))}
