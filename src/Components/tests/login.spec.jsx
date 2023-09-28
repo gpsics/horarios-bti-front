@@ -2,6 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Login from '../login/Login';
+import Header from '../header/Header';
+import Footer from '../footer/Footer';
+import Home from '../home/Home'
 import "@testing-library/jest-dom"
 
 const mockNavigate = jest.fn()

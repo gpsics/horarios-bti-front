@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+// cria um array de horarios nos quais vao ser as linhas da ptimeira coluna da tabela
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
     { Horario: '07:55 - 08:50' },
@@ -19,7 +19,8 @@ const horariosColuna = [
     { Horario: '21:35 - 22:30' },
 
 ]
-console.log(horariosColuna)
+
+// neste array, sao criados todas as possibilidades de combinações de horários com 3 caracteres.
 const arrayTable = [];
 for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
     for (let horaDia = 1; horaDia <= 6; horaDia++) {
@@ -57,6 +58,7 @@ const HorarioTable = () => {
     const diaSexta = arrayTable.filter(item => item.dia === 6);
 
     const lerHorario = () => {
+        // Esta função vai ler o horario passado  independente do tamanho dele, vai tratar os dados, separando-os em combinações de 3 caracteres sem repetições e vai salvalos em um array
         const match = horarioInformado.match(/^(\d+)([MTN])(\d+)$/);
 
         if (match) {
@@ -82,9 +84,11 @@ const HorarioTable = () => {
     };
 
     const newArray = Array.from(horariosOcupados.values());
-    console.log(newArray)
+
+
 
     const handleHorarioSelecionado = (event) => {
+        // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
         const horarioSelecionado = event.target.value;
 
         if (horariosMarcados.includes(horarioSelecionado)) {
@@ -95,8 +99,22 @@ const HorarioTable = () => {
             setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
         }
     };
+    const [iguais, setIguais] = useState([])
+    const verificarHorarios = () => {
+        // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
+        if (horariosOcupados.size > 0) {
+            const horariosIguais = newArray.filter((element) =>
+                Array.from(horariosOcupados.keys()).some(
+                    (chave) =>
+                        parseInt(chave.charAt(0)) === element.dia &&
+                        chave.charAt(1) === element.turno &&
+                        parseInt(chave.charAt(2)) === element.hora
+                )
+            );
+            setIguais(horariosIguais);
+        }
+    };
 
-    console.log(horariosMarcados)
 
     return (
         <React.Fragment>
@@ -108,7 +126,7 @@ const HorarioTable = () => {
                 onChange={(e) => setHorarioInformado(e.target.value)}
                 className="input"
             />
-            <button onClick={lerHorario}>Cadastrar</button>
+            <button onClick={() => { lerHorario(); verificarHorarios() }}>Cadastrar</button>
 
             <table className="padraoTabelas">
                 <thead>
@@ -125,9 +143,21 @@ const HorarioTable = () => {
                     {horariosColuna.map((horario, index) => (
                         <tr key={index}>
                             <td>{horario.Horario}</td>
-                            
+
                             <td>
-                                {diaSegunda[index] && `${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
+                                {/* Caso pelo menos um indice do array 'diaSegunda' atenda as condições do metodo .some(), irá imprimir na tela um X */}
+                                {diaSegunda[index] && (
+                                    iguais.some(
+                                        (item) =>
+                                            item.dia === diaSegunda[index].dia &&
+                                            item.turno === diaSegunda[index].turno &&
+                                            item.hora === diaSegunda[index].hora
+                                    )
+                                        ? 'X'
+                                        : ''
+                                )}
+
+                                {/* Passa os valores do objeto horário selecionado */}
                                 <input
                                     type="checkbox"
                                     value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
@@ -137,7 +167,16 @@ const HorarioTable = () => {
                             </td>
 
                             <td>
-                                {diaTerca[index] && `${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
+                                {diaTerca[index] && (
+                                    iguais.some(
+                                        (item) =>
+                                            item.dia === diaTerca[index].dia &&
+                                            item.turno === diaTerca[index].turno &&
+                                            item.hora === diaTerca[index].hora
+                                    )
+                                        ? 'X'
+                                        : ''
+                                )}
                                 <input
                                     type="checkbox"
                                     value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
@@ -147,7 +186,16 @@ const HorarioTable = () => {
                             </td>
 
                             <td>
-                                {diaQuarta[index] && `${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
+                                {diaQuarta[index] && (
+                                    iguais.some(
+                                        (item) =>
+                                            item.dia === diaQuarta[index].dia &&
+                                            item.turno === diaQuarta[index].turno &&
+                                            item.hora === diaQuarta[index].hora
+                                    )
+                                        ? 'X'
+                                        : ''
+                                )}
                                 <input
                                     type="checkbox"
                                     value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
@@ -157,7 +205,16 @@ const HorarioTable = () => {
                             </td>
 
                             <td>
-                                {diaQuinta[index] && `${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
+                                {diaQuinta[index] && (
+                                    iguais.some(
+                                        (item) =>
+                                            item.dia === diaQuinta[index].dia &&
+                                            item.turno === diaQuinta[index].turno &&
+                                            item.hora === diaQuinta[index].hora
+                                    )
+                                        ? 'X'
+                                        : ''
+                                )}
                                 <input
                                     type="checkbox"
                                     value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
@@ -167,7 +224,16 @@ const HorarioTable = () => {
                             </td>
 
                             <td>
-                                {diaSexta[index] && `${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
+                                {diaSexta[index] && (
+                                    iguais.some(
+                                        (item) =>
+                                            item.dia === diaSexta[index].dia &&
+                                            item.turno === diaSexta[index].turno &&
+                                            item.hora === diaSexta[index].hora
+                                    )
+                                        ? 'X'
+                                        : ''
+                                )}
                                 <input
                                     type="checkbox"
                                     value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
