@@ -19,6 +19,15 @@ const horariosColuna = [
     { Horario: '21:35 - 22:30' },
 
 ]
+const componentesLocais = [
+    {codigo: 'PEX1245', carga_horaria: 60},
+    {codigo: 'PEX1232', carga_horaria: 30},
+    {codigo: 'PEX1246', carga_horaria: 90},
+    {codigo: 'PEX1241', carga_horaria: 30},
+    {codigo: 'PEX3445', carga_horaria: 30},
+    {codigo: 'PEX1675', carga_horaria: 60},
+    {codigo: 'PEX1195', carga_horaria: 60},
+]
 
 // neste array, sao criados todas as possibilidades de combinações de horários com 3 caracteres.
 const arrayTable = [];
@@ -49,13 +58,17 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 
 const HorarioTable = () => {
     const [horarioInformado, setHorarioInformado] = useState('');
+    const [codigoInformado, setCodigoInformado] = useState('');
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
+    const [maxCheckeds, setMaxCheckeds] = useState(1)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
+
+    
 
     const lerHorario = () => {
         // Esta função vai ler o horario passado  independente do tamanho dele, vai tratar os dados, separando-os em combinações de 3 caracteres sem repetições e vai salvalos em um array
@@ -115,7 +128,31 @@ const HorarioTable = () => {
         }
     };
 
-
+    const requisitarComponente = () => {
+        // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifiçãp da carga horaria do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela.
+        if (codigoInformado.length === 7) {
+            const componenteEncontrado = componentesLocais.find(componente => codigoInformado === componente.codigo);
+        
+            if (componenteEncontrado) {
+                if (componenteEncontrado.carga_horaria === 30) {
+                    setMaxCheckeds(2);
+                } else if (componenteEncontrado.carga_horaria === 60) {
+                    setMaxCheckeds(4);
+                } else if (componenteEncontrado.carga_horaria === 90) {
+                    setMaxCheckeds(6);
+                }
+            }
+        }
+    };
+    
+    
+    
+    
+    const enviarHorarios = () => {
+        let mensagem = horariosMarcados.join(' '); 
+        console.log('Horários ja separados por espaço: '+ mensagem);
+    }
+    
     return (
         <React.Fragment>
             <h2>Informe o horário</h2>
@@ -127,7 +164,17 @@ const HorarioTable = () => {
                 className="input"
             />
             <button onClick={() => { lerHorario(); verificarHorarios() }}>Cadastrar</button>
+            <button onClick={() => {enviarHorarios()}}>Enviar</button>
 
+
+            <input
+                type="text"
+                placeholder="Codigo"
+                value={codigoInformado}
+                onChange={(e) => setCodigoInformado(e.target.value)}
+                className="input"
+            />
+            <button onClick={() => {requisitarComponente()}}> Verificar </button>
             <table className="padraoTabelas">
                 <thead>
                     <tr>
@@ -163,6 +210,7 @@ const HorarioTable = () => {
                                     value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
                                     onChange={handleHorarioSelecionado}
                                     checked={horariosMarcados.includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                    disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
                                 />
                             </td>
 
@@ -182,6 +230,7 @@ const HorarioTable = () => {
                                     value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
                                     onChange={handleHorarioSelecionado}
                                     checked={horariosMarcados.includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                    disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
                                 />
                             </td>
 
@@ -201,6 +250,7 @@ const HorarioTable = () => {
                                     value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
                                     onChange={handleHorarioSelecionado}
                                     checked={horariosMarcados.includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                    disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
                                 />
                             </td>
 
@@ -220,6 +270,7 @@ const HorarioTable = () => {
                                     value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
                                     onChange={handleHorarioSelecionado}
                                     checked={horariosMarcados.includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                    disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
                                 />
                             </td>
 
@@ -239,6 +290,7 @@ const HorarioTable = () => {
                                     value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
                                     onChange={handleHorarioSelecionado}
                                     checked={horariosMarcados.includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                    disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
                                 />
                             </td>
                         </tr>
