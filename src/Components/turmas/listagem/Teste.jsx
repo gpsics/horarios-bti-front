@@ -19,15 +19,15 @@ const horariosColuna = [
     { Horario: '21:35 - 22:30' },
 
 ]
-const componentesLocais = [
-    {codigo: 'PEX1245', carga_horaria: 60},
-    {codigo: 'PEX1232', carga_horaria: 30},
-    {codigo: 'PEX1246', carga_horaria: 90},
-    {codigo: 'PEX1241', carga_horaria: 30},
-    {codigo: 'PEX3445', carga_horaria: 30},
-    {codigo: 'PEX1675', carga_horaria: 60},
-    {codigo: 'PEX1195', carga_horaria: 60},
-]
+// const componentesLocais = [
+//     { codigo: 'PEX1245', carga_horaria: 60, semestre: 1 },
+//     { codigo: 'PEX1232', carga_horaria: 30, semestre: 2 },
+//     { codigo: 'PEX1246', carga_horaria: 90, semestre: 4 },
+//     { codigo: 'PEX1241', carga_horaria: 30, semestre: 1 },
+//     { codigo: 'PEX3445', carga_horaria: 30, semestre: 3 },
+//     { codigo: 'PEX1675', carga_horaria: 60, semestre: 5 },
+//     { codigo: 'PEX1195', carga_horaria: 60, semestre: 6 },
+// ]
 
 // neste array, sao criados todas as possibilidades de combinações de horários com 3 caracteres.
 const arrayTable = [];
@@ -58,47 +58,50 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 
 const HorarioTable = () => {
     const [horarioInformado, setHorarioInformado] = useState('');
-    const [codigoInformado, setCodigoInformado] = useState('');
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
+    const [numSemestre, setNumSemestre] = useState(0)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
 
-    
-
     const lerHorario = () => {
         // Esta função vai ler o horario passado  independente do tamanho dele, vai tratar os dados, separando-os em combinações de 3 caracteres sem repetições e vai salvalos em um array
-        const match = horarioInformado.match(/^(\d+)([MTN])(\d+)$/);
+        const horarios = horarioInformado.split(' ')
+        horarios.forEach((horario) => {
 
-        if (match) {
-            const diaSemana = match[1].split('').map((dia) => parseInt(dia));
-            const turno = match[2];
-            const horario = match[3].split('').map((hora) => parseInt(hora));
+            const match = horario.match(/^(\d+)([MTN])(\d+)$/);
 
-            diaSemana.forEach((dia) => {
-                horario.forEach((hora) => {
-                    const chave = `${dia}${turno}${hora}`;
-                    setHorariosOcupados((prevHorarios) => {
-                        const newHorarios = new Map(prevHorarios);
-                        newHorarios.set(chave, {
-                            dia, turno, hora
+            if (match) {
+                const diaSemana = match[1].split('').map((dia) => parseInt(dia));
+                const turno = match[2];
+                const horario = match[3].split('').map((hora) => parseInt(hora));
+
+                diaSemana.forEach((dia) => {
+                    horario.forEach((hora) => {
+                        const chave = `${dia}${turno}${hora}`;
+                        setHorariosOcupados((prevHorarios) => {
+                            const newHorarios = new Map(prevHorarios);
+                            newHorarios.set(chave, {
+                                dia, turno, hora
+                            });
+                            return newHorarios;
                         });
-                        return newHorarios;
                     });
                 });
-            });
-        } else {
-            setHorariosOcupados(new Map());
-        }
+            } else {
+                setHorariosOcupados(new Map());
+            }
+        })
     };
 
     const newArray = Array.from(horariosOcupados.values());
 
 
+    console.log(newArray)
 
     const handleHorarioSelecionado = (event) => {
         // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
@@ -128,31 +131,49 @@ const HorarioTable = () => {
         }
     };
 
-    const requisitarComponente = () => {
+    const requisitarComponente = async ({ target }) => {
         // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifiçãp da carga horaria do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela.
-        if (codigoInformado.length === 7) {
-            const componenteEncontrado = componentesLocais.find(componente => codigoInformado === componente.codigo);
-        
-            if (componenteEncontrado) {
-                if (componenteEncontrado.carga_horaria === 30) {
-                    setMaxCheckeds(2);
-                } else if (componenteEncontrado.carga_horaria === 60) {
-                    setMaxCheckeds(4);
-                } else if (componenteEncontrado.carga_horaria === 90) {
-                    setMaxCheckeds(6);
+        if (target.value.length === 7) {
+            let codigoComponente = target.value
+            const token = localStorage.getItem('token');
+            const url = `http://127.0.0.1:8000/componentes/${codigoComponente}`;
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            };
+
+            try {
+                const response = await fetch(url, requestOptions);
+                if (response.ok) {
+                    const componentesData = await response.json();
+                    setNumSemestre(componentesData.semestre)
+                    if (componentesData.carga_horaria === 30) {
+                        setMaxCheckeds(2);
+                    } else if (componentesData.carga_horaria === 60) {
+                        setMaxCheckeds(4);
+                    } else if (componentesData.carga_horaria === 90) {
+                        setMaxCheckeds(6);
+                    }
+
+                } else {
+                    console.log('Erro ao listar componentes.')
                 }
+            } catch (error) {
+                console.error('An error occurred:', error);
             }
         }
     };
-    
-    
-    
-    
+
+
+
+
     const enviarHorarios = () => {
-        let mensagem = horariosMarcados.join(' '); 
-        console.log('Horários ja separados por espaço: '+ mensagem);
+        let mensagem = horariosMarcados.join(' ');
+        console.log('Horários ja separados por espaço: ' + mensagem);
     }
-    
+
     return (
         <React.Fragment>
             <h2>Informe o horário</h2>
@@ -164,17 +185,16 @@ const HorarioTable = () => {
                 className="input"
             />
             <button onClick={() => { lerHorario(); verificarHorarios() }}>Cadastrar</button>
-            <button onClick={() => {enviarHorarios()}}>Enviar</button>
+            <button onClick={() => { enviarHorarios() }}>Enviar</button>
 
 
             <input
                 type="text"
                 placeholder="Codigo"
-                value={codigoInformado}
-                onChange={(e) => setCodigoInformado(e.target.value)}
+
+                onChange={requisitarComponente}
                 className="input"
             />
-            <button onClick={() => {requisitarComponente()}}> Verificar </button>
             <table className="padraoTabelas">
                 <thead>
                     <tr>

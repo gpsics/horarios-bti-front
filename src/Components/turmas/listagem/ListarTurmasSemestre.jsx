@@ -80,17 +80,6 @@ const ListarTurmasSemestre = ({ turmaEdit, turVerDados }) => {
         turmaEdit(item)
         navigate("/turmas/editarTurma");
     }
-    const buscarComponente = ({ target }) => {
-        if (!target.value) {
-            setTurmasSemestre(turmas)
-            return
-        } else {
-            const filterCodigo = turmasSemestre.filter(({}) => codigo.toUpperCase().startsWith(target.value.toUpperCase()))
-            const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
-            
-            setCompsBusca({filterComps, filterCodigo})
-        }
-    }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -98,7 +87,7 @@ const ListarTurmasSemestre = ({ turmaEdit, turVerDados }) => {
                 <div className="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
                     <h1>Listar Turmas</h1>
-                    {turmas.length >= 0 ? (
+                    {turmas.length > 0 ? (
                         <>
                             <table className='padraoTabelas'>
                                 <thead>
