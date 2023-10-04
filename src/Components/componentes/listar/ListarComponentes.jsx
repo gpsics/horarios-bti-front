@@ -10,7 +10,6 @@ import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import './ListarComponente.css'
 
-// { compEdit, compVerDados }
 const ListarComponentes = () => {
     const [erro, setErro] = useState('')
     const [componentes, setComponentes] = useState([]);

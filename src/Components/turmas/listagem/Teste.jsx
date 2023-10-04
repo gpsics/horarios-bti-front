@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // cria um array de horarios nos quais vao ser as linhas da ptimeira coluna da tabela
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
@@ -72,7 +72,7 @@ const HorarioTable = () => {
         if (target.value.length === 7) {
             let codigoComponente = target.value
             const token = localStorage.getItem('token');
-            const url = `http://127.0.0.1:8000/componentes/${codigoComponente}`;
+            const url = `http://127.0.0.1:8000/componentes/${codigoComponente.toUpperCase()}`;
             const requestOptions = {
                 method: 'GET',
                 headers: {
@@ -84,7 +84,7 @@ const HorarioTable = () => {
                 const response = await fetch(url, requestOptions);
                 if (response.ok) {
                     const componentesData = await response.json();
-                    lerHorarioTurmas(componentesData.semestre);
+                    lerHorarioTurmas(componentesData.num_semestre);
                     const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
                     setMaxCheckeds(maxCheckeds);
 
@@ -149,8 +149,7 @@ const HorarioTable = () => {
                     })
 
                 })
-                const newArray = Array.from(horariosOcupados.values());
-                verificarHorarios(newArray)
+                
             } else {
                 console.log('Erro ao listar componentes.')
             }
@@ -159,8 +158,6 @@ const HorarioTable = () => {
         }
 
     };
-
-
 
     const handleHorarioSelecionado = (event) => {
         // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
@@ -174,8 +171,18 @@ const HorarioTable = () => {
             setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
         }
     };
+
+    useEffect(() => {
+        // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
+        if(horariosOcupados.size > 0){
+            const newArray = Array.from(horariosOcupados.values());
+            verificarHorarios(newArray)
+        }
+    }, [horariosOcupados])
+
     const [iguais, setIguais] = useState([])
     const verificarHorarios = (newArray) => {
+        setIguais([])
         // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
         if (horariosOcupados.size > 0) {
             const horariosIguais = newArray.filter((element) =>
@@ -187,6 +194,8 @@ const HorarioTable = () => {
                 )
             );
             setIguais(horariosIguais);
+        }else{
+            setIguais([])
         }
     };
 
