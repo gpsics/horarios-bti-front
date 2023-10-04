@@ -57,82 +57,18 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 
 
 const HorarioTable = () => {
-    const [horarioInformado, setHorarioInformado] = useState('');
+    const [horarioInformado, setHorarioInformado] = useState([]);
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
-    const [numSemestre, setNumSemestre] = useState(0)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
 
-    const lerHorario = () => {
-        // Esta função vai ler o horario passado  independente do tamanho dele, vai tratar os dados, separando-os em combinações de 3 caracteres sem repetições e vai salvalos em um array
-        const horarios = horarioInformado.split(' ')
-        horarios.forEach((horario) => {
-
-            const match = horario.match(/^(\d+)([MTN])(\d+)$/);
-
-            if (match) {
-                const diaSemana = match[1].split('').map((dia) => parseInt(dia));
-                const turno = match[2];
-                const horario = match[3].split('').map((hora) => parseInt(hora));
-
-                diaSemana.forEach((dia) => {
-                    horario.forEach((hora) => {
-                        const chave = `${dia}${turno}${hora}`;
-                        setHorariosOcupados((prevHorarios) => {
-                            const newHorarios = new Map(prevHorarios);
-                            newHorarios.set(chave, {
-                                dia, turno, hora
-                            });
-                            return newHorarios;
-                        });
-                    });
-                });
-            } else {
-                setHorariosOcupados(new Map());
-            }
-        })
-    };
-
-    const newArray = Array.from(horariosOcupados.values());
-
-
-    console.log(newArray)
-
-    const handleHorarioSelecionado = (event) => {
-        // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
-        const horarioSelecionado = event.target.value;
-
-        if (horariosMarcados.includes(horarioSelecionado)) {
-            // Se o objeto já estiver marcado, remova-o dos horários marcados
-            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
-        } else {
-            // Se o objeto não estiver marcado, adicione-o aos horários marcados
-            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
-        }
-    };
-    const [iguais, setIguais] = useState([])
-    const verificarHorarios = () => {
-        // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
-        if (horariosOcupados.size > 0) {
-            const horariosIguais = newArray.filter((element) =>
-                Array.from(horariosOcupados.keys()).some(
-                    (chave) =>
-                        parseInt(chave.charAt(0)) === element.dia &&
-                        chave.charAt(1) === element.turno &&
-                        parseInt(chave.charAt(2)) === element.hora
-                )
-            );
-            setIguais(horariosIguais);
-        }
-    };
-
     const requisitarComponente = async ({ target }) => {
-        // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifiçãp da carga horaria do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela.
+        // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
         if (target.value.length === 7) {
             let codigoComponente = target.value
             const token = localStorage.getItem('token');
@@ -148,14 +84,9 @@ const HorarioTable = () => {
                 const response = await fetch(url, requestOptions);
                 if (response.ok) {
                     const componentesData = await response.json();
-                    setNumSemestre(componentesData.semestre)
-                    if (componentesData.carga_horaria === 30) {
-                        setMaxCheckeds(2);
-                    } else if (componentesData.carga_horaria === 60) {
-                        setMaxCheckeds(4);
-                    } else if (componentesData.carga_horaria === 90) {
-                        setMaxCheckeds(6);
-                    }
+                    lerHorarioTurmas(componentesData.semestre);
+                    const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
+                    setMaxCheckeds(maxCheckeds);
 
                 } else {
                     console.log('Erro ao listar componentes.')
@@ -165,9 +96,99 @@ const HorarioTable = () => {
             }
         }
     };
+    const calcularMaxCheckeds = (cargaHoraria) => {
+        if (cargaHoraria <= 90) {
+            return Math.ceil(cargaHoraria / 15);
+        }
+        return 6; // Valor máximo
+    };
+    const lerHorarioTurmas = async (semestre) => {
+        // Ao iniciar esta função, é feito uma requisição para pegar os horarios das turmas do semestre passado no parâmetro da função
+        const token = localStorage.getItem('token');
+        const url = `http://127.0.0.1:8000/horarios/semestre/${semestre}`;
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        };
+
+        try {
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                const componentesData = await response.json();
+                setHorarioInformado(componentesData.horario)
+
+                // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
+                horarioInformado.forEach((horarioss) => {
+                    const horarios = horarioss.split(' ')
+                    horarios.forEach((horario) => {
+
+                        const match = horario.match(/^(\d+)([MTN])(\d+)$/);
+
+                        if (match) {
+                            const diaSemana = match[1].split('').map((dia) => parseInt(dia));
+                            const turno = match[2];
+                            const horario = match[3].split('').map((hora) => parseInt(hora));
+
+                            diaSemana.forEach((dia) => {
+                                horario.forEach((hora) => {
+                                    const chave = `${dia}${turno}${hora}`;
+                                    setHorariosOcupados((prevHorarios) => {
+                                        const newHorarios = new Map(prevHorarios);
+                                        newHorarios.set(chave, {
+                                            dia, turno, hora
+                                        });
+                                        return newHorarios;
+                                    });
+                                });
+                            });
+                        } else {
+                            setHorariosOcupados(new Map());
+                        }
+                    })
+
+                })
+                const newArray = Array.from(horariosOcupados.values());
+                verificarHorarios(newArray)
+            } else {
+                console.log('Erro ao listar componentes.')
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+
+    };
 
 
 
+    const handleHorarioSelecionado = (event) => {
+        // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
+        const horarioSelecionado = event.target.value;
+
+        if (horariosMarcados.includes(horarioSelecionado)) {
+            // Se o objeto já estiver marcado, remova-o dos horários marcados
+            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
+        } else {
+            // Se o objeto não estiver marcado, adicione-o aos horários marcados
+            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
+        }
+    };
+    const [iguais, setIguais] = useState([])
+    const verificarHorarios = (newArray) => {
+        // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
+        if (horariosOcupados.size > 0) {
+            const horariosIguais = newArray.filter((element) =>
+                Array.from(horariosOcupados.keys()).some(
+                    (chave) =>
+                        parseInt(chave.charAt(0)) === element.dia &&
+                        chave.charAt(1) === element.turno &&
+                        parseInt(chave.charAt(2)) === element.hora
+                )
+            );
+            setIguais(horariosIguais);
+        }
+    };
 
     const enviarHorarios = () => {
         let mensagem = horariosMarcados.join(' ');
@@ -184,7 +205,7 @@ const HorarioTable = () => {
                 onChange={(e) => setHorarioInformado(e.target.value)}
                 className="input"
             />
-            <button onClick={() => { lerHorario(); verificarHorarios() }}>Cadastrar</button>
+            <button onClick={() => { lerHorarioTurmas(); verificarHorarios() }}>Cadastrar</button>
             <button onClick={() => { enviarHorarios() }}>Enviar</button>
 
 
