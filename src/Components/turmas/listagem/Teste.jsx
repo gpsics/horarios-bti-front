@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // cria um array de horarios nos quais vao ser as linhas da ptimeira coluna da tabela
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
@@ -120,6 +120,7 @@ const HorarioTable = () => {
                 setHorarioInformado(componentesData.horario)
 
                 // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
+                const newArrayHorarios = [];
                 horarioInformado.forEach((horarioss) => {
                     const horarios = horarioss.split(' ')
                     horarios.forEach((horario) => {
@@ -141,6 +142,9 @@ const HorarioTable = () => {
                                         });
                                         return newHorarios;
                                     });
+                                    newArrayHorarios.push({
+                                        dia, turno, hora
+                                    })
                                 });
                             });
                         } else {
@@ -149,7 +153,7 @@ const HorarioTable = () => {
                     })
 
                 })
-                
+                verificarHorarios(newArrayHorarios)
             } else {
                 console.log('Erro ao listar componentes.')
             }
@@ -175,7 +179,7 @@ const HorarioTable = () => {
     
 
     const [iguais, setIguais] = useState([])
-    const verificarHorarios =useCallback((newArray) => {
+    const verificarHorarios =(newArray) => {
         setIguais([])
         // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
         if (horariosOcupados.size > 0) {
@@ -191,14 +195,14 @@ const HorarioTable = () => {
         }else{
             setIguais([])
         }
-    }, [horariosOcupados]);
-    useEffect(() => {
-        // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
-        if(horariosOcupados.size > 0){
-            const newArray = Array.from(horariosOcupados.values());
-            verificarHorarios(newArray)
-        }
-    }, [verificarHorarios, horariosOcupados])
+    };
+    // useEffect(() => {
+    //     // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
+    //     if(horariosOcupados.size > 0){
+    //         const newArray = Array.from(horariosOcupados.values());
+    //         verificarHorarios(newArray)
+    //     }
+    // }, [verificarHorarios, horariosOcupados])
 
     const enviarHorarios = () => {
         let mensagem = horariosMarcados.join(' ');
@@ -207,16 +211,9 @@ const HorarioTable = () => {
 
     return (
         <React.Fragment>
-            <h2>Informe o horário</h2>
-            <input
-                type="text"
-                placeholder="Horário"
-                value={horarioInformado}
-                onChange={(e) => setHorarioInformado(e.target.value)}
-                className="input"
-            />
-            <button onClick={() => { lerHorarioTurmas(); verificarHorarios() }}>Cadastrar</button>
-            <button onClick={() => { enviarHorarios() }}>Enviar</button>
+            <h2>Informe o Código</h2>
+            
+            <button onClick={() => { enviarHorarios() }}>Enviar</button> 
 
 
             <input
