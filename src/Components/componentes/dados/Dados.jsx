@@ -11,13 +11,13 @@ import Confirm from '../../alerts/Confirm';
 
 // { compEdit, componente }
 const Dados = () => {
-    const {idComp} = useParams()
+    const { idComp } = useParams()
     const [componente, setComponente] = useState([]);
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 setErro('')
                 const token = localStorage.getItem('token');
                 const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
@@ -27,7 +27,7 @@ const Dados = () => {
                         Authorization: `Token ${token}`,
                     },
                 };
-        
+
                 try {
                     const response = await fetch(url, requestOptions);
                     if (response.ok) {
@@ -43,41 +43,41 @@ const Dados = () => {
             }
         })
     };
-    
+
 
     const fetchComponente = useCallback(async () => {
         setErro('');
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/componentes/${idComp}`;
         const requestOptions = {
-          method: 'GET',
-          headers: {
-            Authorization: `Token ${token}`,
-          },
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
         };
-    
+
         try {
-          const response = await fetch(url, requestOptions);
-          if (response.ok) {
-            const componentesData = await response.json();
-            setComponente(componentesData);
-          } else {
-            console.log('Erro ao listar componentes.');
-          }
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                const componentesData = await response.json();
+                setComponente(componentesData);
+            } else {
+                console.log('Erro ao listar componentes.');
+            }
         } catch (error) {
-          console.error('An error occurred:', error);
+            console.error('An error occurred:', error);
         }
-      }, [idComp]); // Adicione idComp como dependência
-    
-      useEffect(() => {
+    }, [idComp]); // Adicione idComp como dependência
+
+    useEffect(() => {
         fetchComponente(); // Chama a função fetchComponente dentro do useEffect
-      }, [fetchComponente]);
-    
+    }, [fetchComponente]);
+
     const editarComponente = (item) => {
         // compEdit(item)
         navigate(`/componentes/editarComponente/${item.codigo}`);
     }
-    
+
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -116,11 +116,11 @@ const Dados = () => {
                     <section className='opcoes'>
                         <div>
                             {erro && <div className="erroCad">{erro}</div>}
-                            
+
                         </div>
                         <div className='botoes'>
                             <button id='editar' onClick={() => editarComponente(componente)}>
-                                <p>Editar</p> 
+                                <p>Editar</p>
                                 <i>
                                     <MdModeEdit />
                                 </i>

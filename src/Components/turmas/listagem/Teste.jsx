@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // cria um array de horarios nos quais vao ser as linhas da ptimeira coluna da tabela
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
@@ -172,16 +172,10 @@ const HorarioTable = () => {
         }
     };
 
-    useEffect(() => {
-        // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
-        if(horariosOcupados.size > 0){
-            const newArray = Array.from(horariosOcupados.values());
-            verificarHorarios(newArray)
-        }
-    }, [horariosOcupados])
+    
 
     const [iguais, setIguais] = useState([])
-    const verificarHorarios = (newArray) => {
+    const verificarHorarios =useCallback((newArray) => {
         setIguais([])
         // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
         if (horariosOcupados.size > 0) {
@@ -197,7 +191,14 @@ const HorarioTable = () => {
         }else{
             setIguais([])
         }
-    };
+    }, [horariosOcupados]);
+    useEffect(() => {
+        // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
+        if(horariosOcupados.size > 0){
+            const newArray = Array.from(horariosOcupados.values());
+            verificarHorarios(newArray)
+        }
+    }, [verificarHorarios, horariosOcupados])
 
     const enviarHorarios = () => {
         let mensagem = horariosMarcados.join(' ');
