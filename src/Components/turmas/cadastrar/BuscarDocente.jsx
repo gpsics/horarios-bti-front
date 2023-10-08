@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDocentes } from './DocentesContext';
+import { FaTrash } from 'react-icons/fa'
 
 const BuscarDocente = () => {
     const [docentes, setDocentes] = useState([]);
@@ -26,7 +27,7 @@ const BuscarDocente = () => {
             if (response.ok) {
                 const docentesData = await response.json();
                 setDocentes(docentesData);
-                setDocentesBusca(docentesData);
+
             } else {
                 console.log('Erro ao listar docentes.');
             }
@@ -38,7 +39,7 @@ const BuscarDocente = () => {
     const buscarDocen = ({ target }) => {
         if (!target.value) {
             setDocentesBusca();
-            return;
+
         } else {
             const filterDocentes = docentes.filter(({ nome_prof }) =>
                 nome_prof.toUpperCase().startsWith(target.value.toUpperCase())
@@ -54,6 +55,14 @@ const BuscarDocente = () => {
             setDocentesSelecionados([...docentesSelecionados, item]);
         }
     };
+    const removerDocente = (index) => {
+        const novosDocentes = [...docentesSelecionados]
+        const novoDocente = [...docenteSelecionado]
+        novoDocente.splice(index, 1)
+        novosDocentes.splice(index, 1)
+        setDocenteSelecionado(novoDocente)
+        setDocentesSelecionados(novosDocentes)
+    }
 
     return (
         <>
@@ -72,7 +81,7 @@ const BuscarDocente = () => {
                                     <h2>Docentes Selecionados</h2>
                                     <ul>
                                         {docenteSelecionado.map((item, index) => (
-                                            <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
+                                            <li key={index} onClick={() => docente(item)}>{item.nome_prof} <i onClick={() => removerDocente(index)}><FaTrash /></i></li>
                                         ))}
                                     </ul>
                                 </>

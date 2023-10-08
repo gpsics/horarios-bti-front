@@ -142,9 +142,7 @@ const HorarioTable = () => {
                                         });
                                         return newHorarios;
                                     });
-                                    newArrayHorarios.push({
-                                        dia, turno, hora
-                                    })
+                                   
                                 });
                             });
                         } else {
@@ -154,6 +152,7 @@ const HorarioTable = () => {
 
                 })
                 verificarHorarios(newArrayHorarios)
+                console.log('New array' + newArrayHorarios)
             } else {
                 console.log('Erro ao listar componentes.')
             }

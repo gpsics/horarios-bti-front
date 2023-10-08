@@ -9,8 +9,6 @@ import ProtectedRoute from './ProtectedRoute';
 import CadastrarTurma from './Components/turmas/cadastrar/CadastrarTurma';
 import CadComp from './Components/componentes/cadastro/CadComp';
 import EditarProfessor from './Components/professores/editar/EditarProfessor';
-// import { useState } from 'react';
-// import ListarComponentes from './Components/componentes/listar/ListarComp';
 import Dados from './Components/componentes/dados/Dados';
 import EditarComponente from './Components/componentes/editar/EditarComponente';
 import { DocentesProvider } from './Components/turmas/cadastrar/DocentesContext';

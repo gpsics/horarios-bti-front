@@ -83,7 +83,7 @@ const Dados = () => {
             <Header link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
-                <article className="conteudo verComp">
+                <section className="conteudo verComp">
                     <h1>Dados do Componente </h1>
                     <section className="verDadosComp">
                         <ul>
@@ -133,7 +133,7 @@ const Dados = () => {
                             </button>
                         </div>
                     </section>
-                </article>
+                </section>
             </main>
             <Footer />
         </React.Fragment>
