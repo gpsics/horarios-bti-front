@@ -1,90 +1,157 @@
-.cadasrarTurma{
-    min-height: 100%;
+.cadastroTurma {
     display: grid;
-    grid-template-rows: 50px 1fr;
+    max-height: 100%;
+    grid-template-rows: 60px 400px;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: 
-        'titulo titulo'
-        'informacoes informacoes'
+    grid-template-areas:
+        'title title'
+        'cadastro cadastro'
     ;
-    gap: 10px;
+    gap: 10;
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.cadasrarTurma >h1{
-    grid-area: titulo;
+
+.cadastroTurma h1 {
+    grid-area: title;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    padding-left: 40px;
     box-sizing: border-box;
 }
-.formCadTurma{
-    grid-area: informacoes;
-    padding: 10px;
-    display: grid;
-    grid-template-rows: 50px 120px 1fr 40px;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-        'form form'
-        'buscDocente buscDocente'
-        'tabelaHorarios tabelaHorarios'
-        'footer footer'
-    ;
-    gap: 10px;
+
+.cadTurma {
+    grid-area: cadastro;
+    margin: 0 auto;
+    min-height: 40%;
+    min-width: 80%;
     background-color: rgba(255, 255, 255, 0.851);
     border: 1px solid white;
     border-radius: 8px;
     box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    gap: 10px;
     box-sizing: border-box;
 }
-.dadosTurma{
-    grid-area: form;
-    
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-    justify-content: space-between;
+
+.cadTurma>h2 {
+    width: 95%;
+    margin: 5px auto;
 }
-.buscarDocente{
-    grid-area: buscDocente;
-    
-}
-.tabelaHorarios{
-    grid-area: tabelaHorarios;
-    
-}
-.botaoCad {
-    grid-area: footer;
+
+.cadTurma>form {
     width: 90%;
     margin: 0 auto;
-    
-}
-
-.tabelaHorarios >table >tbody > tr{
-    border-top:  1px solid rgb(0, 0, 0);
-    border-bottom:  1px solid rgb(0, 0, 0);
-}
-#ultimaLinha{
-    border-bottom: none;
-}
-
-.tabelaHorarios .column01{
-    width: 200px;
-    text-align: center;
-}
-.botaoCad{
-    grid-area: footer;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
-.input{
-    width: 250px;
-    height: 30px;
-    border-radius: 4px;
-    text-indent: 5px;
+
+.buscarDocente {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
-.buscar{
-    height: 30px;
-    width: 99.8%;
-    border-radius: 4px;
+
+.listDocentes {
+    width: 100%;
+    margin-top: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: rgb(231, 231, 231);
+    padding: 5px;
+
+}
+
+.informacoesTurma {
+    width: 300px;
+    height: 35px;
     text-indent: 5px;
+    outline: none;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+.buscar {
+    height: 35px;
+    text-indent: 5px;
+    outline: none;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+.buscarDocente li {
+    margin-top: 5px;
+    list-style-type: none;
+    text-indent: 10px;
+}
+
+.listDocentes li:hover {
+    cursor: pointer;
+    border-radius: 3px;
+    background-color: rgb(190, 190, 190);
+}
+
+.docentesSelecionados {
+    width: 100%;
+    margin-top: 0px;
+    background-color: rgb(242, 242, 242);
+    border-radius: 5px;
+    padding: 5px;
+
+}
+
+.docentesSelecionados li {
+    display: flex;
+    align-items: center;
+}
+
+.docentesSelecionados li:hover {
+    cursor: pointer;
+    border-radius: 3px;
+    background-color: rgb(248, 202, 202);
+}
+
+.icon {
+    color: red;
+    background-color: wheat;
+    padding: 3px;
+    box-sizing: border-box;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+.icon:hover {
+    color: white;
+    background-color: red;
+}
+
+.botaoCadTur {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#selectHor {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: rgb(20, 20, 20);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#selectHor:hover {
+    cursor: pointer;
+    background-color: rgba(40, 40, 40, 0.951);
+    box-shadow: 3px 3px 10px rgba(51, 51, 51, 0.242);
 }

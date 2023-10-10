@@ -38,8 +38,7 @@ const BuscarDocente = () => {
 
     const buscarDocen = ({ target }) => {
         if (!target.value) {
-            setDocentesBusca();
-
+            setDocentesBusca([]);
         } else {
             const filterDocentes = docentes.filter(({ nome_prof }) =>
                 nome_prof.toUpperCase().startsWith(target.value.toUpperCase())
@@ -47,6 +46,7 @@ const BuscarDocente = () => {
             setDocentesBusca(filterDocentes);
         }
     };
+
 
     const docente = (item) => {
         if (!docentesSelecionados.includes(item)) {
@@ -68,30 +68,39 @@ const BuscarDocente = () => {
         <>
             <section className='buscarDocente'>
                 <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
-                <div className="listDocentes">
+                <div >
+                    
                     {docentesBusca.length > 0 ? (
-                        <>
-                            <ul>
-                                {docentesBusca.map((item, index) => (
-                                    <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
-                                ))}
-                            </ul>
-                            {docenteSelecionado !== null && docenteSelecionado.length > 0 ? (
-                                <>
-                                    <h2>Docentes Selecionados</h2>
-                                    <ul>
-                                        {docenteSelecionado.map((item, index) => (
-                                            <li key={index} onClick={() => docente(item)}>{item.nome_prof} <i onClick={() => removerDocente(index)}><FaTrash /></i></li>
-                                        ))}
-                                    </ul>
-                                </>
-                            ) : (
-                                <></>
-                            )}
-                        </>
+                        <ul className="listDocentes" >
+                            {docentesBusca.map((item, index) => (
+                                <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
+                            ))}
+                        </ul>
+
                     ) : (
                         <></>
                     )}
+                </div>
+                <h2>Docentes Selecionados</h2>
+                <div >
+                    {/* <ul>
+                        <li>Luan Alves de Paiva <FaTrash className='icon'/></li>
+                        <li>Luan Alves de Paiva <FaTrash className='icon'/></li>
+                        <li>Luan Alves de Paiva <FaTrash className='icon'/></li>
+                        <li>Luan Alves de Paiva <FaTrash className='icon'/></li>
+                    </ul> */}
+                    {docenteSelecionado !== null && docenteSelecionado.length > 0 ? (
+                        <>
+                            <ul className="docentesSelecionados">
+                                {docenteSelecionado.map((item, index) => (
+                                    <li key={index} onClick={() => docente(item)}>{item.nome_prof} <i onClick={() => removerDocente(index)}><FaTrash /></i></li>
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        <>  </>
+                    )}
+
                 </div>
             </section>
         </>
