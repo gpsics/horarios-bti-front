@@ -16,6 +16,7 @@ import ListarTurmas from './Components/turmas/listagem/ListarTurmas';
 import ListarComponentes from './Components/componentes/listar/ListarComponentes';
 import Teste from './Components/turmas/listagem/Teste';
 import DadosTurma from './Components/turmas/dados/DadosTurma';
+import TabelaHorarios from './Components/turmas/cadastrar/TabelaHorarios';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             {/* Rotas para turmas */}
 
             <Route path='turmas/cadastrarTurma' element={<CadastrarTurma />} />
+            <Route path='/turmas/cadastrarTurma/horarios/:codComp/:numTurma/:numVagas' element={<TabelaHorarios />} />
             <Route path='turmas/listarTurmas' element={<ListarTurmas />}/>
             <Route path='turmas/verDadosTurma/:idTurma' element={<DadosTurma  /> } />
 

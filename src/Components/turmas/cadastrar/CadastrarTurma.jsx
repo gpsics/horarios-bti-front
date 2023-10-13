@@ -22,13 +22,15 @@ const CadastrarTurma = () => {
           <section className="cadTurma">
             <h2>Preencha o Formulário</h2>
             <form >
-              <input type="text" name="" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} />
-              <input type="text" name="" className="informacoesTurma" placeholder='Número da turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} />
-              <input type="text" name="" className="informacoesTurma" placeholder='Número de vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} />
+              <input type="text" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} />
+
+              <input type="text" className="informacoesTurma" placeholder='Número da turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} />
+
+              <input type="text" className="informacoesTurma" placeholder='Número de vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} />
             </form>
             <BuscarDocente />
             <div className='botaoCadTur'>
-              <Link  id='selectHor' to={`turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numTurma}`}>Selecionar Horários</Link>
+              <Link  id='selectHor' to={`/turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numVagas}`}>Selecionar Horários</Link>
             </div>
           </section>
         </section>

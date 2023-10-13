@@ -195,13 +195,7 @@ const HorarioTable = () => {
             setIguais([])
         }
     };
-    // useEffect(() => {
-    //     // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
-    //     if(horariosOcupados.size > 0){
-    //         const newArray = Array.from(horariosOcupados.values());
-    //         verificarHorarios(newArray)
-    //     }
-    // }, [verificarHorarios, horariosOcupados])
+    
 
     const enviarHorarios = () => {
         let mensagem = horariosMarcados.join(' ');
