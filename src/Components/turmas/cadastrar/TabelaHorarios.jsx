@@ -53,7 +53,6 @@ const TabelaHorarios = () => {
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [iguais, setIguais] = useState([])
-    const [numSemestre, setNumSemestre] = useState('')
     const [maxCheckeds, setMaxCheckeds] = useState(1)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
@@ -100,10 +99,11 @@ const TabelaHorarios = () => {
         }
     };
 
-    const letHorariosTurmas = useCallback(async () => {
+    const letHorariosTurmas = useCallback(async (numSemestre) => {
         console.log('Funcao ler horarios turmas foi chamada!')
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
+        console.log('Numero semestre recebido: ' + numSemestre)
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -158,8 +158,7 @@ const TabelaHorarios = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [numSemestre, horarioInformado, verificarHorario]); // Adicione 'horarioInformado' e 'verificarHorario' como dependências
-
+    }, [ horarioInformado, verificarHorario]); 
 
 
     const calcularMaxCheckeds = (cargaHoraria) => {
@@ -186,10 +185,11 @@ const TabelaHorarios = () => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 const componentesData = await response.json();
-                setNumSemestre(componentesData.num_semestre);
+                const novoNumSemestre = componentesData.num_semestre;
+
                 const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
                 setMaxCheckeds(maxCheckeds);
-                letHorariosTurmas()
+                letHorariosTurmas(novoNumSemestre)
 
             } else {
                 console.log('Erro ao listar componentes.')
