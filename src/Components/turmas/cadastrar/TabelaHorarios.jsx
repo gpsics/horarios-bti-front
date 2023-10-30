@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { useDocentes } from './DocentesContext';
 import Header from '../../header/Header';
 
 
@@ -60,6 +61,8 @@ const TabelaHorarios = () => {
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
+    const { professorSelecionado } = useDocentes();
+    console.log('Docente selecionado:' + professorSelecionado.nome_prof)
     console.log(`Codigo do componente: ${codComp} | Numero da turma: ${numTurma} | Numero de vagas: ${numVagas}`)
 
 
