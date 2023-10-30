@@ -46,8 +46,6 @@ const MenuWrap = styled.div`
 const Menu = () => {
   const [menu, setMenu] = useState(false);
   const showMenu = () => setMenu(!menu);
-  console.log("menu prop:", menu);
-
   return (
     <React.Fragment>
       <IconContext.Provider value={{ color: '#fff' }}>

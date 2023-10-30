@@ -61,29 +61,42 @@ const TabelaHorarios = () => {
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
     console.log(`Codigo do componente: ${codComp} | Numero da turma: ${numTurma} | Numero de vagas: ${numVagas}`)
-    
 
-    const verificarHorario = useCallback((newArray) => {
-        console.log('Funcao verificar Horario foi chamada com sucesso!')
-        setIguais([]);
-        // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some()
-        if (horariosOcupados.size > 0) {
-            const horariosIguais = newArray.filter((element) =>
-                Array.from(horariosOcupados.keys()).some(
-                    (chave) =>
-                        parseInt(chave.charAt(0)) === element.dia &&
-                        chave.charAt(1) === element.turno &&
-                        parseInt(chave.charAt(2)) === element.hora
-                )
-            );
-            setIguais(horariosIguais);
-            console.log(`Os horarios iguais agora sao: ${horariosIguais}`)
-        } else {
-            setIguais([]);
-        }
-    }, [horariosOcupados]);
-    
-    
+
+    // const verificarHorario = useCallback((newArray) => {
+    //     console.log('Funcao verificar Horario foi chamada com sucesso!')
+    //     setIguais([]);
+    //     // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some()
+    //     if (horariosOcupados.size > 0) {
+    //         const horariosIguais = newArray.filter((element) =>
+    //             Array.from(horariosOcupados.keys()).some(
+    //                 (chave) =>
+    //                     parseInt(chave.charAt(0)) === element.dia &&
+    //                     chave.charAt(1) === element.turno &&
+    //                     parseInt(chave.charAt(2)) === element.hora
+    //             )
+    //         );
+    //         setIguais(horariosIguais);
+    //         console.log(`Os horarios iguais agora são: ${JSON.stringify(horariosIguais)}`);
+    //     } else {
+    //         setIguais([]);
+    //     }
+    // }, [horariosOcupados]);
+
+    const verificarHorario = useCallback(() => {
+        console.log('Funcao verificar Horario foi chamada com sucesso!');
+        const horariosIguais = [];
+        horariosOcupados.forEach((value, chave) => {
+            if (horariosMarcados.includes(chave)) {
+                horariosIguais.push(chave);
+            }
+        });
+        setIguais(horariosIguais);
+        console.log(`Os horarios iguais agora são: ${JSON.stringify(horariosIguais)}`);
+    }, [horariosOcupados, horariosMarcados]);
+
+
+
     const handleHorarioSelecionado = (event) => {
         event.preventDefault();
         // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
@@ -149,7 +162,7 @@ const TabelaHorarios = () => {
                     })
 
                 })
-                console.log(`Estou passando o ${arrayTable} como parametro para a funcao Verificar Horario!`)
+
                 verificarHorario(arrayTable);
             } else {
                 console.log('Erro ao listar componentes.')
@@ -180,7 +193,7 @@ const TabelaHorarios = () => {
                 Authorization: `Token ${token}`,
             },
         };
-        
+
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
