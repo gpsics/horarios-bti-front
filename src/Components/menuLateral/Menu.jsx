@@ -12,10 +12,12 @@ const Nav = styled.div`
   border-radius: 0px 40px 40px 0px;
   height: 80px;
   width: 100px;
-  display: ${({ $menu }) => ($menu ? 'none' : 'flex')};
+  display: ${({ menu }) => (menu ? 'none' : 'flex')};
   justify-content: flex-start;
   align-items: center;
+  ${({ menu }) => menu ? 'display: none;' : ''}
 `;
+
 
 const NavIcon = styled(Link)`
   margin-left: 1.5rem;
@@ -32,7 +34,7 @@ const MenuNav = styled.nav`
   min-height: 97%;
   position: relative; 
   top: 0;
-  left: ${({ menu }) => (menu ? '0' : '-100%')};
+  ${({ menu }) => menu ? 'left: 0;' : 'left: -100%;'}
   // transition: 150ms;
   z-index: 10;
 `;
@@ -44,15 +46,17 @@ const MenuWrap = styled.div`
 const Menu = () => {
   const [menu, setMenu] = useState(false);
   const showMenu = () => setMenu(!menu);
+  console.log("menu prop:", menu);
+
   return (
     <React.Fragment>
       <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav $menu={menu}>
+        <Nav menu={menu ? true : undefined}>
           <NavIcon to='#'>
             <FaIcons.FaBars onClick={showMenu} />
           </NavIcon>
         </Nav>
-        <MenuNav menu={menu}>
+        <MenuNav menu={menu? true : undefined}>
           <MenuWrap>
             <NavIcon to='#'>
               <AiIcons.AiOutlineClose onClick={showMenu} />

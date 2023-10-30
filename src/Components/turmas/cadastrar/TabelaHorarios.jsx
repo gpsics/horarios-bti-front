@@ -60,47 +60,46 @@ const TabelaHorarios = () => {
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
-    const newArray = []; 
+    console.log(`Codigo do componente: ${codComp} | Numero da turma: ${numTurma} | Numero de vagas: ${numVagas}`)
+    
 
-    const requisitarComponente = useCallback(async () => {
-        // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
-
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${codComp.toUpperCase()}`;
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        };
-
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const componentesData = await response.json();
-                setNumSemestre(componentesData.num_semestre);
-                const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
-                setMaxCheckeds(maxCheckeds);
-
-            } else {
-                console.log('Erro ao listar componentes.')
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
+    const verificarHorario = useCallback((newArray) => {
+        console.log('Funcao verificar Horario foi chamada com sucesso!')
+        setIguais([]);
+        // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some()
+        if (horariosOcupados.size > 0) {
+            const horariosIguais = newArray.filter((element) =>
+                Array.from(horariosOcupados.keys()).some(
+                    (chave) =>
+                        parseInt(chave.charAt(0)) === element.dia &&
+                        chave.charAt(1) === element.turno &&
+                        parseInt(chave.charAt(2)) === element.hora
+                )
+            );
+            setIguais(horariosIguais);
+            console.log(`Os horarios iguais agora sao: ${horariosIguais}`)
+        } else {
+            setIguais([]);
         }
+    }, [horariosOcupados]);
+    
+    
+    const handleHorarioSelecionado = (event) => {
+        event.preventDefault();
+        // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
+        const horarioSelecionado = event.target.value;
 
-    }, [codComp])
-    const calcularMaxCheckeds = (cargaHoraria) => {
-        if (cargaHoraria <= 90) {
-            return Math.ceil(cargaHoraria / 15);
+        if (horariosMarcados.includes(horarioSelecionado)) {
+            // Se o objeto já estiver marcado, remova-o dos horários marcados
+            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
+        } else {
+            // Se o objeto não estiver marcado, adicione-o aos horários marcados
+            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
         }
-        return 6; // Valor máximo
     };
 
-    useEffect(() => {
-        requisitarComponente();
-    }, [codComp]);
     const letHorariosTurmas = useCallback(async () => {
+        console.log('Funcao ler horarios turmas foi chamada!')
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
         const requestOptions = {
@@ -113,10 +112,12 @@ const TabelaHorarios = () => {
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
+                console.log('Requisição ler horarios turmas deu certo!')
                 const componentesData = await response.json();
                 setHorarioInformado(componentesData.horario)
 
                 // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
+
                 horarioInformado.forEach((horarioss) => {
                     const horarios = horarioss.split(' ')
                     horarios.forEach((horario) => {
@@ -136,6 +137,7 @@ const TabelaHorarios = () => {
                                         newHorarios.set(chave, {
                                             dia, turno, hora
                                         });
+                                        console.log(`Return ${newHorarios}`)
                                         return newHorarios;
                                     });
 
@@ -147,67 +149,64 @@ const TabelaHorarios = () => {
                     })
 
                 })
+                console.log(`Estou passando o ${arrayTable} como parametro para a funcao Verificar Horario!`)
+                verificarHorario(arrayTable);
             } else {
                 console.log('Erro ao listar componentes.')
             }
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [numSemestre])
+    }, [numSemestre, horarioInformado, verificarHorario]); // Adicione 'horarioInformado' e 'verificarHorario' como dependências
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            if (numSemestre) {
-                letHorariosTurmas();
-            }
-        }, 2000);
-        return () => clearTimeout(timeoutId);
-    }, [numSemestre]);
 
-    const handleHorarioSelecionado = (event) => {
-        event.preventDefault();
-        // Nesta função, vai pegar os horários que foram selecionados la nos checkbox da tabela e vai passa-los para um array.
-        const horarioSelecionado = event.target.value;
 
-        if (horariosMarcados.includes(horarioSelecionado)) {
-            // Se o objeto já estiver marcado, remova-o dos horários marcados
-            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
-        } else {
-            // Se o objeto não estiver marcado, adicione-o aos horários marcados
-            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
+    const calcularMaxCheckeds = (cargaHoraria) => {
+        console.log('Funcao Calcular Max checkeds foi chamada com sucesso!')
+        if (cargaHoraria <= 90) {
+            return Math.ceil(cargaHoraria / 15);
         }
+        return 6; // Valor máximo
     };
-    const verificarHorarios = useCallback(() => {
-        setIguais([])
-        // Nesta função, ira acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do metodo .some()
-        if (horariosOcupados.size > 0) {
-            const horariosIguais = newArray.filter((element) =>
-                Array.from(horariosOcupados.keys()).some(
-                    (chave) =>
-                        parseInt(chave.charAt(0)) === element.dia &&
-                        chave.charAt(1) === element.turno &&
-                        parseInt(chave.charAt(2)) === element.hora
-                )
-            );
-            setIguais(horariosIguais);
-        } else {
-            setIguais([])
+
+    const requisitarComponente = useCallback(async () => {
+        // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
+
+        const token = localStorage.getItem('token');
+        const url = `http://127.0.0.1:8000/componentes/${codComp.toUpperCase()}`;
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        };
+        
+        try {
+            const response = await fetch(url, requestOptions);
+            if (response.ok) {
+                const componentesData = await response.json();
+                setNumSemestre(componentesData.num_semestre);
+                const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
+                setMaxCheckeds(maxCheckeds);
+                letHorariosTurmas()
+
+            } else {
+                console.log('Erro ao listar componentes.')
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
         }
-    }, [newArray])
+
+    }, [codComp, letHorariosTurmas]);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            // Se tiver algum horário em horáriosOcupados, passa os valores para a função verificarHorários
-            if(horariosOcupados.size > 0){
-                const newArray = Array.from(horariosOcupados.values());
-                verificarHorarios(newArray)
-            }
-        }, 3000)
-        return () => clearTimeout(timeoutId);
-    }, [verificarHorarios, horariosOcupados])
+        requisitarComponente();
+    }, [requisitarComponente]);
+
+
     return (
         <>
-            <Header/>
+            <Header />
             <table className="padraoTabelas">
                 <thead>
                     <tr>
