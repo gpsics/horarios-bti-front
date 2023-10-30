@@ -6,7 +6,7 @@ const BuscarDocente = () => {
     const [docentes, setDocentes] = useState([]);
     const [docentesBusca, setDocentesBusca] = useState([]);
     const [docenteSelecionado, setDocenteSelecionado] = useState([]);
-    const { docentesSelecionados, setDocentesSelecionados } = useDocentes();
+    const { docentesSelecionados, setDocentesSelecionados, setProfessorSelecionado } = useDocentes();
 
     useEffect(() => {
         fetchDocente();
@@ -50,8 +50,9 @@ const BuscarDocente = () => {
 
     const docente = (item) => {
         if (!docentesSelecionados.includes(item)) {
-            // O docente não está selecionado, então o adicionamos
-            setDocenteSelecionado([...docenteSelecionado, item])
+            // Define o professor selecionado no contexto
+            setProfessorSelecionado(item);
+            setDocenteSelecionado([...docenteSelecionado, item]);
             setDocentesSelecionados([...docentesSelecionados, item]);
         }
     };
@@ -69,7 +70,7 @@ const BuscarDocente = () => {
             <section className='buscarDocente'>
                 <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
                 <div >
-                    
+
                     {docentesBusca.length > 0 ? (
                         <ul className="listDocentes" >
                             {docentesBusca.map((item, index) => (
