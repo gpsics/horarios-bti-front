@@ -100,7 +100,6 @@ const TabelaHorarios = () => {
     };
 
     const letHorariosTurmas = useCallback(async (numSemestre) => {
-        console.log('Funcao ler horarios turmas foi chamada!')
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
         console.log('Numero semestre recebido: ' + numSemestre)
@@ -114,55 +113,56 @@ const TabelaHorarios = () => {
         try {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
-                console.log('Requisição ler horarios turmas deu certo!')
                 const componentesData = await response.json();
+                console.log('Horarios Informados: ' + componentesData.horario)
                 setHorarioInformado(componentesData.horario)
 
                 // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
+                if (horarioInformado) {
+                    console.log('Horarios Informados 2: ' + horarioInformado)
+                    horarioInformado.forEach((horarioss) => {
+                        const horarios = horarioss.split(' ')
+                        horarios.forEach((horario) => {
 
-                horarioInformado.forEach((horarioss) => {
-                    const horarios = horarioss.split(' ')
-                    horarios.forEach((horario) => {
+                            const match = horario.match(/^(\d+)([MTN])(\d+)$/);
 
-                        const match = horario.match(/^(\d+)([MTN])(\d+)$/);
+                            if (match) {
+                                const diaSemana = match[1].split('').map((dia) => parseInt(dia));
+                                const turno = match[2];
+                                const horario = match[3].split('').map((hora) => parseInt(hora));
 
-                        if (match) {
-                            const diaSemana = match[1].split('').map((dia) => parseInt(dia));
-                            const turno = match[2];
-                            const horario = match[3].split('').map((hora) => parseInt(hora));
-
-                            diaSemana.forEach((dia) => {
-                                horario.forEach((hora) => {
-                                    const chave = `${dia}${turno}${hora}`;
-                                    setHorariosOcupados((prevHorarios) => {
-                                        const newHorarios = new Map(prevHorarios);
-                                        newHorarios.set(chave, {
-                                            dia, turno, hora
+                                diaSemana.forEach((dia) => {
+                                    horario.forEach((hora) => {
+                                        const chave = `${dia}${turno}${hora}`;
+                                        setHorariosOcupados((prevHorarios) => {
+                                            const newHorarios = new Map(prevHorarios);
+                                            newHorarios.set(chave, {
+                                                dia, turno, hora
+                                            });
+                                            return newHorarios;
                                         });
-                                        return newHorarios;
+
                                     });
-
                                 });
-                            });
-                        } else {
-                            setHorariosOcupados(new Map());
-                        }
+                            } else {
+                                setHorariosOcupados(new Map());
+                            }
+                        })
                     })
-
-                })
-
-                verificarHorario();
+                    verificarHorario();
+                } else {
+                    console.log('Nao tem horario informado!')
+                }
             } else {
                 console.log('Erro ao listar componentes.')
             }
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [ horarioInformado, verificarHorario]); 
+    }, [horarioInformado, verificarHorario]);
 
 
     const calcularMaxCheckeds = (cargaHoraria) => {
-        console.log('Funcao Calcular Max checkeds foi chamada com sucesso!')
         if (cargaHoraria <= 90) {
             return Math.ceil(cargaHoraria / 15);
         }
