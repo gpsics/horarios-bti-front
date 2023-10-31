@@ -65,13 +65,13 @@ const TabelaHorarios = () => {
     console.log(`Codigo do componente: ${codComp} | Numero da turma: ${numTurma} | Numero de vagas: ${numVagas}`)
 
 
-    const verificarHorario = useCallback(() => {
-        console.log('Funcao verificar Horario foi chamada com sucesso!')
+    const verificarHorario = useCallback((horariosSet) => {
+        console.log('Funcao verificar Horario foi chamada com sucesso!');
         setIguais([]);
-        // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some()
+        // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
         if (horariosOcupados.size > 0) {
             const horariosIguais = arrayTable.filter((element) =>
-                Array.from(horariosOcupados.keys()).some(
+                Array.from(horariosSet).some(
                     (chave) =>
                         parseInt(chave.charAt(0)) === element.dia &&
                         chave.charAt(1) === element.turno &&
@@ -84,6 +84,7 @@ const TabelaHorarios = () => {
             setIguais([]);
         }
     }, [horariosOcupados]);
+
 
     const handleHorarioSelecionado = (event) => {
         event.preventDefault();
@@ -99,7 +100,7 @@ const TabelaHorarios = () => {
         }
     };
 
-    const letHorariosTurmas = useCallback(async (numSemestre) => {
+    const lerHorariosTurmas = useCallback(async (numSemestre) => {
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
         console.log('Numero semestre recebido: ' + numSemestre)
@@ -112,25 +113,24 @@ const TabelaHorarios = () => {
 
         try {
             const response = await fetch(url, requestOptions);
+            // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
             if (response.ok) {
                 const componentesData = await response.json();
                 console.log('Horarios Informados: ' + componentesData.horario)
                 setHorarioInformado(componentesData.horario)
 
-                // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
                 if (horarioInformado) {
-                    console.log('Horarios Informados 2: ' + horarioInformado)
+                    console.log('Horarios Informados 2: ' + horarioInformado);
+                    const horariosSet = new Set();
+
                     horarioInformado.forEach((horarioss) => {
-                        const horarios = horarioss.split(' ')
+                        const horarios = horarioss.split(' ');
                         horarios.forEach((horario) => {
-
                             const match = horario.match(/^(\d+)([MTN])(\d+)$/);
-
                             if (match) {
                                 const diaSemana = match[1].split('').map((dia) => parseInt(dia));
                                 const turno = match[2];
                                 const horario = match[3].split('').map((hora) => parseInt(hora));
-
                                 diaSemana.forEach((dia) => {
                                     horario.forEach((hora) => {
                                         const chave = `${dia}${turno}${hora}`;
@@ -141,15 +141,16 @@ const TabelaHorarios = () => {
                                             });
                                             return newHorarios;
                                         });
-
+                                        horariosSet.add(chave);
                                     });
                                 });
                             } else {
                                 setHorariosOcupados(new Map());
                             }
-                        })
+                        });
                     })
-                    verificarHorario();
+                    verificarHorario(horariosSet);
+                    console.log('Horários Salvos:', Array.from(horariosSet));
                 } else {
                     console.log('Nao tem horario informado!')
                 }
@@ -163,6 +164,7 @@ const TabelaHorarios = () => {
 
 
     const calcularMaxCheckeds = (cargaHoraria) => {
+        // Essa funcao vai retornar o maximo de checkbox que podem ser marcados na tabela de acordo com a carga horária do componente.
         if (cargaHoraria <= 90) {
             return Math.ceil(cargaHoraria / 15);
         }
@@ -189,7 +191,7 @@ const TabelaHorarios = () => {
 
                 const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
                 setMaxCheckeds(maxCheckeds);
-                letHorariosTurmas(novoNumSemestre)
+                lerHorariosTurmas(novoNumSemestre)
 
             } else {
                 console.log('Erro ao listar componentes.')
@@ -198,7 +200,7 @@ const TabelaHorarios = () => {
             console.error('An error occurred:', error);
         }
 
-    }, [codComp, letHorariosTurmas]);
+    }, [codComp, lerHorariosTurmas]);
 
     useEffect(() => {
         requisitarComponente();
