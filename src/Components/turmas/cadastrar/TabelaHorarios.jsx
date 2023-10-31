@@ -50,7 +50,7 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 
 const TabelaHorarios = () => {
 
-    const [horariosOcupados, setHorariosOcupados] = useState(new Map());
+    // const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [iguais, setIguais] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
@@ -67,23 +67,23 @@ const TabelaHorarios = () => {
 
     const verificarHorario = useCallback((horariosSet) => {
         console.log('Funcao verificar Horario foi chamada com sucesso!');
+        console.log(`Horarios recebidos na funcao ${horariosSet}`)
+        console.log(`elementos n`)
         setIguais([]);
         // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
-        if (horariosOcupados.size > 0) {
-            const horariosIguais = arrayTable.filter((element) =>
-                Array.from(horariosSet).some(
-                    (chave) =>
-                        parseInt(chave.charAt(0)) === element.dia &&
-                        chave.charAt(1) === element.turno &&
-                        parseInt(chave.charAt(2)) === element.hora
-                )
-            );
-            setIguais(horariosIguais);
-            console.log(`Os horarios iguais agora são: ${JSON.stringify(horariosIguais)}`);
-        } else {
-            setIguais([]);
-        }
-    }, [horariosOcupados]);
+
+        const horariosIguais = arrayTable.filter((element) =>
+            Array.from(horariosSet).some(
+                (chave) =>
+                    parseInt(chave.charAt(0)) === element.dia &&
+                    chave.charAt(1) === element.turno &&
+                    parseInt(chave.charAt(2)) === element.hora
+            )
+        );
+        setIguais(horariosIguais);
+        console.log(`Os horarios iguais agora são: ${JSON.stringify(horariosIguais)}`);
+
+    }, []);
 
 
     const handleHorarioSelecionado = (event) => {
@@ -116,6 +116,7 @@ const TabelaHorarios = () => {
             // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
             if (response.ok) {
                 const componentesData = await response.json();
+                const horariosSet = new Set();
                 componentesData.forEach((item, index) => {
                     console.log(`Horários do item ${index}: ${item.horario}`);
 
@@ -124,7 +125,6 @@ const TabelaHorarios = () => {
 
                     if (horarioInformado && typeof horarioInformado === 'string') {
                         console.log('Horarios Informados: ' + horarioInformado);
-                        const horariosSet = new Set();
 
                         horarioInformado.split(' ').forEach((horarioss) => {
                             const horarios = horarioss.split(' ');
@@ -137,27 +137,29 @@ const TabelaHorarios = () => {
                                     diaSemana.forEach((dia) => {
                                         horario.forEach((hora) => {
                                             const chave = `${dia}${turno}${hora}`;
-                                            setHorariosOcupados((prevHorarios) => {
-                                                const newHorarios = new Map(prevHorarios);
-                                                newHorarios.set(chave, {
-                                                    dia, turno, hora
-                                                });
-                                                return newHorarios;
-                                            });
+                                            // setHorariosOcupados((prevHorarios) => {
+                                            //     const newHorarios = new Map(prevHorarios);
+                                            //     newHorarios.set(chave, {
+                                            //         dia, turno, hora
+                                            //     });
+                                            //     return newHorarios;
+                                            // });
                                             horariosSet.add(chave);
                                         });
                                     });
                                 } else {
-                                    setHorariosOcupados(new Map());
+                                    console.log('Nao tem match nos horarios!')
                                 }
                             });
                         })
-                        verificarHorario(horariosSet);
-                        console.log('Horários Salvos:', Array.from(horariosSet));
                     } else {
                         console.log('Nao tem horario informado!')
                     }
                 });
+                if (horariosSet.size > 0) {
+                    verificarHorario(horariosSet);
+                    console.log('Horários Salvos:', Array.from(horariosSet));
+                }
             } else {
                 console.log('Erro ao listar componentes.')
             }
