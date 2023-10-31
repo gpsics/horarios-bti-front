@@ -122,11 +122,11 @@ const TabelaHorarios = () => {
                     // continuar a processar os horários contidos em item.horario
                     const horarioInformado = item.horario;
 
-                    if (horarioInformado) {
+                    if (horarioInformado && typeof horarioInformado === 'string') {
                         console.log('Horarios Informados: ' + horarioInformado);
                         const horariosSet = new Set();
 
-                        horarioInformado.forEach((horarioss) => {
+                        horarioInformado.split(' ').forEach((horarioss) => {
                             const horarios = horarioss.split(' ');
                             horarios.forEach((horario) => {
                                 const match = horario.match(/^(\d+)([MTN])(\d+)$/);
