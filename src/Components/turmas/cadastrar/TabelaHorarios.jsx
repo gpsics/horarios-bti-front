@@ -49,7 +49,7 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 }
 
 const TabelaHorarios = () => {
-    const [horarioInformado, setHorarioInformado] = useState([]);
+
     const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [iguais, setIguais] = useState([])
@@ -116,51 +116,55 @@ const TabelaHorarios = () => {
             // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
             if (response.ok) {
                 const componentesData = await response.json();
-                console.log('Horarios Informados: ' + componentesData.horario)
-                setHorarioInformado(componentesData.horario)
+                componentesData.forEach((item, index) => {
+                    console.log(`Horários do item ${index}: ${item.horario}`);
 
-                if (horarioInformado) {
-                    console.log('Horarios Informados 2: ' + horarioInformado);
-                    const horariosSet = new Set();
+                    // continuar a processar os horários contidos em item.horario
+                    const horarioInformado = item.horario;
 
-                    horarioInformado.forEach((horarioss) => {
-                        const horarios = horarioss.split(' ');
-                        horarios.forEach((horario) => {
-                            const match = horario.match(/^(\d+)([MTN])(\d+)$/);
-                            if (match) {
-                                const diaSemana = match[1].split('').map((dia) => parseInt(dia));
-                                const turno = match[2];
-                                const horario = match[3].split('').map((hora) => parseInt(hora));
-                                diaSemana.forEach((dia) => {
-                                    horario.forEach((hora) => {
-                                        const chave = `${dia}${turno}${hora}`;
-                                        setHorariosOcupados((prevHorarios) => {
-                                            const newHorarios = new Map(prevHorarios);
-                                            newHorarios.set(chave, {
-                                                dia, turno, hora
+                    if (horarioInformado) {
+                        console.log('Horarios Informados: ' + horarioInformado);
+                        const horariosSet = new Set();
+
+                        horarioInformado.forEach((horarioss) => {
+                            const horarios = horarioss.split(' ');
+                            horarios.forEach((horario) => {
+                                const match = horario.match(/^(\d+)([MTN])(\d+)$/);
+                                if (match) {
+                                    const diaSemana = match[1].split('').map((dia) => parseInt(dia));
+                                    const turno = match[2];
+                                    const horario = match[3].split('').map((hora) => parseInt(hora));
+                                    diaSemana.forEach((dia) => {
+                                        horario.forEach((hora) => {
+                                            const chave = `${dia}${turno}${hora}`;
+                                            setHorariosOcupados((prevHorarios) => {
+                                                const newHorarios = new Map(prevHorarios);
+                                                newHorarios.set(chave, {
+                                                    dia, turno, hora
+                                                });
+                                                return newHorarios;
                                             });
-                                            return newHorarios;
+                                            horariosSet.add(chave);
                                         });
-                                        horariosSet.add(chave);
                                     });
-                                });
-                            } else {
-                                setHorariosOcupados(new Map());
-                            }
-                        });
-                    })
-                    verificarHorario(horariosSet);
-                    console.log('Horários Salvos:', Array.from(horariosSet));
-                } else {
-                    console.log('Nao tem horario informado!')
-                }
+                                } else {
+                                    setHorariosOcupados(new Map());
+                                }
+                            });
+                        })
+                        verificarHorario(horariosSet);
+                        console.log('Horários Salvos:', Array.from(horariosSet));
+                    } else {
+                        console.log('Nao tem horario informado!')
+                    }
+                });
             } else {
                 console.log('Erro ao listar componentes.')
             }
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [horarioInformado, verificarHorario]);
+    }, [verificarHorario]);
 
 
     const calcularMaxCheckeds = (cargaHoraria) => {
@@ -204,7 +208,8 @@ const TabelaHorarios = () => {
 
     useEffect(() => {
         requisitarComponente();
-    }, [requisitarComponente]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
 
     return (
