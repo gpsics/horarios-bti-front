@@ -207,8 +207,6 @@ const HorarioTable = () => {
             <h2>Informe o Código</h2>
             
             <button onClick={() => { enviarHorarios() }}>Enviar</button> 
-
-
             <input
                 type="text"
                 placeholder="Codigo"

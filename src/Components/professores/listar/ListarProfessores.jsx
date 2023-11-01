@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 
-// { profEdit }
 const ListarProfessores = () => {
     const [erro, setErro] = useState('')
     const [professors, setProfessors] = useState([]);

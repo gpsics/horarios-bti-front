@@ -6,7 +6,7 @@ const Error = {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text:`Falha ao realizar esta operação devido ${motivo}!`,
+            text:`${motivo}!`,
         })
     }
 }
