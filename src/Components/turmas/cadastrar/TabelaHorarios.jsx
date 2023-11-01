@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useDocentes } from './DocentesContext';
 import Header from '../../header/Header';
@@ -49,8 +49,6 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 }
 
 const TabelaHorarios = () => {
-
-    // const [horariosOcupados, setHorariosOcupados] = useState(new Map());
     const [horariosMarcados, setHorariosMarcados] = useState([])
     const [iguais, setIguais] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
@@ -65,9 +63,9 @@ const TabelaHorarios = () => {
     console.log(`Codigo do componente: ${codComp} | Numero da turma: ${numTurma} | Numero de vagas: ${numVagas}`)
 
 
-    const verificarHorario = useCallback((horariosSet) => {
+    const verificarHorario = (horariosSet) => {
         console.log('Funcao verificar Horario foi chamada com sucesso!');
-        console.log(`Horarios recebidos na funcao ${horariosSet}`)
+        console.log(`Horarios recebidos na funcao ${Array.from(horariosSet)}`)
         console.log(`elementos n`)
         setIguais([]);
         // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
@@ -83,7 +81,7 @@ const TabelaHorarios = () => {
         setIguais(horariosIguais);
         console.log(`Os horarios iguais agora são: ${JSON.stringify(horariosIguais)}`);
 
-    }, []);
+    };
 
 
     const handleHorarioSelecionado = (event) => {
@@ -100,7 +98,7 @@ const TabelaHorarios = () => {
         }
     };
 
-    const lerHorariosTurmas = useCallback(async (numSemestre) => {
+    const lerHorariosTurmas = async (numSemestre) => {
         const token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
         console.log('Numero semestre recebido: ' + numSemestre)
@@ -137,13 +135,7 @@ const TabelaHorarios = () => {
                                     diaSemana.forEach((dia) => {
                                         horario.forEach((hora) => {
                                             const chave = `${dia}${turno}${hora}`;
-                                            // setHorariosOcupados((prevHorarios) => {
-                                            //     const newHorarios = new Map(prevHorarios);
-                                            //     newHorarios.set(chave, {
-                                            //         dia, turno, hora
-                                            //     });
-                                            //     return newHorarios;
-                                            // });
+
                                             horariosSet.add(chave);
                                         });
                                     });
@@ -166,7 +158,7 @@ const TabelaHorarios = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [verificarHorario]);
+    };
 
 
     const calcularMaxCheckeds = (cargaHoraria) => {
@@ -177,7 +169,8 @@ const TabelaHorarios = () => {
         return 6; // Valor máximo
     };
 
-    const requisitarComponente = useCallback(async () => {
+    const requisitarComponente = async () => {
+        // eslint-disable-next-line
         // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
 
         const token = localStorage.getItem('token');
@@ -197,6 +190,7 @@ const TabelaHorarios = () => {
 
                 const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
                 setMaxCheckeds(maxCheckeds);
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 lerHorariosTurmas(novoNumSemestre)
 
             } else {
@@ -206,7 +200,7 @@ const TabelaHorarios = () => {
             console.error('An error occurred:', error);
         }
 
-    }, [codComp, lerHorariosTurmas]);
+    };
 
     useEffect(() => {
         requisitarComponente();
