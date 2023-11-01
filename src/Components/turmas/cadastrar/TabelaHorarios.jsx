@@ -55,6 +55,7 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 
 const TabelaHorarios = () => {
     const [horariosMarcados, setHorariosMarcados] = useState([])
+    const [componente, setComponente] = useState([])
     const [iguais, setIguais] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
@@ -63,7 +64,8 @@ const TabelaHorarios = () => {
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
-    const { professorSelecionado } = useDocentes();
+    const { docentesSelecionados } = useDocentes()
+    console.log(`Os docentes selecionados foram ${docentesSelecionados}`)
     
     const navigate = useNavigate();
     const cancelar = () => {
@@ -99,11 +101,11 @@ const TabelaHorarios = () => {
                         Authorization: `Token ${token}`,
                     },
                     body: JSON.stringify({ 
-                        cod_componente: codComp,
+                        cod_componente: componente,
                         num_turma: numTurma,
                         horario: horariosMarcados.join(' '),
                         num_vagas: numVagas,
-                        professor: professorSelecionado
+                        professor: docentesSelecionados
                     }),
                 };
                 try {
@@ -230,6 +232,7 @@ const TabelaHorarios = () => {
             const response = await fetch(url, requestOptions);
             if (response.ok) {
                 const componentesData = await response.json();
+                setComponente(componentesData)
                 const novoNumSemestre = componentesData.num_semestre;
 
                 const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);

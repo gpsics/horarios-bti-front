@@ -1,5 +1,4 @@
-// DocentesContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 
 const DocentesContext = createContext();
 
@@ -9,10 +8,14 @@ export function useDocentes() {
 
 export function DocentesProvider({ children }) {
   const [docentesSelecionados, setDocentesSelecionados] = useState([]);
-  const [professorSelecionado, setProfessorSelecionado] = useState(null);
+
+  const contextValue = useMemo(() => ({
+    docentesSelecionados,
+    setDocentesSelecionados,
+  }), [docentesSelecionados]);
 
   return (
-    <DocentesContext.Provider value={{ docentesSelecionados, setDocentesSelecionados, professorSelecionado, setProfessorSelecionado }}>
+    <DocentesContext.Provider value={contextValue}>
       {children}
     </DocentesContext.Provider>
   );
