@@ -36,6 +36,7 @@ const authReducer = (state, action) => {
                 `You passed an action.type: ${action.type} which doesn't exist`
             );
     }
+    
 };
 
 // Initial state for the authentication context
@@ -47,7 +48,7 @@ const initialData = {
 const AuthProvider = ({ children }) => {
     // Use reducer to manage the authentication state
     const [state, dispatch] = useReducer(authReducer, initialData);
-
+    
     // Function to set the authentication token
     const setToken = (newToken) => {
         // Dispatch the setToken action to update the state
@@ -70,6 +71,7 @@ const AuthProvider = ({ children }) => {
         [state]
     );
 
+    console.log(`Context state: ${state}`)
     // Provide the authentication context to the children components
     return (
         <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

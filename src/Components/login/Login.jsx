@@ -26,7 +26,9 @@ const Login = () => {
             const response = await axios.post('http://127.0.0.1:8000/api/token', data);
 
             if (response.status === 200) {
-                const token = response.data.token;
+                const token = response.data.access;
+                console.log(`O token por data.access: ${token}`)
+                console.log(`O token por data: ${response.data}`)
 
                 // Use a função setToken do contexto de autenticação para definir o token
                 setToken(token);

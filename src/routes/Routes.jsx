@@ -1,5 +1,7 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "../provider/authProvider";
+import React from "react";
+import { Router, Route, Routes } from "react-router-dom"; // Corrigi as importações
+
+import AuthProvider from "./provider/authProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Pilot from "../Components/pilot/Pilot";
 import Login from "../Components/login/Login";
@@ -21,65 +23,48 @@ import Dados from "../Components/componentes/dados/Dados";
 import EditarComponente from "../Components/componentes/editar/EditarComponente";
 
 const Routes = () => {
-    const { token } = useAuth();
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Pilot />} />
+          <Route path="/Login" element={<Login />} />
 
-    // Rotas acessiveis a todos os usuários
-    const routesForPublic = [
-        { path: "/", element: <Pilot />, },
-        { path: "*", element: <Pilot />, },
-        { path: "/Login", element: <Login />, },
-    ];
+          {/* Rotas acessíveis a todos os usuários */}
+          <Route path="*" element={<Pilot />} />
 
-    // Rotas acessiveis apenas para usuários autenticados
+          {/* Rotas acessíveis apenas para usuários autenticados */}
+          <Route
+            path="/"
+            element={<ProtectedRoute />}
+          >
+            <Route path="Home" element={<Home />} />
 
-    const routesForAuthenticatedOnly = [
-        {
-            path: "/",
-            element: <ProtectedRoute />,
-            children: [
-                { path: "Home", element: <Home />, },
+            {/* Rotas para professor */}
+            <Route path="professores/cadastrarProfessor" element={<CadastrarProfessor />} />
+            <Route path="professores/editarProfessor/:idProf" element={<EditarProfessor />} />
+            <Route path="professores/listarProfessores" element={<ListarProfessores />} />
 
-                // Rotas para professor 
-                { path: "professores/cadastrarProfessor", element: <CadastrarProfessor />, },
-                { path: "professores/editarProfessor/:idProf", element: <EditarProfessor />, },
-                { path: "professores/listarProfessores", element: <ListarProfessores />, },
+            {/* Rotas para turmas */}
+            <Route path="turmas/cadastrarTurma" element={<CadastrarTurma />} />
+            <Route path="turmas/cadastrarTurma/horarios/:codComp/:numTurma/:numVagas" element={<TabelaHorarios />} />
+            <Route path="turmas/listarTurmas" element={<ListarTurmas />} />
+            <Route path="turmas/listarTurmas/semestre" element={<ListarTurmasSemestre />} />
+            <Route path="turmas/listarTurmas/professor" element={<ListarTurmasProfessor />} />
+            <Route path="turmas/listarTurmas/componente" element={<ListarTurmasComponente />} />
+            <Route path="turmas/listarTurmas/conflito" element={<ListarTurmasConflito />} />
+            <Route path="turmas/verDadosTurma/:idTurma" element={<DadosTurma />} />
 
-
-                // Rotas para turmas
-                { path: "turmas/cadastrarTurma", element: <CadastrarTurma />, },
-                { path: "turmas/cadastrarTurma/horarios/:codComp/:numTurma/:numVagas", element: <TabelaHorarios />, },
-                { path: "turmas/listarTurmas", element: <ListarTurmas /> },
-                { path: "turmas/listarTurmas/semestre", element: <ListarTurmasSemestre />, },
-                { path: "turmas/listarTurmas/professor", element: <ListarTurmasProfessor />, },
-                { path: "turmas/listarTurmas/componente", element: <ListarTurmasComponente />, },
-                { path: "turmas/listarTurmas/conflito", element: <ListarTurmasConflito />, },
-                { path: "turmas/verDadosTurma/:idTurma", element: <DadosTurma />, },
-
-                // Rotas para componente curricular
-                { path: "componentes/cadastrarComponente", element: <CadComp />, },
-                { path: "/componentes/listarComponentes", element: <ListarComponentes />, },
-                { path: "/componentes/verDadosComponente/:idComp", element: <Dados />, },
-                { path: "/componentes/editarComponente/:idComp", element: <EditarComponente />, },
-            ]
-        }
-    ];
-
-    // Rotas acessiveis para usuários não autenticados
-
-    const routesForNotAuthenticatedOnly = [
-        { path: "/", element: <Pilot />, },
-        { path: "*", element: <Pilot />, },
-        { path: "/Login", element: <Login />, },
-    ]
-
-    // combinar condições de rotas com base nos status de autenticação
-    const router = createBrowserRouter([
-        ...routesForPublic,
-        ...(!token ? routesForNotAuthenticatedOnly : []),
-        ...routesForAuthenticatedOnly,
-    ]);
-
-    return <RouterProvider router={router} />;
-}
+            {/* Rotas para componente curricular */}
+            <Route path="componentes/cadastrarComponente" element={<CadComp />} />
+            <Route path="componentes/listarComponentes" element={<ListarComponentes />} />
+            <Route path="componentes/verDadosComponente/:idComp" element={<Dados />} />
+            <Route path="componentes/editarComponente/:idComp" element={<EditarComponente />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default Routes;
