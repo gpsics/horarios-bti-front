@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import './ListarTurmas.css'
+import Error from '../../alerts/Error';
 
-// { turmaEdit, turVerDados }
+
 const ListarTurmas = () => {
     const [erro, setErro] = useState('')
     const [turmas, setTurmas] = useState([]);
@@ -36,7 +37,7 @@ const ListarTurmas = () => {
                         setTurmas(prevTurmas => prevTurmas.filter(turmaa => turmaa.id !== id));
 
                     } else {
-                        setErro('Erro ao Deletar turma.');
+                        Error.erro('Erro ao Deletar turma.')
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -105,20 +106,6 @@ const ListarTurmas = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* <tr>
-                                        <td className='primeiraColuna'>PEX1234</td>
-                                        <td className='nomeComponente'>ARQUITETURA DE SOFTWARE </td>
-                                        <td className='centralizarTexto'>1</td>
-                                        <td className='centralizarTexto'>23M45 3T23</td>
-                                        <td></td>
-                                        <td className='funcoesIndex'><GrView /></td>
-                                        <td className='funcoesIndex'><MdModeEdit /></td>
-                                        <td className='funcoesIndex'><AiFillDelete /></td>
-
-                                    </tr> */}
-
-
-
                                     {turmas.map((item, index) => (
                                         <tr key={index}>
                                             <td className='primeiraColuna'>{item.cod_componente.codigo}</td>

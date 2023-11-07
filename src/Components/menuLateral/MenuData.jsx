@@ -46,22 +46,22 @@ export const MenuData = [
             },
             {
                 title: 'Listar Turmas por Semestre',
-                path: '/turmas/listarTurmas',
+                path: '/turmas/listarTurmas/semestre',
                 icon: <FaIcons.FaListAlt/>
             },
             {
                 title: 'Listar Turmas por Professor',
-                path: '/turmas/listarTurmas',
+                path: '/turmas/listarTurmas/professor',
                 icon: <FaIcons.FaListAlt/>
             },
             {
                 title: 'Listar Turmas por Componente',
-                path: '/turmas/listarTurmas',
+                path: '/turmas/listarTurmas/componente',
                 icon: <FaIcons.FaListAlt/>
             },
             {
                 title: 'Listar Turmas com Conflito',
-                path: '/turmas/listarTurmas',
+                path: '/turmas/listarTurmas/conflito',
                 icon: <FaIcons.FaListAlt/>
             },
         ]
