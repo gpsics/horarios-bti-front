@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../provider/authProvider';
 import { useNavigate } from "react-router-dom";
 import Header from '../header/Header'
 import Footer from '../footer/Footer'
@@ -10,31 +12,24 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [erro, setErro] = useState('')
     const navigate = useNavigate();
+    const { setToken } = useAuth()
     // Função que estava dando certo a requisição mas não a verificação do token.
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const url = 'http://127.0.0.1:8000/api-token-auth/';
 
-        // Dados de login
         const data = {
             username: username,
             password: password
         };
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        };
-
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const jsonResponse = await response.json();
-                const token = jsonResponse.token;
+            const response = await axios.post('http://127.0.0.1:8000/api/token', data);
 
-                // Armazenar o token no localStorage
-                localStorage.setItem('token', token);
+            if (response.status === 200) {
+                const token = response.data.token;
+
+                // Use a função setToken do contexto de autenticação para definir o token
+                setToken(token);
 
                 // Redirecionar para a página Home
                 navigate("/Home");
@@ -47,7 +42,7 @@ const Login = () => {
             console.error(error);
         }
     }
-    
+
     return (
         <React.Fragment>
             <Header link={'/'} />
