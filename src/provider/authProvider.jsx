@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useMemo, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 
 // Create the authentication context
 const AuthContext = createContext();
@@ -36,7 +36,7 @@ const authReducer = (state, action) => {
                 `You passed an action.type: ${action.type} which doesn't exist`
             );
     }
-    
+
 };
 
 // Initial state for the authentication context
@@ -48,7 +48,7 @@ const initialData = {
 const AuthProvider = ({ children }) => {
     // Use reducer to manage the authentication state
     const [state, dispatch] = useReducer(authReducer, initialData);
-    
+
     // Function to set the authentication token
     const setToken = (newToken) => {
         // Dispatch the setToken action to update the state
@@ -61,6 +61,48 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: ACTIONS.clearToken });
     };
 
+
+    const setTokenCallback = useCallback((newToken) => {
+        // Dispatch the setToken action to update the state
+        dispatch({ type: ACTIONS.setToken, payload: newToken });
+    }, [dispatch]);
+
+    // ...
+
+    const sheduleTokenRefresh = useCallback(() => {
+        // Define refreshToken locally within the useCallback
+        const refreshToken = async () => {
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+                    token: state.token
+                });
+                const newToken = response.data.access;
+                setTokenCallback(newToken);
+                sheduleTokenRefresh();
+            } catch (error) {
+                console.error(`Falha ao conseguir refresh token: ${error}`);
+            }
+        };
+
+        // Clear the previous timer if it exists
+        if (state.tokenRefreshTimer) {
+            clearTimeout(state.tokenRefreshTimer);
+        }
+
+        // Schedule a new timer for refreshing the token 2 minutes before it expires
+        const expirationTime = state.tokenExpiration - Date.now();
+        if (expirationTime > 0) {
+            const timer = setTimeout(refreshToken, expirationTime - 2 * 60 * 1000);
+            dispatch({ type: "setTokenRefreshTimer", payload: timer });
+        }
+    }, [state.token, state.tokenRefreshTimer, state.tokenExpiration, setTokenCallback]);
+    
+    useEffect(() => {
+        // Shedule the initial token refresh
+        if (state.token && state.tokenExpiration) {
+            sheduleTokenRefresh()
+        }
+    }, [state.token, state.tokenExpiration, sheduleTokenRefresh])
     // Memoized value of the authentication context
     const contextValue = useMemo(
         () => ({
