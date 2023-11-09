@@ -9,34 +9,36 @@ import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import './ListarComponente.css'
+import axios from 'axios';
+import Error from '../../alerts/Error';
+import AuthProvider from '../../../provider/authProvider';
 
 const ListarComponentes = () => {
-    const [erro, setErro] = useState('')
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
+    const auth = AuthProvider()
+    
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                setErro('')
-                const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
-                const requestOptions = {
-                    method: 'DELETE',
+                const token = auth.token
+                const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
+                const config = {
                     headers: {
-                        Authorization: `Token ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 };
 
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.delete(url, config);
+                    if (response.status === 204) {
                         Sucess.delete()
                         // Atualizar o estado removendo o componente da lista
                         setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
                         setCompsBusca(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
                     } else {
-                        setErro('Erro ao Deletar Componente.');
+                        Error.erro('Erro ao Deletar Componente.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -46,34 +48,32 @@ const ListarComponentes = () => {
         })
     };
 
+
     useEffect(() => {
-        fetchComponente();
-    }, []);
+        const fetchComponente = async () => {
+            const token = auth.token
+            const url = 'http://127.0.0.1:8000/api/componentes/';
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
 
-    const fetchComponente = async () => {
-        setErro('')
-        const token = localStorage.getItem('token');
-        const url = 'http://127.0.0.1:8000/componentes/';
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
-        };
-
-        try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const componentesData = await response.json();
-                setComponentes(componentesData);
-                setCompsBusca(componentesData)
-            } else {
-                console.log('Erro ao listar componentes.')
+            try {
+                const response = await axios.get(url, config);
+                if (response.status === 200) {
+                    const componentesData = response.data;
+                    setComponentes(componentesData);
+                    setCompsBusca(componentesData)
+                } else {
+                    console.log('Erro ao listar componentes.')
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
             }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
-    };
+        };
+        fetchComponente();
+    }, [auth.token]);
     const editarComponente = (item) => {
         // compEdit(item)
         navigate(`/componentes/editarComponente/${item.codigo} `);
@@ -85,27 +85,26 @@ const ListarComponentes = () => {
     const buscarComponente = ({ target }) => {
         if (!target.value) {
             setCompsBusca(componentes);
-            return;
         } else {
             // Filtragem de todos os componentes seja por nome ou código
             const filterCodigo = compsBusca.filter(({ codigo }) => codigo.toUpperCase().startsWith(target.value.toUpperCase()));
             const filterComps = compsBusca.filter(({ nome_comp }) => nome_comp.toUpperCase().startsWith(target.value.toUpperCase()));
-    
+
             // Concatenar os dois arrays de filtros
             const concatenatedArray = filterComps.concat(filterCodigo);
-    
+
             // Mapear para não ter repetição
             const map = new Map();
             concatenatedArray.forEach(item => {
                 map.set(item.codigo, item);
             });
             const newArray = Array.from(map.values());
-    
+
             // Enviar o newArray sem repetição
             setCompsBusca(newArray);
         }
     };
-    
+
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -130,21 +129,6 @@ const ListarComponentes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* <tr>
-                                        <td className='primeiraColuna'>PEX1234</td>
-                                        <td>Arquitetura de Software</td>
-                                        <td className='espacoColuna'></td>
-                                        <td className='funcoesIndex'>
-                                            <GrView />
-                                        </td>
-                                        <td className='funcoesIndex'>
-                                            <MdModeEdit />
-                                        </td>
-                                        <td className='funcoesIndex'>
-                                            <AiFillDelete />
-                                        </td>
-                                    </tr> */}
-
                                     {compsBusca.map((item) => (
                                         <tr key={item.codigo}>
                                             <td className='primeiraColuna'>{item.codigo}</td>
@@ -163,10 +147,6 @@ const ListarComponentes = () => {
                                     ))}
                                 </tbody>
                             </table>
-                            <div>
-                                {erro && <div className="erroCad">{erro}</div>}
-
-                            </div>
                         </>
                     ) : (
                         <div id='nenhumCOMP'>

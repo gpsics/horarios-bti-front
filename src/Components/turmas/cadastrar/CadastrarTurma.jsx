@@ -12,12 +12,12 @@ const CadastrarTurma = () => {
   const [codigo, setCodigo] = useState('')
   const [numTurma, setNumTurma] = useState('')
   const [numVagas, setNumVagas] = useState('')
- 
+
   const navigate = useNavigate();
 
   const cancelar = () => {
     Confirm.cancel().then(async (result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         navigate('/home')
       }
     })
@@ -25,8 +25,8 @@ const CadastrarTurma = () => {
   const verificarDados = async (e) => {
     e.preventDefault()
     Confirm.cadastrar().then(async (result) => {
-      if(result.isConfirmed){
-        if(codigo === '' || numTurma === '' || numVagas === ''){
+      if (result.isConfirmed) {
+        if (codigo === '' || numTurma === '' || numVagas === '') {
           Error.erro('Preencha todas as informações!')
           return
         }
@@ -42,19 +42,19 @@ const CadastrarTurma = () => {
             Authorization: `Token ${token}`,
           },
         };
-    
+
         try {
           const response = await fetch(url, requestOptions);
           if (response.ok) {
             navigate(`/turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numVagas}`)
-          }else{
+          } else {
             Error.erro('O código informado não existe!')
-    
+
           }
         } catch (error) {
           console.error('An error occurred:', error);
         }
-        
+
       }
     })
   }
@@ -79,8 +79,8 @@ const CadastrarTurma = () => {
             </form>
             <BuscarDocente />
             <div className='botaoCadTur'>
-              <button onClick={cancelar} >Cancelar</button>
-              <button id='selectHor' onClick={verificarDados}>Selecionar Horários</button>
+              <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+              <button id='cad' className="botoesCad" onClick={verificarDados}>Selecionar Horários</button>
             </div>
           </section>
         </section>

@@ -5,6 +5,10 @@ import Menu from '../../menuLateral/Menu'
 import './CadComp.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
+import Error from '../../alerts/Error'
+import { useAuth } from '../../../provider/authProvider'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const CadComp = () => {
     const [codigo, setCodigo] = useState('')
@@ -13,49 +17,58 @@ const CadComp = () => {
     const [selectDP, setSelectDP] = useState();
     const [selectSM, setSelectSM] = useState();
     const [isChecked, setIsChecked] = useState(false);
-    const [erro, setErro] = useState('')
- 
+    const navigate = useNavigate();
+    const auth = useAuth()
 
+    const cancelar = () => {
+        Confirm.cancel().then(async (result) => {
+            if (result.isConfirmed) {
+                navigate('/home')
+            }
+        })
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
         Confirm.cadastrar().then(async (result) => {
-            if(result.isConfirmed){
-                setErro('')
-        
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setErro('Você precisa estar logado para cadastrar um componente.');
-                    return;
+            if (result.isConfirmed) {
+                if (!selectCH || !selectDP || !selectSM || nome === '' || codigo === '') {
+                    Error.erro('Por favor, preencha todos os campos obrigatórios.')
+                    return
                 }
-                const url = 'http://127.0.0.1:8000/componentes/'
-                const requestOptions = {
-                    method: 'POST',
+                if (codigo.length !== 7) {
+                    Error.erro('Código do componente precisa ter 7 caracteres!')
+                    return
+                }
+                const token = auth.token
+                const url = 'http://127.0.0.1:8000/api/componentes/'
+                const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Token ${token}`,
-                    },
-                    body: JSON.stringify({
-                        nome_comp: nome,
-                        codigo: codigo,
-                        num_semestre: selectSM,
-                        carga_horaria: selectCH,
-                        departamento: selectDP,
-                        obrigatorio: isChecked,
-                    }),
-                };
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                const data = {
+                    nome_comp: nome,
+                    codigo: codigo,
+                    num_semestre: selectSM,
+                    carga_horaria: selectCH,
+                    departamento: selectDP,
+                    obrigatorio: isChecked,
+                }
+
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
-                        setNome()
-                        setCodigo()
-                        setIsChecked()
-                        setSelectCH()
-                        setSelectDP()
-                        setSelectSM()
-                        
+                    const response = await axios.post(url, data, config);
+                    if (response.status === 201) {
+                        setNome('')
+                        setCodigo('')
+                        setIsChecked(undefined)
+                        setSelectCH(undefined)
+                        setSelectDP(undefined)
+                        setSelectSM(undefined)
+
                         Sucess.cadastro()
                     } else {
-                        setErro('Erro ao cadastrar Componente.')
+                        Error.erro('Erro ao cadastrar Componente.')
                     }
                 } catch (error) {
                     console.error(error)
@@ -77,12 +90,9 @@ const CadComp = () => {
                             <div className="columnsFather">
                                 <div className="columnSon">
                                     <input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' />
-
                                     <input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' />
-
                                     <label >
-                                        <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)} />
-                                        Obrigatório
+                                        <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>Obrigatório
                                     </label>
                                 </div>
                                 <div className="columnSon">
@@ -113,10 +123,9 @@ const CadComp = () => {
                                 </div>
                             </div>
                             <div className="footerCad">
-                                <div>
-                                    {erro && <div className="erroCad">{erro}</div>}
-                                </div>
-                                <button type='submit' className='botaoCadastrar'>Cadastrar</button>
+                                <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+
+                                <button type='submit' className='botoesCad' id='cad'>Cadastrar</button>
                             </div>
                         </form>
                     </section>

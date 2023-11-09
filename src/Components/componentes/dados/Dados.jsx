@@ -8,33 +8,34 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Dados.css'
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
+import AuthProvider from '../../../provider/authProvider';
+import axios from 'axios';
+import Error from '../../alerts/Error';
 
-// { compEdit, componente }
 const Dados = () => {
     const { idComp } = useParams()
     const [componente, setComponente] = useState([]);
-    const [erro, setErro] = useState('')
     const navigate = useNavigate();
+    const auth = AuthProvider()
+
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                setErro('')
-                const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/componentes/${codigo}/`;
-                const requestOptions = {
-                    method: 'DELETE',
+                const token = auth.token
+                const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
+                const config = {
                     headers: {
-                        Authorization: `Token ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 };
 
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.delete(url, config);
+                    if (response.status === 204) {
                         Sucess.delete()
                         navigate('/componentes/listarComponentes')
                     } else {
-                        setErro('Erro ao Deletar Componente.');
+                        Error.erro('Erro ao Deletar Componente.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -46,20 +47,18 @@ const Dados = () => {
 
 
     const fetchComponente = useCallback(async () => {
-        setErro('');
         const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${idComp}`;
-        const requestOptions = {
-            method: 'GET',
+        const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const componentesData = await response.json();
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const componentesData = response.data
                 setComponente(componentesData);
             } else {
                 console.log('Erro ao listar componentes.');
@@ -67,14 +66,13 @@ const Dados = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [idComp]); // Adicione idComp como dependência
+    }, [idComp]); 
 
     useEffect(() => {
-        fetchComponente(); // Chama a função fetchComponente dentro do useEffect
+        fetchComponente(); 
     }, [fetchComponente]);
 
     const editarComponente = (item) => {
-        // compEdit(item)
         navigate(`/componentes/editarComponente/${item.codigo}`);
     }
 
@@ -114,10 +112,6 @@ const Dados = () => {
                         </ul>
                     </section>
                     <section className='opcoes'>
-                        <div>
-                            {erro && <div className="erroCad">{erro}</div>}
-
-                        </div>
                         <div className='botoes'>
                             <button id='editar' onClick={() => editarComponente(componente)}>
                                 <p>Editar</p>

@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
+import AuthProvider from '../../../provider/authProvider'
+import axios from 'axios'
+import Error from '../../alerts/Error'
 
-// {componente}
 const EditarComponente = () => {
   const { idComp } = useParams();
   const [newName, setNewName] = useState('');
@@ -15,42 +17,45 @@ const EditarComponente = () => {
   const [newCH, setNewCH] = useState('');
   const [newDP, setNewDP] = useState('');
   const [newChecked, setNewChecked] = useState(false);
-  const [erro, setErro] = useState('');
+  const auth = AuthProvider()
+  const navigate = useNavigate()
 
+  const cancelar = () => {
+    Confirm.cancel().then(async (result) => {
+      if (result.isConfirmed) {
+        navigate(-1)
+      }
+    })
+  }
   const updateComponente = async (e) => {
     e.preventDefault();
     Confirm.editar().then(async (result) => {
       if (result.isConfirmed) {
-        setErro('');
-        const token = localStorage.getItem('token');
-        if (!token) {
-          setErro('Você precisa estar logado para editar componente.');
-          return;
-        }
+        const token = auth.token
 
-        const url = `http://127.0.0.1:8000/componentes/${idComp}/`;
-        const requestOptions = {
-          method: 'PUT',
+        const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
+        const config = {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            nome_comp: newName,
-            num_semestre: newSemester,
-            carga_horaria: newCH,
-            departamento: newDP,
-            obrigatorio: newChecked,
-          }),
         };
+        const data = {
+          nome_comp: newName,
+          num_semestre: newSemester,
+          carga_horaria: newCH,
+          departamento: newDP,
+          obrigatorio: newChecked,
+        }
 
         try {
-          const response = await fetch(url, requestOptions);
-          if (response.ok) {
+          const response = await axios.put(url, data, config);
+          if (response.status === 200) {
             Sucess.editado();
+            fetchComponente()
           } else {
-            const data = await response.json();
-            setErro('Erro ao editar componente:', data.detail);
+
+            Error.erro('Erro ao editar componente.');
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -60,21 +65,20 @@ const EditarComponente = () => {
   };
 
   const fetchComponente = useCallback(async () => {
-    setErro('');
+
     const token = localStorage.getItem('token');
-    const url = `http://127.0.0.1:8000/componentes/${idComp}`;
-    const requestOptions = {
-      method: 'GET',
+    const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
+    const config = {
       headers: {
-        Authorization: `Token ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
     try {
-      const response = await fetch(url, requestOptions);
-      if (response.ok) {
-        const componentesData = await response.json();
-        
+      const response = await axios.get(url, config);
+      if (response.status === 200) {
+        const componentesData = response.data
+
         setNewName(componentesData.nome_comp);
         setNewSemester(componentesData.num_semestre);
         setNewCH(componentesData.carga_horaria);
@@ -114,8 +118,7 @@ const EditarComponente = () => {
                     <option value="6">6º Semeste</option>
                   </select>
                   <label >
-                    <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />
-                    Obrigatório
+                    <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />Obrigatório
                   </label>
                 </div>
                 <div className="columnSon edColun">
@@ -139,10 +142,8 @@ const EditarComponente = () => {
                 </div>
               </div>
               <div className="footerCad">
-                <div>
-                  {erro && <div className="erroCad">{erro}</div>}
-                </div>
-                <button type='submit' className='botaoCadastrar'>Cadastrar</button>
+                <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+                <button type='submit' className="botoesCad" id='cad'>Editar</button>
               </div>
             </form>
           </section>
