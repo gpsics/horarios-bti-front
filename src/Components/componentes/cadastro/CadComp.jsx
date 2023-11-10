@@ -19,6 +19,7 @@ const CadComp = () => {
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
     const auth = useAuth()
+    
 
     const cancelar = () => {
         Confirm.cancel().then(async (result) => {
@@ -34,6 +35,9 @@ const CadComp = () => {
                 if (!selectCH || !selectDP || nome === '' || codigo === '') {
                     Error.erro('Por favor, preencha todos os campos obrigatórios.')
                     return
+                }
+                if(isChecked && !selectSM){
+                    Error.erro('Para componentes obrigatórios, deve-se selecionar um semestre!')
                 }
                 if (codigo.length !== 7) {
                     Error.erro('Código do componente precisa ter 7 caracteres!')

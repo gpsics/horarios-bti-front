@@ -11,14 +11,15 @@ import Sucess from '../../alerts/Sucess'
 import './ListarComponente.css'
 import axios from 'axios';
 import Error from '../../alerts/Error';
-import AuthProvider from '../../../provider/authProvider';
+import { useAuth } from '../../../provider/authProvider';
 
 const ListarComponentes = () => {
+    const {token} = useAuth()
+
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
-    const auth = AuthProvider()
-    const token = auth.token;
+    
     
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
