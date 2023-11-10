@@ -31,7 +31,7 @@ const CadComp = () => {
         event.preventDefault();
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                if (!selectCH || !selectDP || !selectSM || nome === '' || codigo === '') {
+                if (!selectCH || !selectDP || nome === '' || codigo === '') {
                     Error.erro('Por favor, preencha todos os campos obrigatórios.')
                     return
                 }

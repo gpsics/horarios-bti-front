@@ -18,11 +18,12 @@ const ListarComponentes = () => {
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
     const auth = AuthProvider()
+    const token = auth.token;
     
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const token = auth.token
+                
                 const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
                 const config = {
                     headers: {
@@ -51,7 +52,6 @@ const ListarComponentes = () => {
 
     useEffect(() => {
         const fetchComponente = async () => {
-            const token = auth.token
             const url = 'http://127.0.0.1:8000/api/componentes/';
             const config = {
                 headers: {
@@ -73,7 +73,7 @@ const ListarComponentes = () => {
             }
         };
         fetchComponente();
-    }, [auth.token]);
+    }, [token]);
     const editarComponente = (item) => {
         // compEdit(item)
         navigate(`/componentes/editarComponente/${item.codigo} `);
