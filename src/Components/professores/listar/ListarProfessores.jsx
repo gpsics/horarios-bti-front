@@ -8,7 +8,7 @@ import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
-import AuthProvider from '../../../provider/authProvider'
+import  { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import Error from '../../alerts/Error'
 
@@ -16,12 +16,11 @@ const ListarProfessores = () => {
     const [professors, setProfessors] = useState([]);
     const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
-    const auth = AuthProvider()
+    const {token} = useAuth()
 
     const removerProfessor = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const token = auth.token
                 const url = `http://127.0.0.1:8000/api/professores/${id}/`;
                 const config = {
                     headers: {
@@ -51,11 +50,11 @@ const ListarProfessores = () => {
     }, []);
 
     const fetchProfessors = async () => {
-        const token = localStorage.getItem('token');
+        const Token = localStorage.getItem('token');
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${Token}`,
             },
         };
 

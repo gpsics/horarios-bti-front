@@ -66,7 +66,7 @@ const ListarComponentes = () => {
 
         try {
             const response = await axios.get(url, config);
-            if (response.status === 200) {
+            if (response.status === 204) {
                 const componentesData = response.data;
                 setComponentes(componentesData);
                 setCompsBusca(componentesData)

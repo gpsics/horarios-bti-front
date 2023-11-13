@@ -6,13 +6,13 @@ import './EditarProfessor.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 import { useNavigate, useParams } from 'react-router-dom'
-import AuthProvider from '../../../provider/authProvider'
+import { useAuth } from '../../../provider/authProvider'
 import Error from '../../alerts/Error'
 import axios from 'axios'
 
 const EditarProfessor = () => {
     const { idProf } = useParams()
-    const auth = AuthProvider()
+    const {token} = useAuth()
     const [newName, setNewName] = useState('')
     const navigate = useNavigate()
     const cancelar = () =>{
@@ -30,7 +30,6 @@ const EditarProfessor = () => {
                 if (newName === '') {
                     Error.erro('Informe o nome do professor!')
                 }
-                const token = auth.token
                 const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
 
                 const config = {
@@ -60,11 +59,11 @@ const EditarProfessor = () => {
 
     const fetchProfessors = useCallback(async () => {
 
-        const token = localStorage.getItem('token');
+        const Token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${Token}`,
             },
         };
 
