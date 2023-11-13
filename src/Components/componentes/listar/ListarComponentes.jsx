@@ -34,7 +34,7 @@ const ListarComponentes = () => {
 
                 try {
                     const response = await axios.delete(url, config);
-                    if (response.status === 204) {
+                    if (response.status === 200) {
                         Sucess.delete()
                         // Atualizar o estado removendo o componente da lista
                         setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));
@@ -52,35 +52,37 @@ const ListarComponentes = () => {
 
 
     useEffect(() => {
-        const fetchComponente = async () => {
-            const url = 'http://127.0.0.1:8000/api/componentes/';
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-
-            try {
-                const response = await axios.get(url, config);
-                if (response.status === 200) {
-                    const componentesData = response.data;
-                    setComponentes(componentesData);
-                    setCompsBusca(componentesData)
-                } else {
-                    console.log('Erro ao listar componentes.')
-                }
-            } catch (error) {
-                console.error('An error occurred:', error);
-            }
-        };
         fetchComponente();
-    }, [token]);
+    }, []);
+
+    const fetchComponente = async () => {
+        const Token = localStorage.getItem('token');
+        const url = 'http://127.0.0.1:8000/api/componentes/';
+        const config = {
+            headers: {
+                Authorization: `Bearer ${Token}`,
+            },
+        };
+
+        try {
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const componentesData = response.data;
+                setComponentes(componentesData);
+                setCompsBusca(componentesData)
+            } else {
+                console.log('Erro ao listar componentes. Status code:', response.status);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
+
+
     const editarComponente = (item) => {
-        // compEdit(item)
         navigate(`/componentes/editarComponente/${item.codigo} `);
     }
     const verComponente = (item) => {
-        // compVerDados(item)
         navigate(`/componentes/verDadosComponente/${item.codigo}`);
     }
     const buscarComponente = ({ target }) => {

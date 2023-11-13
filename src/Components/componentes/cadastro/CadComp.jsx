@@ -19,7 +19,7 @@ const CadComp = () => {
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
     const auth = useAuth()
-    
+
 
     const cancelar = () => {
         Confirm.cancel().then(async (result) => {
@@ -36,7 +36,7 @@ const CadComp = () => {
                     Error.erro('Por favor, preencha todos os campos obrigatórios.')
                     return
                 }
-                if(isChecked && !selectSM){
+                if (isChecked && !selectSM) {
                     Error.erro('Para componentes obrigatórios, deve-se selecionar um semestre!')
                 }
                 if (codigo.length !== 7) {
@@ -96,7 +96,7 @@ const CadComp = () => {
                                     <input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' />
                                     <input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' />
                                     <label >
-                                        <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>Obrigatório
+                                        <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)} />Obrigatório
                                     </label>
                                 </div>
                                 <div className="columnSon">
@@ -126,12 +126,12 @@ const CadComp = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="footerCad">
-                                <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
-
-                                <button type='submit' className='botoesCad' id='cad'>Cadastrar</button>
-                            </div>
                         </form>
+                        <div className="footerCad">
+                            <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+
+                            <button onClick={handleSubmit} className='botoesCad' id='cad'>Cadastrar</button> 
+                        </div>
                     </section>
                 </section>
             </menu>

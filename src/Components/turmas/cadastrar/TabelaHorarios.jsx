@@ -7,6 +7,8 @@ import Menu from '../../menuLateral/Menu';
 import Error from '../../alerts/Error';
 import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess';
+import axios from 'axios';
+import AuthProvider from '../../../provider/authProvider';
 
 
 const horariosColuna = [
@@ -65,8 +67,9 @@ const TabelaHorarios = () => {
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
     const { docentesSelecionados } = useDocentes()
-    console.log(`Os docentes selecionados foram ${docentesSelecionados}`)
-    
+    const auth = AuthProvider()
+    console.log(`Os docentes selecionados foram ${docentesSelecionados.id}`)
+
     const navigate = useNavigate();
     const cancelar = () => {
         Confirm.cancel().then(async (result) => {
@@ -76,41 +79,37 @@ const TabelaHorarios = () => {
         })
     }
 
-    const cadastrarTurma = async (e) =>{
+    const cadastrarTurma = async (e) => {
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
-            if(result.isConfirmed){
-                if(horariosMarcados.size === 0){
+            if (result.isConfirmed) {
+                if (horariosMarcados.size === 0) {
                     Error.erro('Você precisa selecionar algum horário na tabela!')
                     return
                 }
-                if(horariosMarcados.size < maxCheckeds){
+                if (horariosMarcados.size < maxCheckeds) {
                     Error.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    Error.erro('Você precisa estar logado para cadastrar um professor.');
-                    return;
-                }
-                const url = 'http://127.0.0.1:8000/turmas/'
-                const requestOptions = {
-                    method: 'POST',
+                const token = auth.token
+                const url = 'http://127.0.0.1:8000/api/turmas/'
+                const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Token ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ 
-                        cod_componente: componente,
-                        num_turma: numTurma,
-                        horario: horariosMarcados.join(' '),
-                        num_vagas: numVagas,
-                        professor: docentesSelecionados
-                    }),
                 };
+                const data = {
+                    cod_componente: componente.codigo,
+                    num_turma: numTurma,
+                    horario: horariosMarcados.join(' '),
+                    num_vagas: numVagas,
+                    professor: docentesSelecionados.id
+                }
+
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.post(url, data, config);
+                    if (response.status === 201) {
                         Sucess.cadastro()
                     } else {
                         Error.erro('Erro ao cadastrar turma!')
@@ -152,17 +151,16 @@ const TabelaHorarios = () => {
     };
 
     const lerHorariosTurmas = async (numSemestre) => {
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/horarios/semestre/${numSemestre}`;
-        const requestOptions = {
-            method: 'GET',
+        const token = auth.token
+        const url = `http://127.0.0.1:8000/api/horarios/semestre/${numSemestre}`;
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+              Authorization: `Bearer ${token}`,
             },
-        };
+          };
 
         try {
-            const response = await fetch(url, requestOptions);
+            const response = await axios.get(url, config);
             // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
             if (response.ok) {
                 const componentesData = await response.json();
@@ -218,19 +216,18 @@ const TabelaHorarios = () => {
     const requisitarComponente = async () => {
         // eslint-disable-next-line
         // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
-
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${codComp.toUpperCase()}`;
-        const requestOptions = {
-            method: 'GET',
+        const authToken = AuthProvider()
+        const token = authToken.token
+        const url = `http://127.0.0.1:8000/api/componentes/${codComp.toUpperCase()}`;
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
                 const componentesData = await response.json();
                 setComponente(componentesData)
                 const novoNumSemestre = componentesData.num_semestre;

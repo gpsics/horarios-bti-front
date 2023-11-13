@@ -141,11 +141,11 @@ const EditarComponente = () => {
 
                 </div>
               </div>
+            </form>
               <div className="footerCad">
                 <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
-                <button type='submit' className="botoesCad" id='cad'>Editar</button>
+                <button onClick={updateComponente} className="botoesCad" id='cad'>Editar</button>
               </div>
-            </form>
           </section>
         </section>
       </main>

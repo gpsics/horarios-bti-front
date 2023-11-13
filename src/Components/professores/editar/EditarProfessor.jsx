@@ -5,41 +5,49 @@ import Menu from '../../menuLateral/Menu'
 import './EditarProfessor.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import AuthProvider from '../../../provider/authProvider'
+import Error from '../../alerts/Error'
+import axios from 'axios'
 
-// {professor}
 const EditarProfessor = () => {
     const { idProf } = useParams()
+    const auth = AuthProvider()
     const [newName, setNewName] = useState('')
-    const [erro, setErro] = useState('')
+    const navigate = useNavigate()
+    const cancelar = () =>{
+        Confirm.cancel().then(async (result) => {
+            if(result.isConfirmed){
+                navigate(-1)
+            }
+        })
+    }
+
     const updateProfessor = async (e) => {
         e.preventDefault()
         Confirm.editar().then(async (result) => {
             if (result.isConfirmed) {
-                setErro('')
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setErro('Você precisa estar logado para editar professor.');
-                    return;
+                if (newName === '') {
+                    Error.erro('Informe o nome do professor!')
                 }
+                const token = auth.token
+                const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
 
-                const url = `http://127.0.0.1:8000/professores/${idProf}/`;
-                const requestOptions = {
-                    method: 'PATCH',
+                const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Token ${token}`,
-                    },
-                    body: JSON.stringify({ nome_prof: newName }),
-                };
-
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                const data = {
+                    nome_prof: newName
+                }
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.patch(url, data, config);
+                    if (response.status === 200) {
                         Sucess.editado()
                     } else {
-                        const data = await response.json();
-                        setErro('Erro ao editar professor:', data.detail);
+                        Error.erro('Erro ao editar nome do professor!')
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -51,20 +59,19 @@ const EditarProfessor = () => {
 
 
     const fetchProfessors = useCallback(async () => {
-        setErro('')
+
         const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/professores/${idProf}`;
-        const requestOptions = {
-            method: 'GET',
+        const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const professorsData = await response.json();
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const professorsData = response.data
                 setNewName(professorsData.nome_prof);
             } else {
                 console.log('Erro ao listar professores.')
@@ -88,9 +95,11 @@ const EditarProfessor = () => {
                     <section className="editarProf">
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                            <button type='submit' className='botaoCadastrar'>Editar</button>
                         </form>
-                        {erro && <div className="erroCad">{erro}</div>}
+                        <div>
+                            <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+                            <button onClick={updateProfessor} className="botoesCad" id='cad'>Editar</button>
+                        </div>
                     </section>
                 </section>
             </main>

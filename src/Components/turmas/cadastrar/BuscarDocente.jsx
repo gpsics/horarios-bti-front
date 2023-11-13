@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useDocentes } from './DocentesContext';
 import { FaTrash } from 'react-icons/fa';
+import AuthProvider from '../../../provider/authProvider';
+import axios from 'axios';
 
 const BuscarDocente = () => {
   const [docentes, setDocentes] = useState([]);
   const [docentesBusca, setDocentesBusca] = useState([]);
   const { docentesSelecionados, setDocentesSelecionados } = useDocentes();
-
   useEffect(() => {
     fetchDocente();
   }, []);
-
+  
   const fetchDocente = async () => {
-    const token = localStorage.getItem('token');
-    const url = 'http://127.0.0.1:8000/professores/';
-    const requestOptions = {
-      method: 'GET',
+    const auth = AuthProvider()
+    const token = auth.token
+    const url = 'http://127.0.0.1:8000/api/professores/';
+    const config = {
       headers: {
-        Authorization: `Token ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
     try {
-      const response = await fetch(url, requestOptions);
-      if (response.ok) {
-        const docentesData = await response.json();
+      const response = await axios.get(url, config);
+      if (response.status === 200) {
+        const docentesData = response.data;
         setDocentes(docentesData);
       } else {
         console.log('Erro ao listar docentes.');
@@ -59,8 +60,7 @@ const BuscarDocente = () => {
   };
 
   return (
-    <>
-      <section className='buscarDocente'>
+    <section className='buscarDocente'>
         <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
         <div>
           {docentesBusca.length > 0 ? (
@@ -89,7 +89,7 @@ const BuscarDocente = () => {
           )}
         </div>
       </section>
-    </>
+    
   );
 };
 

@@ -7,28 +7,30 @@ import CadastrarArquivo from './CadastrarArquivo'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 import Error from '../../alerts/Error'
+import AuthProvider from '../../../provider/authProvider'
+import axios from 'axios'
 
 const CadastrarProfessor = () => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState('');
     const [professors, setProfessors] = useState([]);
+    const auth = AuthProvider()
     useEffect(() => {
         fetchProfessors();
     }, []);
 
     const fetchProfessors = async () => {
         const token = localStorage.getItem('token');
-        const url = 'http://127.0.0.1:8000/professores/';
-        const requestOptions = {
-            method: 'GET',
+        const url = 'http://127.0.0.1:8000/api/professores/';
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const professorsData = await response.json();
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const professorsData = response.data;
                 setProfessors(professorsData);
             } else {
                 console.log('Erro ao listar professores.')
@@ -41,30 +43,30 @@ const CadastrarProfessor = () => {
         event.preventDefault();
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
+                if(user === ''){
+                    Error.erro('Informe o nome do professor!')
+                }
                 const existeDocente = professors.some(({ nome_prof }) => nome_prof === user);
                 if (existeDocente) {
-                    Error.erro('Professor já cadastrado!')
-                    
+                    Error.erro('Professor já cadastrado!')   
                     return;
                 }
 
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    Error.erro('Você precisa estar logado para cadastrar um professor.');
-                    return;
-                }
-                const url = 'http://127.0.0.1:8000/professores/'
-                const requestOptions = {
-                    method: 'POST',
+                const token = auth.token;
+                const url = 'http://127.0.0.1:8000/api/professores/'
+                const config = {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: `Token ${token}`,
-                    },
-                    body: JSON.stringify({ nome_prof: user }),
-                };
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                const data = {
+                    nome_prof: user
+                }
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.post(url, data, config );
+                    if (response.status === 201) {
+                        setUser('')
                         fetchProfessors()
                         Sucess.cadastro()
                     } else {
@@ -93,8 +95,6 @@ const CadastrarProfessor = () => {
                             <input type="text" placeholder='Nome do Professor' value={user} onChange={e => setUser(e.target.value)} />
                             <button type='submit' className='botaoCadastrar'>Cadastrar</button>
                         </form>
-
-
                     </section>
                     <section className='cadArquivo'>
                         <CadastrarArquivo />

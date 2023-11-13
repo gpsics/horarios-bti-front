@@ -7,14 +7,15 @@ import BuscarDocente from './BuscarDocente'
 import './CadastrarTurma.css'
 import Confirm from '../../alerts/Confirm'
 import Error from '../../alerts/Error'
+import axios from 'axios'
+import AuthProvider from '../../../provider/authProvider'
 
 const CadastrarTurma = () => {
   const [codigo, setCodigo] = useState('')
   const [numTurma, setNumTurma] = useState('')
   const [numVagas, setNumVagas] = useState('')
-
   const navigate = useNavigate();
-
+  const auth = AuthProvider()
   const cancelar = () => {
     Confirm.cancel().then(async (result) => {
       if (result.isConfirmed) {
@@ -34,18 +35,17 @@ const CadastrarTurma = () => {
           Error.erro('O código deve ter 7 caracteres!')
           return
         }
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/componentes/${codigo.toUpperCase()}`;
-        const requestOptions = {
-          method: 'GET',
+        const token = auth.token
+        const url = `http://127.0.0.1:8000/api/componentes/${codigo.toUpperCase()}`;
+        const config = {
           headers: {
-            Authorization: `Token ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         };
 
         try {
-          const response = await fetch(url, requestOptions);
-          if (response.ok) {
+          const response = await axios.get(url, config);
+          if (response.status === 200) {
             navigate(`/turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numVagas}`)
           } else {
             Error.erro('O código informado não existe!')

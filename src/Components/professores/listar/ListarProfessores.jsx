@@ -8,34 +8,35 @@ import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
+import AuthProvider from '../../../provider/authProvider'
+import axios from 'axios'
+import Error from '../../alerts/Error'
 
 const ListarProfessores = () => {
-    const [erro, setErro] = useState('')
     const [professors, setProfessors] = useState([]);
     const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
+    const auth = AuthProvider()
 
     const removerProfessor = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                setErro('')
-                const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/professores/${id}/`;
-                const requestOptions = {
-                    method: 'DELETE',
+                const token = auth.token
+                const url = `http://127.0.0.1:8000/api/professores/${id}/`;
+                const config = {
                     headers: {
-                        Authorization: `Token ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 };
 
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.delete(url, config);
+                    if (response.status === 204) {
                         Sucess.delete()
                         setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                         setProfsBusca(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                     } else {
-                        setErro('Erro ao Deletar professor.');
+                        Error.erro('Erro ao Deletar professor.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -50,20 +51,18 @@ const ListarProfessores = () => {
     }, []);
 
     const fetchProfessors = async () => {
-        setErro('')
         const token = localStorage.getItem('token');
-        const url = 'http://127.0.0.1:8000/professores/';
-        const requestOptions = {
-            method: 'GET',
+        const url = 'http://127.0.0.1:8000/api/professores/';
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const professorsData = await response.json();
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const professorsData = response.data
                 setProfessors(professorsData);
                 setProfsBusca(professorsData)
             } else {
@@ -80,10 +79,10 @@ const ListarProfessores = () => {
         if (!target.value) {
             setProfsBusca(professors)
             return
-        } else {
-            const filterProfs = profsBusca.filter(({ nome_prof }) => nome_prof.toUpperCase().startsWith(target.value.toUpperCase()));
-            setProfsBusca(filterProfs)
         }
+        const filterProfs = profsBusca.filter(({ nome_prof }) => nome_prof.toUpperCase().startsWith(target.value.toUpperCase()));
+        setProfsBusca(filterProfs)
+
     }
     return (
         <React.Fragment>
@@ -110,19 +109,6 @@ const ListarProfessores = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* <tr>
-                                    <td className='index'>1</td>
-                                    <td>LUAN ALVES DE PAIVA</td>
-                                    <td id='horasSemanais'>16 Hrs</td>
-                                    <td></td>
-                                    <td className='funcoesIndex'>
-                                        <MdModeEdit />
-                                    </td>
-                                    <td className='funcoesIndex'>
-                                        <AiFillDelete />
-                                    </td>
-                                </tr> */}
-
                                     {profsBusca.map((item, index) => (
                                         <tr key={item.id}>
                                             <td className='index'>{index + 1}</td>
@@ -139,10 +125,6 @@ const ListarProfessores = () => {
                                     ))}
                                 </tbody>
                             </table>
-                            <div>
-                                {erro && <div className="erroCad">{erro}</div>}
-
-                            </div>
                         </>
                     ) : (
                         <div id='nenhumCOMP'>

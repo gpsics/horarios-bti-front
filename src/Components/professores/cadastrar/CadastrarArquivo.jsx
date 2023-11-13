@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './CadastrarArquivo.css'
+import axios from 'axios';
+import AuthProvider from '../../../provider/authProvider';
 const parseCSV = (text) => text.split('\n');
 
 const CadastrarArquivo = () => {
   const [csv, setCsv] = useState([]);
   const [erro, setErro] = useState('')
   const [mensagem, setMensagem] = useState('')
+  const auth = AuthProvider()
   const handleOnChange = (e) => {
     const file = e.target.files[0];
 
@@ -19,27 +22,26 @@ const CadastrarArquivo = () => {
     e.preventDefault();
     setErro('')
     setMensagem('')
-    const token = localStorage.getItem('token');
+    const token = auth.token
     if (!token) {
       setErro('Você precisa estar logado para cadastrar um arquivo.');
       return;
     }
 
-    const url = 'http://127.0.0.1:8000/professores/'
+    const url = 'http://127.0.0.1:8000/api/professores/'
     try {
       for (const nome of csv) {
-        const requestOptions = {
-          method: 'POST',
+        const config = {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Token ${token}`,
-          },
-          body: JSON.stringify({ nome_prof: nome }),
-        };
-
-        const response = await fetch(url, requestOptions);
-
-        if (response.ok) {
+            Authorization: `Bearer ${token}`
+          }
+        }
+        const data = {
+          nome_prof: nome
+        }
+        const response = await axios.post(url, data, config);
+        if (response.status === 201) {
           setMensagem('Professor cadastrado com sucesso!');
         } else {
           const data = await response.json();
