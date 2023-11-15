@@ -8,14 +8,14 @@ import './CadastrarTurma.css'
 import Confirm from '../../alerts/Confirm'
 import Error from '../../alerts/Error'
 import axios from 'axios'
-import AuthProvider from '../../../provider/authProvider'
+import { useAuth } from '../../../provider/authProvider'
 
 const CadastrarTurma = () => {
   const [codigo, setCodigo] = useState('')
   const [numTurma, setNumTurma] = useState('')
   const [numVagas, setNumVagas] = useState('')
   const navigate = useNavigate();
-  const auth = AuthProvider()
+  const {token} = useAuth()
   const cancelar = () => {
     Confirm.cancel().then(async (result) => {
       if (result.isConfirmed) {
@@ -35,7 +35,7 @@ const CadastrarTurma = () => {
           Error.erro('O código deve ter 7 caracteres!')
           return
         }
-        const token = auth.token
+       
         const url = `http://127.0.0.1:8000/api/componentes/${codigo.toUpperCase()}`;
         const config = {
           headers: {
@@ -47,11 +47,9 @@ const CadastrarTurma = () => {
           const response = await axios.get(url, config);
           if (response.status === 200) {
             navigate(`/turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numVagas}`)
-          } else {
-            Error.erro('O código informado não existe!')
-
-          }
+          } 
         } catch (error) {
+          Error.erro('O codigo informado não existe!')
           console.error('An error occurred:', error);
         }
 

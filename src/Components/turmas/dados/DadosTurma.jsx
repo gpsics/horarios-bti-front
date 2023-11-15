@@ -8,39 +8,82 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
 import './DadosTurma.css'
+import { useAuth } from '../../../provider/authProvider';
+import axios from 'axios';
+import Error from '../../alerts/Error';
 
-// { turmaEdit }
 const DadosTurma = () => {
     const { idTurma } = useParams()
+    const { token } = useAuth()
     const [turma, setTurma] = useState(null);
-    const [erro, setErro] = useState('')
+    const [componente, setComponente] = useState([]);
+    const [docentesArray, setDocentesArray] = useState([])
     const navigate = useNavigate();
+    
+    const fetchDocente = useCallback( async (ids) => {
+        try {
+            const promises = ids.map(async (id) => {
+                const url = `http://127.0.0.1:8000/api/professores/${id}/`;
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+                const response = await axios.get(url, config);
+                if (response.status === 200) {
+                    return response.data; 
+                } else {
+                    console.error(`Error fetching professor ${id}:`, response);
+                }
+            });
 
-
+            return Promise.all(promises);
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }, [token])
     const fetchTurmas = useCallback(async () => {
-        setErro('')
-        const token = localStorage.getItem('token');
-        const url = `http://127.0.0.1:8000/turmas/${idTurma}`;
-        const requestOptions = {
-            method: 'GET',
+        const fetchComponente = async (idComp) => {
+            const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            try {
+                const response = await axios.get(url, config);
+                if (response.status === 200) {
+                    const componentesData = response.data
+                    setComponente(componentesData);
+                } else {
+                    console.log('Erro ao listar componentes.');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+            }
+        }
+        const url = `http://127.0.0.1:8000/api/turmas/${idTurma}`;
+        const config = {
             headers: {
-                Authorization: `Token ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
-
         try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-                const turmasData = await response.json();
-
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+                const turmasData = response.data;
+                fetchComponente(turmasData.cod_componente);
+                const docentesData = await fetchDocente(turmasData.professor);
+                setDocentesArray(docentesData); 
                 setTurma(turmasData);
             } else {
-                console.log('Erro ao listar turmas.')
+                console.log('Erro ao listar turmas.');
             }
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [idTurma]);
+    }, [idTurma, token, fetchDocente]);
+
     useEffect(() => {
         fetchTurmas();
     }, [fetchTurmas]);
@@ -48,23 +91,20 @@ const DadosTurma = () => {
     const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                setErro('')
-                const token = localStorage.getItem('token');
-                const url = `http://127.0.0.1:8000/turmas/${id}/`;
-                const requestOptions = {
-                    method: 'DELETE',
+                const url = `http://127.0.0.1:8000/api/turmas/${id}/`;
+                const config = {
                     headers: {
-                        Authorization: `Token ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 };
 
                 try {
-                    const response = await fetch(url, requestOptions);
-                    if (response.ok) {
+                    const response = await axios.delete(url, config);
+                    if (response.status === 204) {
                         Sucess.delete()
                         navigate('/turmas/listarTurmas')
                     } else {
-                        setErro('Erro ao Deletar Turma.');
+                        Error.erro('Erro ao Deletar Turma.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -75,7 +115,6 @@ const DadosTurma = () => {
     };
 
     const editarTurma = (item) => {
-        // turmaEdit(item)
         navigate(`/turmas/editarTurma/${item.id}`);
     }
     return (
@@ -86,76 +125,23 @@ const DadosTurma = () => {
                 <article className="conteudo verTurma">
                     <h1>Dados de Turma </h1>
                     <section className="verDadosTurma">
-                        {/* <ul>
-                            <li>
-                                <b>Componente: </b>
-                                <span className="itens">Engenharia de Software</span>
-                            </li>
-                            <li>
-                                <b>Código: </b>
-                                <span className="itens">PEX1234</span>
-                            </li>
-                            <li>
-                                <b>Carga Horária: </b>
-                                <span className="itens">12 Hrs</span>
-                            </li>
-                            <li>
-                                <b>Unidade Responsável: </b>
-                                <span className="itens">DETEC</span>
-                            </li>
-                            <li>
-                                <b>Vagas: </b>
-                                <span className="itens">12 </span>
-                            </li>
-                            <li>
-                                <b>Horários: </b>
-                                <span className="itens">23M45 23T45</span>
-                            </li>
-                            <li>
-                                <b>Turma: </b>
-                                <span className="itens">01</span>
-                            </li>
-                            <li>
-                                <b>Semestre: </b>
-                                <span className="itens">1º Semestre</span>
-                            </li>
-                            <li className='docentesDaTurma'>
-                                <b>Docente(s): </b>
-                                <ul>
-                                        <li >
-                                             <span className="itens">LUAN ALVES DE PAIVA</span>
-                                        </li>
-                                        <li>
-                                            <span className="itens">LUAN ALVES DE PAIVA</span>
-                                        </li>
-                                        <li>
-                                            <span className="itens">LUAN ALVES DE PAIVA</span>
-                                        </li>
-                                        <li>
-                                            <span className="itens">LUAN ALVES DE PAIVA</span>
-                                        </li>
-                                </ul>
-                                <span className="itens">Nenhum docente atribuído</span>
-                            </li>
-                        </ul> */}
                         {turma && (
-
                             <ul>
                                 <li>
                                     <b>Componente: </b>
-                                    <span className="itens">{turma.cod_componente?.nome_comp || 'Nome não disponível'}</span>
+                                    <span className="itens">{componente.nome_comp || 'Nome não disponível'}</span>
                                 </li>
                                 <li>
                                     <b>Código: </b>
-                                    <span className="itens">{turma.cod_componente?.codigo || 'Código não disponível'}</span>
+                                    <span className="itens">{turma.cod_componente || 'Código não disponível'}</span>
                                 </li>
                                 <li>
                                     <b>Carga Horária: </b>
-                                    <span className="itens">{turma.cod_componente?.carga_horaria || 'Carga horária não disponível'} Hrs</span>
+                                    <span className="itens">{componente.carga_horaria || 'Carga horária não disponível'} Hrs</span>
                                 </li>
                                 <li>
                                     <b>Unidade Responsável: </b>
-                                    <span className="itens">{turma.cod_componente?.departamento || 'Unidade responsável não disponível'}</span>
+                                    <span className="itens">{componente.departamento || 'Unidade responsável não disponível'}</span>
                                 </li>
                                 <li>
                                     <b>Vagas: </b>
@@ -171,9 +157,9 @@ const DadosTurma = () => {
                                 </li>
                                 <li className='docentesDaTurma'>
                                     <b>Docente(s):</b>
-                                    {turma.professor && turma.professor.length > 0 ? (
+                                    {docentesArray.length > 0 ? (
                                         <ul>
-                                            {turma.professor.map((prof) => (
+                                            {docentesArray.map((prof) => (
                                                 <li key={prof.id}>
                                                     <span className="itens">{prof.nome_prof}</span>
                                                 </li>
@@ -182,16 +168,13 @@ const DadosTurma = () => {
                                     ) : (
                                         <span className="itens">Nenhum docente atribuído</span>
                                     )}
+
                                 </li>
                             </ul>
 
                         )}
                     </section>
                     <section className='opcoes'>
-                        <div>
-                            {erro && <div className="erroCad">{erro}</div>}
-
-                        </div>
                         <div className='botoes'>
                             <button id='editar' onClick={() => editarTurma(turma)}>
                                 <p>Editar</p>

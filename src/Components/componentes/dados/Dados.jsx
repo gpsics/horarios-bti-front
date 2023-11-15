@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './Dados.css'
 import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
-import AuthProvider from '../../../provider/authProvider';
+import  { useAuth } from '../../../provider/authProvider';
 import axios from 'axios';
 import Error from '../../alerts/Error';
 
@@ -16,12 +16,11 @@ const Dados = () => {
     const { idComp } = useParams()
     const [componente, setComponente] = useState([]);
     const navigate = useNavigate();
-    const auth = AuthProvider()
+    const {token} = useAuth()
 
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const token = auth.token
                 const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
                 const config = {
                     headers: {
@@ -46,8 +45,7 @@ const Dados = () => {
     };
 
 
-    const fetchComponente = useCallback(async () => {
-        const token = localStorage.getItem('token');
+    const fetchComponente = useCallback(async () => {  
         const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
         const config = {
             headers: {
@@ -66,7 +64,7 @@ const Dados = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [idComp]); 
+    }, [idComp, token]); 
 
     useEffect(() => {
         fetchComponente(); 
@@ -106,7 +104,7 @@ const Dados = () => {
                                 <span className="itens">{componente.departamento}</span>
                             </li>
                             <li>
-                                <b>Este componente é: </b>
+                                <b>Natureza: </b>
                                 <span className="itens">{componente.obrigatorio ? 'Obrigatório' : 'Optativo'}</span>
                             </li>
                         </ul>

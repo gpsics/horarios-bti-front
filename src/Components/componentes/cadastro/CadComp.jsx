@@ -18,9 +18,8 @@ const CadComp = () => {
     const [selectSM, setSelectSM] = useState();
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
-    const auth = useAuth()
-
-
+    const {token} = useAuth()
+    
     const cancelar = () => {
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
@@ -43,7 +42,6 @@ const CadComp = () => {
                     Error.erro('Código do componente precisa ter 7 caracteres!')
                     return
                 }
-                const token = auth.token
                 const url = 'http://127.0.0.1:8000/api/componentes/'
                 const config = {
                     headers: {
@@ -63,13 +61,12 @@ const CadComp = () => {
                 try {
                     const response = await axios.post(url, data, config);
                     if (response.status === 201) {
-                        setNome('')
-                        setCodigo('')
-                        setIsChecked(undefined)
-                        setSelectCH(undefined)
-                        setSelectDP(undefined)
-                        setSelectSM(undefined)
-
+                        setNome('');
+                        setCodigo('');
+                        setSelectCH('');
+                        setSelectDP('');
+                        setSelectSM('');
+                        setIsChecked(false)
                         Sucess.cadastro()
                     } else {
                         Error.erro('Erro ao cadastrar Componente.')

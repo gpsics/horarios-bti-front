@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './ListarProfessores.css'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
@@ -45,19 +45,15 @@ const ListarProfessores = () => {
         })
     };
 
-    useEffect(() => {
-        fetchProfessors();
-    }, []);
-
-    const fetchProfessors = async () => {
-        const Token = localStorage.getItem('token');
+    
+    const fetchProfessors = useCallback( async () => {
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {
             headers: {
-                Authorization: `Bearer ${Token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
-
+        
         try {
             const response = await axios.get(url, config);
             if (response.status === 200) {
@@ -70,7 +66,12 @@ const ListarProfessores = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    };
+    },[token]);
+
+    useEffect(() => {
+        fetchProfessors();
+    }, [fetchProfessors]);
+    
     const editarProfessor = (item) => {
         navigate(`/professores/editarProfessor/${item.id}`);
     }

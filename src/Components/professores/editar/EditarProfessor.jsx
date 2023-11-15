@@ -13,6 +13,7 @@ import axios from 'axios'
 const EditarProfessor = () => {
     const { idProf } = useParams()
     const {token} = useAuth()
+    
     const [newName, setNewName] = useState('')
     const navigate = useNavigate()
     const cancelar = () =>{
@@ -58,12 +59,10 @@ const EditarProfessor = () => {
 
 
     const fetchProfessors = useCallback(async () => {
-
-        const Token = localStorage.getItem('token');
         const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
         const config = {
             headers: {
-                Authorization: `Bearer ${Token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
@@ -78,7 +77,7 @@ const EditarProfessor = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    }, [idProf]);
+    }, [idProf, token]);
 
     useEffect(() => {
         fetchProfessors();

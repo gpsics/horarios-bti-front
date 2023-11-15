@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
@@ -7,19 +7,15 @@ import CadastrarArquivo from './CadastrarArquivo'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 import Error from '../../alerts/Error'
-import AuthProvider from '../../../provider/authProvider'
+import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 
 const CadastrarProfessor = () => {
     const [user, setUser] = useState('');
     const [professors, setProfessors] = useState([]);
-    const auth = AuthProvider()
-    useEffect(() => {
-        fetchProfessors();
-    }, []);
-
-    const fetchProfessors = async () => {
-        const token = localStorage.getItem('token');
+    const {token} = useAuth()
+    
+    const fetchProfessors = useCallback( async () => {
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {
             headers: {
@@ -38,7 +34,12 @@ const CadastrarProfessor = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    };
+    },[token] );
+    
+    useEffect(() => {
+        fetchProfessors();
+    }, [fetchProfessors]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         Confirm.cadastrar().then(async (result) => {
@@ -51,8 +52,6 @@ const CadastrarProfessor = () => {
                     Error.erro('Professor já cadastrado!')   
                     return;
                 }
-
-                const token = auth.token;
                 const url = 'http://127.0.0.1:8000/api/professores/'
                 const config = {
                     headers: {

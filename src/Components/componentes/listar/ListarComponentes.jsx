@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
@@ -15,12 +15,10 @@ import { useAuth } from '../../../provider/authProvider';
 
 const ListarComponentes = () => {
     const {token} = useAuth()
-
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
-    
-    
+      
     const removerComponente = async (codigo) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
@@ -51,22 +49,18 @@ const ListarComponentes = () => {
     };
 
 
-    useEffect(() => {
-        fetchComponente();
-    }, []);
-
-    const fetchComponente = async () => {
-        const Token = localStorage.getItem('token');
+    
+    const fetchComponente = useCallback( async () => {
         const url = 'http://127.0.0.1:8000/api/componentes/';
         const config = {
             headers: {
-                Authorization: `Bearer ${Token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
         try {
             const response = await axios.get(url, config);
-            if (response.status === 204) {
+            if (response.status === 200) {
                 const componentesData = response.data;
                 setComponentes(componentesData);
                 setCompsBusca(componentesData)
@@ -76,9 +70,12 @@ const ListarComponentes = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    };
+    },[token]);
 
-
+    useEffect(() => {
+        fetchComponente();
+    }, [fetchComponente]);
+    
     const editarComponente = (item) => {
         navigate(`/componentes/editarComponente/${item.codigo} `);
     }

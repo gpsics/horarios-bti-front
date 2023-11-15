@@ -6,7 +6,7 @@ import Footer from '../../footer/Footer'
 import '../cadastro/CadComp.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
-import AuthProvider from '../../../provider/authProvider'
+import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import Error from '../../alerts/Error'
 
@@ -17,7 +17,7 @@ const EditarComponente = () => {
   const [newCH, setNewCH] = useState('');
   const [newDP, setNewDP] = useState('');
   const [newChecked, setNewChecked] = useState(false);
-  const auth = AuthProvider()
+  const {token} = useAuth()
   const navigate = useNavigate()
 
   const cancelar = () => {
@@ -31,8 +31,6 @@ const EditarComponente = () => {
     e.preventDefault();
     Confirm.editar().then(async (result) => {
       if (result.isConfirmed) {
-        const token = auth.token
-
         const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
         const config = {
           headers: {
@@ -66,11 +64,11 @@ const EditarComponente = () => {
 
   const fetchComponente = useCallback(async () => {
 
-    const token = localStorage.getItem('token');
+    const Token = localStorage.getItem('token');
     const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Token}`,
       },
     };
 

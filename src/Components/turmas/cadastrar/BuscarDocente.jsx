@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDocentes } from './DocentesContext';
 import { FaTrash } from 'react-icons/fa';
-import AuthProvider from '../../../provider/authProvider';
+import { useAuth } from '../../../provider/authProvider';
 import axios from 'axios';
 
 const BuscarDocente = () => {
   const [docentes, setDocentes] = useState([]);
   const [docentesBusca, setDocentesBusca] = useState([]);
   const { docentesSelecionados, setDocentesSelecionados } = useDocentes();
+  const { token } = useAuth()
+
   useEffect(() => {
-    fetchDocente();
+    setDocentesSelecionados([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
-  const fetchDocente = async () => {
-    const auth = AuthProvider()
-    const token = auth.token
+
+
+  const fetchDocente = useCallback(async () => {
     const url = 'http://127.0.0.1:8000/api/professores/';
     const config = {
       headers: {
@@ -33,7 +35,11 @@ const BuscarDocente = () => {
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    fetchDocente();
+  }, [fetchDocente]);
 
   const buscarDocen = ({ target }) => {
     if (!target.value) {
@@ -61,35 +67,35 @@ const BuscarDocente = () => {
 
   return (
     <section className='buscarDocente'>
-        <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
-        <div>
-          {docentesBusca.length > 0 ? (
-            <ul className="listDocentes">
-              {docentesBusca.map((item, index) => (
-                <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
-              ))}
-            </ul>
-          ) : (
-            <></>
-          )}
-        </div>
-        <h2>Docentes Selecionados</h2>
-        <div>
-          {docentesSelecionados.length > 0 ? (
-            <ul className="docentesSelecionados">
-              {docentesSelecionados.map((item, index) => (
-                <li key={index}>
-                  {item.nome_prof}
-                  <i onClick={() => removerDocente(index)}><FaTrash /></i>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <> </>
-          )}
-        </div>
-      </section>
-    
+      <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
+      <div>
+        {docentesBusca.length > 0 ? (
+          <ul className="listDocentes">
+            {docentesBusca.map((item, index) => (
+              <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
+            ))}
+          </ul>
+        ) : (
+          <></>
+        )}
+      </div>
+      <h2>Docentes Selecionados</h2>
+      <div>
+        {docentesSelecionados.length > 0 ? (
+          <ul className="docentesSelecionados">
+            {docentesSelecionados.map((item, index) => (
+              <li key={index}>
+                {item.nome_prof}
+                <i onClick={() => removerDocente(index)}><FaTrash /></i>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <> </>
+        )}
+      </div>
+    </section>
+
   );
 };
 

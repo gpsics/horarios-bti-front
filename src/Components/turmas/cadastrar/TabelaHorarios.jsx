@@ -8,7 +8,7 @@ import Error from '../../alerts/Error';
 import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess';
 import axios from 'axios';
-import AuthProvider from '../../../provider/authProvider';
+import { useAuth } from '../../../provider/authProvider';
 
 
 const horariosColuna = [
@@ -56,7 +56,7 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
 }
 
 const TabelaHorarios = () => {
-    const [horariosMarcados, setHorariosMarcados] = useState([])
+    const [horariosMarcados, setHorariosMarcados] = useState(new Set());
     const [componente, setComponente] = useState([])
     const [iguais, setIguais] = useState([])
     const [maxCheckeds, setMaxCheckeds] = useState(1)
@@ -67,8 +67,7 @@ const TabelaHorarios = () => {
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
     const { docentesSelecionados } = useDocentes()
-    const auth = AuthProvider()
-    console.log(`Os docentes selecionados foram ${docentesSelecionados.id}`)
+    const { token } = useAuth()
 
     const navigate = useNavigate();
     const cancelar = () => {
@@ -91,7 +90,6 @@ const TabelaHorarios = () => {
                     Error.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
-                const token = auth.token
                 const url = 'http://127.0.0.1:8000/api/turmas/'
                 const config = {
                     headers: {
@@ -102,9 +100,9 @@ const TabelaHorarios = () => {
                 const data = {
                     cod_componente: componente.codigo,
                     num_turma: numTurma,
-                    horario: horariosMarcados.join(' '),
+                    horario: Array.from(horariosMarcados).join(' '),
                     num_vagas: numVagas,
-                    professor: docentesSelecionados.id
+                    professor: docentesSelecionados.map(professor => professor.id)
                 }
 
                 try {
@@ -137,33 +135,38 @@ const TabelaHorarios = () => {
     };
 
     const handleHorarioSelecionado = (event) => {
-        event.preventDefault();
-        // Nesta função, os horários que foram selecionados la nos checkbox da tabela vão para um array.
         const horarioSelecionado = event.target.value;
 
-        if (horariosMarcados.includes(horarioSelecionado)) {
-            // Se o objeto já estiver marcado, remova-o dos horários marcados
-            setHorariosMarcados(horariosMarcados.filter(item => item !== horarioSelecionado));
-        } else {
-            // Se o objeto não estiver marcado, adicione-o aos horários marcados
-            setHorariosMarcados([...horariosMarcados, horarioSelecionado]);
-        }
+        setHorariosMarcados((prevHorarios) => {
+            const newHorarios = new Set(prevHorarios);
+
+            if (newHorarios.has(horarioSelecionado)) {
+                newHorarios.delete(horarioSelecionado);
+            } else if(newHorarios.size < maxCheckeds){
+                // Verifica se atingiu o máximo antes de adicionar
+                newHorarios.add(horarioSelecionado);
+            }
+
+            return newHorarios;
+        });
     };
 
+
+
+
     const lerHorariosTurmas = async (numSemestre) => {
-        const token = auth.token
         const url = `http://127.0.0.1:8000/api/horarios/semestre/${numSemestre}`;
         const config = {
             headers: {
-              Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
-          };
+        };
 
         try {
             const response = await axios.get(url, config);
             // Esta função vai ler o horario passado  independente do tamanho e da quantidade de horarios que tiver na string "23M45" ou "234N23 56T34", vai tratar os dados, separando-os em combinações de 3 caracteres "2M4" sem repetições e vai salvalos em um array
-            if (response.ok) {
-                const componentesData = await response.json();
+            if (response.status === 200) {
+                const componentesData = response.data
                 const horariosSet = new Set();
                 componentesData.forEach((item, index) => {
                     // continuar a processar os horários contidos em item.horario
@@ -194,7 +197,6 @@ const TabelaHorarios = () => {
                 });
                 if (horariosSet.size > 0) {
                     verificarHorario(horariosSet);
-                    console.log('Horários Salvos:', Array.from(horariosSet));
                 }
             } else {
                 Error.erro(`Erro ao listar os horários das turmas do ${numSemestre}º semestre!`)
@@ -216,8 +218,7 @@ const TabelaHorarios = () => {
     const requisitarComponente = async () => {
         // eslint-disable-next-line
         // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
-        const authToken = AuthProvider()
-        const token = authToken.token
+
         const url = `http://127.0.0.1:8000/api/componentes/${codComp.toUpperCase()}`;
         const config = {
             headers: {
@@ -228,7 +229,7 @@ const TabelaHorarios = () => {
         try {
             const response = await axios.get(url, config);
             if (response.status === 200) {
-                const componentesData = await response.json();
+                const componentesData = response.data
                 setComponente(componentesData)
                 const novoNumSemestre = componentesData.num_semestre;
 
@@ -294,8 +295,8 @@ const TabelaHorarios = () => {
                                         type="checkbox"
                                         value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
                                         onChange={handleHorarioSelecionado}
-                                        checked={horariosMarcados.includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
-                                        disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                        checked={Array.from(horariosMarcados).includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
                                     />
                                 </td>
 
@@ -314,8 +315,8 @@ const TabelaHorarios = () => {
                                         type="checkbox"
                                         value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
                                         onChange={handleHorarioSelecionado}
-                                        checked={horariosMarcados.includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
-                                        disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                        checked={Array.from(horariosMarcados).includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
                                     />
                                 </td>
 
@@ -334,8 +335,8 @@ const TabelaHorarios = () => {
                                         type="checkbox"
                                         value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
                                         onChange={handleHorarioSelecionado}
-                                        checked={horariosMarcados.includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
-                                        disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                        checked={Array.from(horariosMarcados).includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
                                     />
                                 </td>
 
@@ -354,8 +355,8 @@ const TabelaHorarios = () => {
                                         type="checkbox"
                                         value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
                                         onChange={handleHorarioSelecionado}
-                                        checked={horariosMarcados.includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
-                                        disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                        checked={Array.from(horariosMarcados).includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
                                     />
                                 </td>
 
@@ -374,8 +375,8 @@ const TabelaHorarios = () => {
                                         type="checkbox"
                                         value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
                                         onChange={handleHorarioSelecionado}
-                                        checked={horariosMarcados.includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
-                                        disabled={horariosMarcados.length >= maxCheckeds && !horariosMarcados.includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                        checked={Array.from(horariosMarcados).includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
                                     />
                                 </td>
                             </tr>

@@ -1,50 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './ListarTurmas.css'
 import Input from '../../alerts/Inputs';
 import Error from '../../alerts/Error';
+import axios from 'axios'
+import { useAuth } from '../../../provider/authProvider'
+import TabelaListagem from './TabelaListagem'
 const ListarTurmasComponente = () => {
   const [turmas, setTurmas] = useState([]);
-  const [turmasSemestre, setTurmasSemestre] = useState([])
-  console.log(turmasSemestre)
+  const { token } = useAuth()
 
-  useEffect(() => {
-    fetchTurmas();
-  }, []);
-
-  const fetchTurmas = async () => {
+  const fetchTurmas = useCallback(async () => {
     Input.text().then(async (result) => {
       if (result.isConfirmed) {
         if (result.value) {
-          console.log(`Código: ${result.value.toUpperCase()}`)
-          const token = localStorage.getItem('token');
-          const url = 'http://127.0.0.1:8000/turmas/';
-          const requestOptions = {
-            method: 'GET',
+          const url = `http://127.0.0.1:8000/api/horarios/componentes/${result.value.toUpperCase()}/`;
+          const config = {
             headers: {
-              Authorization: `Token ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           };
-
           try {
-            const response = await fetch(url, requestOptions);
-            if (response.ok) {
-              const turmasData = await response.json();
+            const response = await axios.get(url, config);
+            if (response.status === 200) {
+              const turmasData = response.data
               setTurmas(turmasData);
-              setTurmasSemestre(turmasData)
             } else {
               Error.erro('Erro ao listar turmas.')
             }
           } catch (error) {
+            Error.erro("Erro ao listar turmas.")
             console.error('An error occurred:', error);
           }
 
         }
+
       }
     })
-  };
+  }, [token])
+
+  useEffect(() => {
+    fetchTurmas();
+  }, [fetchTurmas]);
   return (
     <React.Fragment>
       <Header link={'/Home'} />
@@ -53,10 +52,7 @@ const ListarTurmasComponente = () => {
         <section className="conteudo listarTurmas">
           <h1>Listar Turmas</h1>
           {turmas.length > 0 ? (
-            <>
-
-
-            </>
+            <TabelaListagem tur={turmas} />
           ) : (
             <div id='nenhumCOMP'>
               <p>Não tem nenhuma turma cadastrada.</p>
