@@ -32,7 +32,7 @@ const ListarComponentes = () => {
 
                 try {
                     const response = await axios.delete(url, config);
-                    if (response.status === 200) {
+                    if (response.status === 204) {
                         Sucess.delete()
                         // Atualizar o estado removendo o componente da lista
                         setComponentes(prevComponentes => prevComponentes.filter(comp => comp.codigo !== codigo));

@@ -87,7 +87,7 @@ const DadosTurma = () => {
     useEffect(() => {
         fetchTurmas();
     }, [fetchTurmas]);
-
+    console.log(turma)
     const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {

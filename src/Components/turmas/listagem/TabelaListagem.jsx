@@ -46,14 +46,12 @@ for (let diaSemana = 2; diaSemana < 7; diaSemana++) {
     }
 }
 const TabelaListagem = ({ tur }) => {
-    console.log(tur)
     const diaSegunda = arrayTable.filter(item => item.dia === 2);
     const diaTerca = arrayTable.filter(item => item.dia === 3);
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const [iguais, setIguais] = useState([])
-
 
     const verificarHorario = useCallback((horariosSet) => {
         setIguais([]);
@@ -75,10 +73,8 @@ const TabelaListagem = ({ tur }) => {
                     index,
                 };
             }
-
             return null;
         }).filter(Boolean);
-
         setIguais(horariosIguais);
     }, []);
 
@@ -140,7 +136,7 @@ const TabelaListagem = ({ tur }) => {
                                         item.dia === diaSegunda[index].dia &&
                                             item.turno === diaSegunda[index].turno &&
                                             item.hora === diaSegunda[index].hora ? (
-                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link></span>
+                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link> <br /></span> 
                                         ) : (
                                             null
                                         )
@@ -156,7 +152,7 @@ const TabelaListagem = ({ tur }) => {
                                         item.dia === diaTerca[index].dia &&
                                             item.turno === diaTerca[index].turno &&
                                             item.hora === diaTerca[index].hora ? (
-                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link></span>
+                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link> <br /></span>
                                         ) : (
                                             null
                                         )
@@ -173,7 +169,7 @@ const TabelaListagem = ({ tur }) => {
                                         item.dia === diaQuarta[index].dia &&
                                             item.turno === diaQuarta[index].turno &&
                                             item.hora === diaQuarta[index].hora ? (
-                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link></span>
+                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link><br /></span>
                                         ) : (
                                             null
                                         )
@@ -189,7 +185,7 @@ const TabelaListagem = ({ tur }) => {
                                         item.dia === diaQuinta[index].dia &&
                                             item.turno === diaQuinta[index].turno &&
                                             item.hora === diaQuinta[index].hora ? (
-                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link></span>
+                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link><br /></span>
                                         ) : (
                                             null
                                         )
@@ -206,7 +202,7 @@ const TabelaListagem = ({ tur }) => {
                                         item.dia === diaSexta[index].dia &&
                                             item.turno === diaSexta[index].turno &&
                                             item.hora === diaSexta[index].hora ? (
-                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link></span>
+                                            <span key={item.index}><Link to={`/componentes/verDadosComponente/${tur[item.index]?.cod_componente}`}> {tur[item.index]?.cod_componente} </Link> | <Link to={`/turmas/verDadosTurma/${tur[item.index]?.id}`}>T0{tur[item.index]?.num_turma} </Link><br /></span>
                                         ) : (
                                             null
                                         )

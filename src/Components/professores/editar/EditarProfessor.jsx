@@ -30,6 +30,7 @@ const EditarProfessor = () => {
             if (result.isConfirmed) {
                 if (newName === '') {
                     Error.erro('Informe o nome do professor!')
+                    return
                 }
                 const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
 

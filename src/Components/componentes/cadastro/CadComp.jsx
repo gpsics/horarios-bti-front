@@ -63,9 +63,9 @@ const CadComp = () => {
                     if (response.status === 201) {
                         setNome('');
                         setCodigo('');
-                        setSelectCH('');
-                        setSelectDP('');
-                        setSelectSM('');
+                        setSelectCH();
+                        setSelectDP();
+                        setSelectSM();
                         setIsChecked(false)
                         Sucess.cadastro()
                     } else {

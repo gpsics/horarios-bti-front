@@ -21,6 +21,7 @@ import ListarTurmasProfessor from './Components/turmas/listagem/ListarTurmasProf
 import ListarTurmasComponente from './Components/turmas/listagem/ListarTurmasComponente';
 import ListarTurmasConflito from './Components/turmas/listagem/ListarTurmasConflito';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import EditarTurma from './Components/turmas/editar/EditarTurma';
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
             <Route path='turmas/listarTurmas/componente' element={<ListarTurmasComponente />} />
             <Route path='turmas/listarTurmas/conflito' element={<ListarTurmasConflito />} />
             <Route path='turmas/verDadosTurma/:idTurma' element={<DadosTurma />} />
+            <Route path='turmas/EditarTurma/:idTurma' element={<EditarTurma />} />
 
             {/* Rotas para componente curricular */}
             <Route path='componentes/cadastrarComponente' element={<CadComp />} />

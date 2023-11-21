@@ -13,11 +13,11 @@ import Error from '../../alerts/Error'
 const EditarComponente = () => {
   const { idComp } = useParams();
   const [newName, setNewName] = useState('');
-  const [newSemester, setNewSemester] = useState('');
-  const [newCH, setNewCH] = useState('');
-  const [newDP, setNewDP] = useState('');
+  const [newSemester, setNewSemester] = useState();
+  const [newCH, setNewCH] = useState();
+  const [newDP, setNewDP] = useState();
   const [newChecked, setNewChecked] = useState(false);
-  const {token} = useAuth()
+  const { token } = useAuth()
   const navigate = useNavigate()
 
   const cancelar = () => {
@@ -47,7 +47,7 @@ const EditarComponente = () => {
         }
 
         try {
-          const response = await axios.put(url, data, config);
+          const response = await axios.patch(url, data, config);
           if (response.status === 200) {
             Sucess.editado();
             fetchComponente()
@@ -64,11 +64,10 @@ const EditarComponente = () => {
 
   const fetchComponente = useCallback(async () => {
 
-    const Token = localStorage.getItem('token');
-    const url = `http://127.0.0.1:8000/api/componentes/${idComp}`;
+    const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
     const config = {
       headers: {
-        Authorization: `Bearer ${Token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -88,7 +87,7 @@ const EditarComponente = () => {
     } catch (error) {
       console.error('An error occurred:', error);
     }
-  }, [idComp]);
+  }, [idComp, token]);
 
   useEffect(() => {
     fetchComponente();
@@ -140,10 +139,10 @@ const EditarComponente = () => {
                 </div>
               </div>
             </form>
-              <div className="footerCad">
-                <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
-                <button onClick={updateComponente} className="botoesCad" id='cad'>Editar</button>
-              </div>
+            <div className="footerCad">
+              <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+              <button onClick={updateComponente} className="botoesCad" id='cad'>Editar</button>
+            </div>
           </section>
         </section>
       </main>

@@ -74,11 +74,10 @@ const ListarTurmas = () => {
         // turVerDados(item)
         navigate(`/turmas/verDadosTurma/${item.id}`);
     }
-    const editarTurma = (item) => {
-        // turmaEdit(item)
-        navigate("/turmas/editarTurma");
-    }
 
+    const editarTurma = (item) => {
+        navigate(`/turmas/editarTurma/${item.id}`);
+    }
     return (
         <React.Fragment>
             <Header link={'/Home'} />
@@ -91,7 +90,7 @@ const ListarTurmas = () => {
                             <thead>
                                 <tr>
                                     <th id='pontaEsquerda' className='primeiraColuna'>CÓDIGO</th>
-                                    <th className='nomeComponente'>COMPONENTE</th>
+                                    {/* <th className='nomeComponente'>COMPONENTE</th> */}
                                     <th className='centralizarTexto'>TURMA</th>
                                     <th className='centralizarTexto'>HORÁRIOS</th>
                                     <th></th>
@@ -104,7 +103,7 @@ const ListarTurmas = () => {
                                 {turmas.map((item, index) => (
                                     <tr key={index}>
                                         <td className='primeiraColuna'>{item.cod_componente}</td>
-                                        <td className='nomeComponente'>{item.cod_componente.nome_comp} </td>
+                                        {/* <td className='nomeComponente'>{item.cod_componente.nome_comp} </td> */}
                                         <td className='centralizarTexto'>{item.num_turma}</td>
                                         <td className='centralizarTexto'>{item.horario}</td>
                                         <td></td>

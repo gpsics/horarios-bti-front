@@ -82,6 +82,7 @@ const TabelaHorarios = () => {
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
+
                 if (horariosMarcados.size === 0) {
                     Error.erro('Você precisa selecionar algum horário na tabela!')
                     return
@@ -119,30 +120,40 @@ const TabelaHorarios = () => {
         })
     }
 
+    // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
     const verificarHorario = (horariosSet) => {
-        setIguais([]);
-        // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
+        setIguais((prevIguais) => {
+            // Use a Set to keep track of unique values
+            const uniqueIguaisSet = new Set(prevIguais);
 
-        const horariosIguais = arrayTable.filter((element) =>
-            Array.from(horariosSet).some(
-                (chave) =>
-                    parseInt(chave.charAt(0)) === element.dia &&
-                    chave.charAt(1) === element.turno &&
-                    parseInt(chave.charAt(2)) === element.hora
-            )
-        );
-        setIguais(horariosIguais);
+            // Add new values to the Set
+            arrayTable.forEach((element) => {
+                if (Array.from(horariosSet).some(
+                    (chave) =>
+                        parseInt(chave.charAt(0)) === element.dia &&
+                        chave.charAt(1) === element.turno &&
+                        parseInt(chave.charAt(2)) === element.hora
+                )) {
+                    uniqueIguaisSet.add(element);
+                }
+            });
+
+            // Convert the Set back to an array
+            const uniqueIguaisArray = Array.from(uniqueIguaisSet);
+
+            return uniqueIguaisArray;
+        });
     };
+
 
     const handleHorarioSelecionado = (event) => {
         const horarioSelecionado = event.target.value;
-
         setHorariosMarcados((prevHorarios) => {
             const newHorarios = new Set(prevHorarios);
 
             if (newHorarios.has(horarioSelecionado)) {
                 newHorarios.delete(horarioSelecionado);
-            } else if(newHorarios.size < maxCheckeds){
+            } else if (newHorarios.size < maxCheckeds) {
                 // Verifica se atingiu o máximo antes de adicionar
                 newHorarios.add(horarioSelecionado);
             }
@@ -151,11 +162,13 @@ const TabelaHorarios = () => {
         });
     };
 
-
-
-
-    const lerHorariosTurmas = async (numSemestre) => {
-        const url = `http://127.0.0.1:8000/api/horarios/semestre/${numSemestre}`;
+    const lerHorariosTurmas = async (identificador, tipo) => {
+        let url = ''
+        if (tipo) {
+            url = `http://127.0.0.1:8000/api/horarios/semestre/${identificador}`;
+        } else if (!tipo) {
+            url = `http://127.0.0.1:8000/api/horarios/professores/${identificador}`;
+        }
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -192,14 +205,14 @@ const TabelaHorarios = () => {
                             });
                         })
                     } else {
-                        Error.erro(`A turma ${index + 1} do ${numSemestre}º semestre não possue horários informados!`)
+                        console.log(`A turma ${index + 1} não possue horários informados!`)
                     }
                 });
                 if (horariosSet.size > 0) {
                     verificarHorario(horariosSet);
                 }
             } else {
-                Error.erro(`Erro ao listar os horários das turmas do ${numSemestre}º semestre!`)
+                console.log(`Erro ao listar os horários das turmas!`)
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -236,7 +249,8 @@ const TabelaHorarios = () => {
                 const maxCheckeds = calcularMaxCheckeds(componentesData.carga_horaria);
                 setMaxCheckeds(maxCheckeds);
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                lerHorariosTurmas(novoNumSemestre)
+                const tipo = true
+                lerHorariosTurmas(novoNumSemestre, tipo)
 
             } else {
                 Error.erro('Erro ao listar componentes!')
@@ -246,9 +260,17 @@ const TabelaHorarios = () => {
         }
 
     };
+    const requisitarDocentes = async () => {
+        for (const professor of docentesSelecionados) {
+            const tipo = false;
+            lerHorariosTurmas(professor.id, tipo);
+        }
+    };
+
 
     useEffect(() => {
         requisitarComponente();
+        requisitarDocentes()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
