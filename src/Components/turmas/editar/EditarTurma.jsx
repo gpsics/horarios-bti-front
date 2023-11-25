@@ -13,8 +13,8 @@ function EditarTurma() {
     const { token } = useAuth()
     const [turma, setTurma] = useState()
     const [docentesArray, setDocentesArray] = useState([])
-    const [newVagas, setNewVagas] = useState()
-    const [newNumber, setNewNumber] = useState()
+    const [newVagas, setNewVagas] = useState('')
+    const [newNumber, setNewNumber] = useState('')
 
 
     const fetchDocente = useCallback(async (ids) => {
@@ -70,17 +70,17 @@ function EditarTurma() {
 
     return (
         <React.Fragment>
-            <Header link={'/home'} />
+            <Header titulo = {'Editar Turma'} link={'/home'} />
             <main id="entidades">
                 <div id="menu">
                     <Menu />
                 </div>
                 <section className="conteudo editarTurma">
-                    <h1>Formulário de Edição</h1>
+                    {/* <h1>Formulário de Edição</h1> */}
                     <section className="edTur">
                         <form>
-                            <input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas} />
-                            <input type="text" placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber} />
+                            <input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value) } />
+                            <input type="text" placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value) } />
                             <DocentesTurma profs={docentesArray} />
                             <TabelaEditar tur={turma} numvagas={newVagas} numTurma={newNumber} />
                         </form>

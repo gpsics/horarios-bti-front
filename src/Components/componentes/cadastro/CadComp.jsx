@@ -5,7 +5,7 @@ import Menu from '../../menuLateral/Menu'
 import './CadComp.css'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
-import Error from '../../alerts/Error'
+import Erro from '../../alerts/Erro'
 import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -32,14 +32,14 @@ const CadComp = () => {
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
                 if (!selectCH || !selectDP || nome === '' || codigo === '') {
-                    Error.erro('Por favor, preencha todos os campos obrigatórios.')
+                    Erro.erro('Por favor, preencha todos os campos obrigatórios.')
                     return
                 }
                 if (isChecked && !selectSM) {
-                    Error.erro('Para componentes obrigatórios, deve-se selecionar um semestre!')
+                    Erro.erro('Para componentes obrigatórios, deve-se selecionar um semestre!')
                 }
                 if (codigo.length !== 7) {
-                    Error.erro('Código do componente precisa ter 7 caracteres!')
+                    Erro.erro('Código do componente precisa ter 7 caracteres!')
                     return
                 }
                 const url = 'http://127.0.0.1:8000/api/componentes/'
@@ -69,7 +69,7 @@ const CadComp = () => {
                         setIsChecked(false)
                         Sucess.cadastro()
                     } else {
-                        Error.erro('Erro ao cadastrar Componente.')
+                        Erro.erro('Erro ao cadastrar Componente.')
                     }
                 } catch (error) {
                     console.error(error)
@@ -81,11 +81,11 @@ const CadComp = () => {
     };
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
-            <menu id='entidades'>
-                <div className="menu"><Menu /></div>
+            <Header titulo={'Cadastrar Componente'} link={'/Home'} />
+            <main id='entidades'>
+                <div id="menu"><Menu /></div>
                 <section className='conteudo cadComp'>
-                    <h1>Cadastrar Componente</h1>
+                    {/* <h1>Cadastrar Componente</h1> */}
                     <section className='formCadComp'>
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
@@ -131,7 +131,7 @@ const CadComp = () => {
                         </div>
                     </section>
                 </section>
-            </menu>
+            </main>
             <Footer />
         </React.Fragment>
     )

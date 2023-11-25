@@ -8,7 +8,7 @@ import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
-import Error from '../../alerts/Error'
+import Erro from '../../alerts/Erro'
 
 const EditarComponente = () => {
   const { idComp } = useParams();
@@ -53,7 +53,7 @@ const EditarComponente = () => {
             fetchComponente()
           } else {
 
-            Error.erro('Erro ao editar componente.');
+            Erro.erro('Erro ao editar componente.');
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -94,11 +94,10 @@ const EditarComponente = () => {
   }, [fetchComponente]);
   return (
     <React.Fragment>
-      <Header link={'/Home'} />
+      <Header titulo={'Editar Componente'} link={'/Home'} />
       <main id="entidades">
         <div id="menu"><Menu /></div>
         <section className="conteudo cadComp">
-          <h1>Editar Componente</h1>
           <section className="formCadComp">
             <form onSubmit={updateComponente} className='formContainer'>
               <div className="columnsFather">

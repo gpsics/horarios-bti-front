@@ -10,7 +10,7 @@ import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
 import  { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
-import Error from '../../alerts/Error'
+import Erro from '../../alerts/Erro'
 
 const ListarProfessores = () => {
     const [professors, setProfessors] = useState([]);
@@ -35,7 +35,7 @@ const ListarProfessores = () => {
                         setProfessors(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                         setProfsBusca(prevProfessors => prevProfessors.filter(prof => prof.id !== id));
                     } else {
-                        Error.erro('Erro ao Deletar professor.');
+                        Erro.erro('Erro ao Deletar professor.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -86,24 +86,23 @@ const ListarProfessores = () => {
     }
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Listar Professores'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className='conteudo listarProfessores'>
-                    <h1>Listar Professores</h1>
+                    {/* <h1>Listar Professores</h1> */}
                     {professors.length > 0 ? (
                         <>
 
                             <section id='busca'>
-                                <input type="text" placeholder='Buscar por Nome' onChange={buscarProfessor} />
+                                <input type="search" placeholder='Buscar por Nome' onChange={buscarProfessor} />
                             </section>
-                            <table className='padraoTabelas'>
+                            <table className='padraoTabelas tabelaProfs'>
                                 <thead>
                                     <tr>
-                                        <th id='pontaEsquerda' className='index'>Nº</th>
-                                        <th>NOME</th>
+                                        <th id='pontaEsquerda' className='index primeiraColuna'>Nº</th>
+                                        <th className='colNome'>NOME</th>
                                         <th id='horasSemanais'>HORAS SEMANAIS</th>
-                                        <th></th>
                                         <th></th>
                                         <th id='pontaDireita'></th>
                                     </tr>
@@ -111,10 +110,9 @@ const ListarProfessores = () => {
                                 <tbody>
                                     {profsBusca.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td className='index'>{index + 1}</td>
-                                            <td>{item.nome_prof}</td>
+                                            <td className='index primeiraColuna'>{index + 1}</td>
+                                            <td className='colNome'>{item.nome_prof}</td>
                                             <td id='horasSemanais'>{item.horas_semanais} Hrs</td>
-                                            <td></td>
                                             <td className='funcoesIndex' >
                                                 <MdModeEdit onClick={() => editarProfessor(item)} />
                                             </td>

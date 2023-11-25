@@ -6,7 +6,7 @@ import './CadastrarProfessor.css'
 import CadastrarArquivo from './CadastrarArquivo'
 import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
-import Error from '../../alerts/Error'
+import Erro from '../../alerts/Erro'
 import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 
@@ -45,11 +45,11 @@ const CadastrarProfessor = () => {
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
                 if(user === ''){
-                    Error.erro('Informe o nome do professor!')
+                    Erro.erro('Informe o nome do professor!')
                 }
                 const existeDocente = professors.some(({ nome_prof }) => nome_prof === user);
                 if (existeDocente) {
-                    Error.erro('Professor já cadastrado!')   
+                    Erro.erro('Professor já cadastrado!')   
                     return;
                 }
                 const url = 'http://127.0.0.1:8000/api/professores/'
@@ -69,7 +69,7 @@ const CadastrarProfessor = () => {
                         fetchProfessors()
                         Sucess.cadastro()
                     } else {
-                        Error.erro('Erro ao cadastrar professor!')
+                        Erro.erro('Erro ao cadastrar professor!')
                     }
                 } catch (error) {
                     console.error(error)
@@ -83,11 +83,11 @@ const CadastrarProfessor = () => {
 
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Cadastrar Professor'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo cadProf">
-                    <h1>Cadastrar Professor</h1>
+                    {/* <h1>Cadastrar Professor</h1> */}
                     <section className="cadIndvidual">
                         <h3>Cadastrar Individualmente</h3>
                         <form onSubmit={handleSubmit} className='input-group'>
@@ -97,7 +97,6 @@ const CadastrarProfessor = () => {
                     </section>
                     <section className='cadArquivo'>
                         <CadastrarArquivo />
-                        <p>OBS: A organização do arquivo exige que cada linha contenha um nome de professor, sem a presença de vírgulas.</p>
                     </section>
                 </section>
             </main>

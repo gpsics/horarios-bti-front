@@ -16,7 +16,7 @@ const Login = () => {
     // Função que estava dando certo a requisição mas não a verificação do token.
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setErro('')
         const data = {
             username: username,
             password: password
@@ -33,13 +33,12 @@ const Login = () => {
 
                 // Redirecionar para a página Home
                 navigate("/Home");
-            } else {
-                setUsername('');
-                setPassword('');
-                setErro('O usuário ou a senha estão incorretos.');
-            }
+            } 
         } catch (error) {
             console.error(error);
+            setUsername('');
+                setPassword('');
+            setErro('O usuário ou a senha estão incorretos.')
         }
     }
 

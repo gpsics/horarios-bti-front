@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import './ListarTurmas.css'
 
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
@@ -117,19 +118,19 @@ const TabelaListagem = ({ tur }) => {
         <table className="padraoTabelas">
             <thead>
                 <tr>
-                    <th id="pontaEsquerda">HORÁRIOS</th>
-                    <th>SEG</th>
-                    <th>TER</th>
-                    <th>QUA</th>
-                    <th>QUI</th>
-                    <th id='pontaDireita'>SEX</th>
+                    <th id="pontaEsquerda" className='primeiraColuna colHorarios'>HORÁRIOS</th>
+                    <th className='colDias'>SEG</th>
+                    <th className='colDias'>TER</th>
+                    <th className='colDias'>QUA</th>
+                    <th className='colDias'>QUI</th>
+                    <th id='pontaDireita' className='colDias'>SEX</th>
                 </tr>
             </thead>
             <tbody>
                 {horariosColuna.map((horario, index) => (
                     <tr key={index}>
-                        <td>{horario.Horario}</td>
-                        <td>
+                        <td className='primeiraColuna colHorarios'>{horario.Horario}</td>
+                        <td  className='colDias'>
                             {diaSegunda[index] && (
                                 <>
                                     {iguais.map((item) => (
@@ -145,7 +146,7 @@ const TabelaListagem = ({ tur }) => {
                             )}
                         </td>
 
-                        <td>
+                        <td className='colDias'>
                             {diaTerca[index] && (
                                 <>
                                     {iguais.map((item) => (
@@ -162,7 +163,7 @@ const TabelaListagem = ({ tur }) => {
 
                         </td>
 
-                        <td>
+                        <td className='colDias'>
                             {diaQuarta[index] && (
                                 <>
                                     {iguais.map((item) => (
@@ -178,7 +179,7 @@ const TabelaListagem = ({ tur }) => {
                             )}
                         </td>
 
-                        <td>
+                        <td className='colDias'>
                             {diaQuinta[index] && (
                                 <>
                                     {iguais.map((item) => (
@@ -195,7 +196,7 @@ const TabelaListagem = ({ tur }) => {
 
                         </td>
 
-                        <td>
+                        <td className='colDias'>
                             {diaSexta[index] && (
                                 <>
                                     {iguais.map((item) => (

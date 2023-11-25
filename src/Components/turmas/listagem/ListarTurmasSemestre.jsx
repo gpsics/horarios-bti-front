@@ -4,7 +4,7 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './ListarTurmas.css'
 import Input from '../../alerts/Inputs';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import TabelaListagem from './TabelaListagem'
@@ -33,7 +33,7 @@ const ListarTurmasSemestre = () => {
                             console.log('Erro ao listar turmas.')
                         }
                     } catch (error) {
-                        Error.erro("Erro ao listar turmas.")
+                        Erro.erro("Erro ao listar turmas.")
                         console.error('An error occurred:', error);
                     }
                     
@@ -48,11 +48,11 @@ const ListarTurmasSemestre = () => {
     
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Turmas do Semestre'} link={'/Home'} />
             <main id="entidades">
-                <div className="menu"><Menu /></div>
+                <div id="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
-                    <h1>Listar Turmas</h1>
+                    {/* <h1>Listar Turmas</h1> */}
                     {turmas.length > 0 ? (
                         <TabelaListagem tur={turmas}/>
                     ) : (

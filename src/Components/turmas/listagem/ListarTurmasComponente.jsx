@@ -4,7 +4,7 @@ import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
 import './ListarTurmas.css'
 import Input from '../../alerts/Inputs';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 import axios from 'axios'
 import { useAuth } from '../../../provider/authProvider'
 import TabelaListagem from './TabelaListagem'
@@ -28,10 +28,10 @@ const ListarTurmasComponente = () => {
               const turmasData = response.data
               setTurmas(turmasData);
             } else {
-              Error.erro('Erro ao listar turmas.')
+              Erro.erro('Erro ao listar turmas.')
             }
           } catch (error) {
-            Error.erro("Erro ao listar turmas.")
+            Erro.erro("Erro ao listar turmas.")
             console.error('An error occurred:', error);
           }
 
@@ -46,11 +46,11 @@ const ListarTurmasComponente = () => {
   }, [fetchTurmas]);
   return (
     <React.Fragment>
-      <Header link={'/Home'} />
+      <Header titulo = {'Turmas de Componente'} link={'/Home'} />
       <main id="entidades">
         <div className="menu"><Menu /></div>
         <section className="conteudo listarTurmas">
-          <h1>Listar Turmas</h1>
+          {/* <h1>Listar Turmas</h1> */}
           {turmas.length > 0 ? (
             <TabelaListagem tur={turmas} />
           ) : (

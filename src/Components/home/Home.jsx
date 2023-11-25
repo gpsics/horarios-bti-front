@@ -7,7 +7,7 @@ import Footer from "../footer/Footer";
 const Home = () => {
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Seja Bem-Vindo!'} link={'/Home'} />
 
             <main id="entidades" className="imgFundo">
                 <div id="menu" ><Menu /></div>

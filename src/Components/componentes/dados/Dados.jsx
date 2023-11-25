@@ -10,7 +10,7 @@ import Sucess from '../../alerts/Sucess';
 import Confirm from '../../alerts/Confirm';
 import  { useAuth } from '../../../provider/authProvider';
 import axios from 'axios';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 
 const Dados = () => {
     const { idComp } = useParams()
@@ -34,7 +34,7 @@ const Dados = () => {
                         Sucess.delete()
                         navigate('/componentes/listarComponentes')
                     } else {
-                        Error.erro('Erro ao Deletar Componente.');
+                        Erro.erro('Erro ao Deletar Componente.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -76,11 +76,11 @@ const Dados = () => {
 
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header  titulo = {'Dados do Componente'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo verComp">
-                    <h1>Dados do Componente </h1>
+                    {/* <h1>Dados do Componente </h1> */}
                     <section className="verDadosComp">
                         <ul>
                             <li>

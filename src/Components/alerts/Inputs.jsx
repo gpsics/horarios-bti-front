@@ -48,8 +48,6 @@ const Input = {
   selectProf: (professores) => {
     return new Promise((resolve) => {
       if (!Array.isArray(professores)) {
-        // Handle the case when professores is not an array
-        console.error("Error: professores is not an array");
         resolve(); // Resolve the promise without any value
         return;
       }

@@ -67,11 +67,11 @@ const ListarTurmasProfessor = () => {
   }, [fetchDocente]);
   return (
     <React.Fragment>
-      <Header link={'/Home'} />
+      <Header titulo = {'Turmas de Professor'} link={'/Home'} />
       <main id="entidades">
-        <div className="menu"><Menu/> </div>
+        <div id="menu"><Menu/> </div>
         <section className="conteudo listarTurmas">
-          <h1>Listar Turmas por Professor</h1>
+          {/* <h1>Listar Turmas por Professor</h1> */}
           {turmas.length > 0 ? (
               <TabelaListagem tur={turmas} />
             ) : (

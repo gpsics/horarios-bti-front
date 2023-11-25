@@ -67,7 +67,7 @@ const BuscarDocente = () => {
 
   return (
     <section className='buscarDocente'>
-      <input type="text" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
+      <input type="search" placeholder='Buscar Docente' onChange={buscarDocen} className='buscar' />
       <div>
         {docentesBusca.length > 0 ? (
           <ul className="listDocentes">

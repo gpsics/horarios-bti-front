@@ -1,43 +1,109 @@
-.listarTurmas{
+.listarTurmas {
     min-height: 100%;
-    display: grid;
-    grid-template-rows: 50px 50px 1fr;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: 
-        'titulo titulo'
-        'busca busca'
-        'lista lista'
-    ;
-    gap: 10px;
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.listarTurmas > h1{
-    grid-area: titulo;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
+
+.listarTurmas>table {
+    margin: 50px auto;
+    min-height: 90px;
 }
 
-.listarTurmas > table{
-    grid-area: lista;
-    max-height: 90px;
-}
-.listarTurmas #nenhumCOMP{
+.listarTurmas #nenhumCOMP {
     grid-area: busca;
     padding-left: 10px;
 }
 
+.listarTurmas .colHorarios {
+    width: 150px;
+    text-align: center;
+}
+
+.listarTurmas .colDias {
+    width: 200px;
+    text-align: center;
+} 
 .listarTurmas .centralizarTexto{
     text-align: center;
 }
 .listarTurmas .nomeComponente{
-    max-width: 300px;
-    padding-left: 4px;
-
-    word-wrap: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
 }
-.listarTurmas .funcoesIndex{
-    width: 6%;
+.tabelaTurmas .funcoesIndex{
+    width: 55px;
+}
+.tabelaTurmas .horarioss{
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+@media screen and (max-width: 1280px) {
+    .colDias{
+        max-width: 170px;
+    }
+    .tabelaTurmas .funcoesIndex{
+        width: 50px;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .colHorarios, .colDias{
+        max-width: 130px;
+    }
+    .tabelaTurmas .funcoesIndex{
+        width: 45px;
+    }
+}
+@media screen and (max-width: 850px) {
+    .colHorarios, .colDias{
+        max-width: 110px;
+        font-size: 0.9em;
+    }
+    .tabelaTurmas{
+        font-size: 0.9em;
+    }
+    .tabelaTurmas .funcoesIndex{
+        width: 40px;
+    }
+    
+}
+@media screen and (max-width: 700px) {
+    .colHorarios, .colDias{
+        max-width: 80px;
+    }
+    .tabelaTurmas .funcoesIndex{
+        width: 35px;
+    }
+    .tabelaTurmas .nomeComponente{
+        width: 170px;
+    }
+    
+    
+}
+@media screen and (max-width: 600px) {
+    .colHorarios, .colDias{
+        max-width: 70px;
+        font-size: 0.8em;
+    }
+    .tabelaTurmas{
+        font-size: 0.7em;
+    }
+    .tabelaTurmas .funcoesIndex{
+        max-width: 10%;
+        padding: 0px 5px 0px 5px;
+    }
+    .tabelaTurmas .primeiraColuna{
+        max-width: 20%;
+    }
+    .tabelaTurmas .nomeComponente{
+        max-width: 20%;      
+    }
+    .tabelaTurmas .horarioss{
+        max-width: 20%;      
+    }
+    .tabelaTurmas .numerTurma{
+        max-width: 10%;      
+    }
+    
 }

@@ -7,7 +7,7 @@ import Sucess from '../../alerts/Sucess'
 import Confirm from '../../alerts/Confirm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../../provider/authProvider'
-import Error from '../../alerts/Error'
+import Erro from '../../alerts/Erro'
 import axios from 'axios'
 
 const EditarProfessor = () => {
@@ -29,7 +29,7 @@ const EditarProfessor = () => {
         Confirm.editar().then(async (result) => {
             if (result.isConfirmed) {
                 if (newName === '') {
-                    Error.erro('Informe o nome do professor!')
+                    Erro.erro('Informe o nome do professor!')
                     return
                 }
                 const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
@@ -48,7 +48,7 @@ const EditarProfessor = () => {
                     if (response.status === 200) {
                         Sucess.editado()
                     } else {
-                        Error.erro('Erro ao editar nome do professor!')
+                        Erro.erro('Erro ao editar nome do professor!')
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -86,11 +86,11 @@ const EditarProfessor = () => {
 
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Editar Professor'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo edProf">
-                    <h1>Editar Professor</h1>
+                    {/* <h1>Editar Professor</h1> */}
                     <section className="editarProf">
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />

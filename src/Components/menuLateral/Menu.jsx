@@ -31,12 +31,12 @@ const NavIcon = styled(Link)`
 const MenuNav = styled.nav`
   background: #243e6a;
   width: 250px;
-  min-height: 97%;
+  height: 97%;
   position: relative; 
   top: 0;
   ${({ menu }) => menu ? 'left: 0;' : 'left: -100%;'}
   // transition: 150ms;
-  z-index: 10;
+  
 `;
 
 const MenuWrap = styled.div`
@@ -47,25 +47,24 @@ const Menu = () => {
   const [menu, setMenu] = useState(false);
   const showMenu = () => setMenu(!menu);
   return (
-    <React.Fragment>
-      <IconContext.Provider value={{ color: '#fff' }}>
-        <Nav menu={menu ? true : undefined}>
+    <IconContext.Provider value={{ color: '#fff' }}>
+      <Nav menu={menu ? true : undefined}>
+        <NavIcon to='#'>
+          <FaIcons.FaBars onClick={showMenu} />
+        </NavIcon>
+      </Nav>
+      <MenuNav menu={menu ? true : undefined}>
+        <MenuWrap>
           <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showMenu} />
+            <AiIcons.AiOutlineClose onClick={showMenu} />
           </NavIcon>
-        </Nav>
-        <MenuNav menu={menu? true : undefined}>
-          <MenuWrap>
-            <NavIcon to='#'>
-              <AiIcons.AiOutlineClose onClick={showMenu} />
-            </NavIcon>
-            {MenuData.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
-            })}
-          </MenuWrap>
-        </MenuNav>
-      </IconContext.Provider>
-    </React.Fragment>
+          {MenuData.map((item, index) => {
+            return <SubMenu item={item} key={index} />;
+          })}
+        </MenuWrap>
+      </MenuNav>
+    </IconContext.Provider>
+
   );
 };
 

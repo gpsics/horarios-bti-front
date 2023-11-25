@@ -10,7 +10,7 @@ import Confirm from '../../alerts/Confirm';
 import './DadosTurma.css'
 import { useAuth } from '../../../provider/authProvider';
 import axios from 'axios';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 
 const DadosTurma = () => {
     const { idTurma } = useParams()
@@ -33,7 +33,7 @@ const DadosTurma = () => {
                 if (response.status === 200) {
                     return response.data; 
                 } else {
-                    console.error(`Error fetching professor ${id}:`, response);
+                    console.error(`Erro fetching professor ${id}:`, response);
                 }
             });
 
@@ -87,7 +87,6 @@ const DadosTurma = () => {
     useEffect(() => {
         fetchTurmas();
     }, [fetchTurmas]);
-    console.log(turma)
     const removerTurma = async (id) => {
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
@@ -104,7 +103,7 @@ const DadosTurma = () => {
                         Sucess.delete()
                         navigate('/turmas/listarTurmas')
                     } else {
-                        Error.erro('Erro ao Deletar Turma.');
+                        Erro.erro('Erro ao Deletar Turma.');
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
@@ -119,11 +118,11 @@ const DadosTurma = () => {
     }
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Dados de Turma'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <article className="conteudo verTurma">
-                    <h1>Dados de Turma </h1>
+                    {/* <h1>Dados de Turma </h1> */}
                     <section className="verDadosTurma">
                         {turma && (
                             <ul>

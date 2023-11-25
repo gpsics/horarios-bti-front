@@ -1,6 +1,6 @@
 import Swal from "sweetalert2"
 
-const Error = {
+const Erro = {
     erro: (motivo) => {
         return Swal.fire({
             icon: 'error',
@@ -10,4 +10,4 @@ const Error = {
     },
 };
 
-export default Error
+export default Erro

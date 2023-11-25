@@ -54,15 +54,13 @@
     background-color: black;
 }
 
-.infoLogin::placeholder {
+.infoLogin[type="text"]::placeholder, .infoLogin[type="password"]::placeholder {
     color: white;
 }
-
 .submit:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.836);
 }
-
 
 .erro {
     color: white;

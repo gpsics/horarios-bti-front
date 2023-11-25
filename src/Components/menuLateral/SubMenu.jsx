@@ -2,19 +2,18 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 const MenuLink = styled(Link)`
-  margin-top: 20px;
+  // margin-top: 20px;
   display: flex;
   color: #e1e9fc;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   list-style: none;
-  height: 60px;
+  height: 50px;
   text-decoration: none;
   font-size: 18px;
 
   &:hover{
-    // background: #150259;
     background: #285AA5 ;
     border-left: 4px solid #F2ECD8;
     cursor: pointer;
@@ -24,9 +23,8 @@ const MenuLabel = styled.span`
   margin-left: 16px;
 `;
 const DropdownLink = styled(Link)`
-  // background: #110273;
   background: #002D4D;
-  height: 60px;
+  height: 50px;
   padding-left: 3rem;
   display: flex;
   align-items: center;
@@ -35,7 +33,6 @@ const DropdownLink = styled(Link)`
   color: #f5f5f5;
 
   &:hover{
-    // background: #1D04BF;
     background: #2673D4 ;
     cursor: pointer;
   }

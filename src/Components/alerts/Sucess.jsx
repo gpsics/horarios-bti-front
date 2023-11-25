@@ -8,6 +8,20 @@ const Sucess ={
             'success'
         )
     },
+    cadastroArquivo: () => {
+        return Swal.fire(
+            'Arquivo Cadastrado!',
+            'Todos os professores do arquivo foram cadastrados com sucesso!',
+            'success'
+        )
+    },
+    cadastroProfs: (profs) => {
+        return Swal.fire(
+            'Professores Cadastrados!',
+            `${profs}`,
+            'success'
+        )
+    },
     delete: () => {
         Swal.fire(
             'Deletado!',

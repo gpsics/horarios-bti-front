@@ -4,7 +4,7 @@ import { useDocentes } from './DocentesContext';
 import Header from '../../header/Header';
 import Footer from '../../footer/Footer';
 import Menu from '../../menuLateral/Menu';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess';
 import axios from 'axios';
@@ -84,11 +84,11 @@ const TabelaHorarios = () => {
             if (result.isConfirmed) {
 
                 if (horariosMarcados.size === 0) {
-                    Error.erro('Você precisa selecionar algum horário na tabela!')
+                    Erro.erro('Você precisa selecionar algum horário na tabela!')
                     return
                 }
                 if (horariosMarcados.size < maxCheckeds) {
-                    Error.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
+                    Erro.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
                 const url = 'http://127.0.0.1:8000/api/turmas/'
@@ -111,7 +111,7 @@ const TabelaHorarios = () => {
                     if (response.status === 201) {
                         Sucess.cadastro()
                     } else {
-                        Error.erro('Erro ao cadastrar turma!')
+                        Erro.erro('Erro ao cadastrar turma!')
                     }
                 } catch (error) {
                     console.error(error)
@@ -253,7 +253,7 @@ const TabelaHorarios = () => {
                 lerHorariosTurmas(novoNumSemestre, tipo)
 
             } else {
-                Error.erro('Erro ao listar componentes!')
+                Erro.erro('Erro ao listar componentes!')
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -277,7 +277,7 @@ const TabelaHorarios = () => {
 
     return (
         <React.Fragment>
-            <Header link={'/Home'} />
+            <Header titulo = {'Tabela de Horários'} link={'/Home'} />
             <main id='entidades'>
                 <div id="menu">
                     <Menu />

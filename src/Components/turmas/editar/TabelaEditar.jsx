@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../../../provider/authProvider';
 import { useDocentes } from '../cadastrar/DocentesContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DayColumn from './DayColumn'
 import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess'
 import axios from 'axios';
-import Error from '../../alerts/Error';
+import Erro from '../../alerts/Erro';
 
 
 const horariosColuna = [
@@ -61,7 +61,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
-
+    const { idTurma } = useParams()
     const { docentesSelecionados } = useDocentes()
     const { token } = useAuth()
 
@@ -79,11 +79,11 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
             if (result.isConfirmed) {
 
                 if (horariosMarcados.size === 0) {
-                    Error.erro('Você precisa selecionar algum horário na tabela!')
+                    Erro.erro('Você precisa selecionar algum horário na tabela!')
                     return
                 }
                 if (horariosMarcados.size < maxCheckeds) {
-                    Error.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
+                    Erro.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
                 const url = `http://127.0.0.1:8000/api/turmas/${tur.id}/`
@@ -104,10 +104,9 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                     const response = await axios.patch(url, data, config);
                     if (response.status === 200) {
                         Sucess.editado()
-                        setIguais([])
-                        lerHorariosTurma()
+                        navigate(`/turmas/editarTurma/${idTurma}`)
                     } else {
-                        Error.erro('Erro ao cadastrar turma!')
+                        Erro.erro('Erro ao cadastrar turma!')
                     }
                 } catch (error) {
                     console.error(error)
@@ -258,7 +257,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                 lerHorariosTurmas(novoNumSemestre, tipo)
 
             } else {
-                Error.erro('Erro ao listar componentes!')
+                Erro.erro('Erro ao listar componentes!')
             }
         } catch (error) {
             console.error('An error occurred:', error);
