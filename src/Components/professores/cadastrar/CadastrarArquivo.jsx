@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './CadastrarArquivo.css';
 import axios from 'axios';
 import { useAuth } from '../../../provider/authProvider';
 import imgCloud from '../../../imgs/cloud-upload.png';
 import { FaTrash } from 'react-icons/fa';
 import Sucess from '../../alerts/Sucess';
 import Erro from '../../alerts/Erro';
+import Confirm from '../../alerts/Confirm';
 
 const parseCSV = (text) => text.split('\n');
 
@@ -22,58 +22,57 @@ const CadastrarArquivo = () => {
       fileReader.readAsText(file);
     }
   };
+  
 
   const fileSubmit = async (e) => {
     e.preventDefault();
-
-    const profsErro = new Set();
-    const profsSucess = new Set();
-
-    const url = 'http://127.0.0.1:8000/api/professores/';
-    for (const nome of csv) {
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const data = {
-          nome_prof: nome,
-        };
-        const response = await axios.post(url, data, config);
-
-        if (response.data.success) {
-          profsSucess.add(nome);
-        } else {
-          profsErro.add(nome);
+    Confirm.cadastrar().then(async (result) => {
+      if (result.isConfirmed) {
+        if (csv.length === 0) {
+          Erro.erro('Informe um arquivo!')
+          return
         }
-      }  catch (error) {
-        if (
-          error.response &&
-          error.response.status === 500 &&
-          error.response.data.detail &&
-          error.response.data.detail.includes('UNIQUE constraint failed: horarios_professor.nome_prof')
-        ) {
-          Erro.erro(`O professor ${nome} já foi cadastrado.`);
-        } else {
-          console.error(error);
+
+        const profsErro = new Set();
+        const profsSucess = new Set();
+
+        const url = 'http://127.0.0.1:8000/api/professores/';
+        for (const nome of csv) {
+          try {
+            const config = {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            };
+            const data = {
+              nome_prof: nome,
+            };
+            const response = await axios.post(url, data, config);
+
+            if (response.status === 201) {
+              profsSucess.add(nome);
+            }
+          } catch (error) {
+            console.error(error);
+            profsErro.add(nome);
+          }
         }
-        profsErro.add(nome);
+        if (profsErro.size === 0 && profsSucess.size > 0) {
+          Sucess.cadastroArquivo();
+        } else if (profsErro.size > 0 && profsSucess.size > 0) {
+          Sucess.cadastroProfs(`Os professores ${Array.from(profsSucess).join(', ')} foram cadastrados com sucesso! <br><br> Os professores ${Array.from(profsErro).join(', ')} já estavam cadastrados.`)
+
+        } else if (profsErro.size > 0 && profsSucess.size === 0) {
+          Erro.erro('Nenhum professor do arquivo foi cadastrado!');
+
+        }
+
+        profsSucess.clear();
+        profsErro.clear();
+        setCsv([]);
       }
-    }
-    if (profsErro.size === 0 && profsSucess.size > 0) {
-      Sucess.cadastroArquivo();
-    } else if (profsErro.size > 0 && profsSucess.size > 0) {
-      Sucess.cadastroProfs('Os professores foram cadastrados com sucesso!');
-      Erro.erro('Os professores já foram cadastrados.');
-    } else if (profsErro.size > 0 && profsSucess.size === 0) {
-      Erro.erro('Nenhum professor do arquivo foi cadastrado!');
-    }
-
-    profsSucess.clear();
-    profsErro.clear();
-    setCsv([]);
+    })
   };
 
   const removerDocente = (index) => {
@@ -94,10 +93,7 @@ const CadastrarArquivo = () => {
           <div className="cloud-icon">
             <img src={imgCloud} alt="cloud" />
           </div>
-          <label htmlFor="file-selector" className="file-selector">
-            Procurar Arquivo
-            <input type="file" id="file-selector" accept=".csv" onChange={handleOnChange} className="file-selector-input" />
-          </label>
+          <label htmlFor="file-selector" className="file-selector">Procurar Arquivo<input type="file" id="file-selector" accept=".csv" onChange={handleOnChange} className="file-selector-input" /></label>
         </div>
 
       </div>

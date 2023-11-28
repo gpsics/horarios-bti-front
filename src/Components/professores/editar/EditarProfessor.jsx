@@ -12,13 +12,13 @@ import axios from 'axios'
 
 const EditarProfessor = () => {
     const { idProf } = useParams()
-    const {token} = useAuth()
-    
+    const { token } = useAuth()
+
     const [newName, setNewName] = useState('')
     const navigate = useNavigate()
-    const cancelar = () =>{
+    const cancelar = () => {
         Confirm.cancel().then(async (result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 navigate(-1)
             }
         })
@@ -86,19 +86,23 @@ const EditarProfessor = () => {
 
     return (
         <React.Fragment>
-            <Header titulo = {'Editar Professor'} link={'/Home'} />
+            <Header titulo={'Editar Professor'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo edProf">
                     {/* <h1>Editar Professor</h1> */}
                     <section className="editarProf">
+                        <div className="header-section">
+                            <h2>Alterar Informações</h2>
+                            <p>OBS: Não é permitido preencher com o nome de algum professor ja cadastrado e nem adicionar caracteres especiais.</p>
+                        </div>
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                        </form>
-                        <div>
                             <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
                             <button onClick={updateProfessor} className="botoesCad" id='cad'>Editar</button>
-                        </div>
+                        </form>
+
+
                     </section>
                 </section>
             </main>

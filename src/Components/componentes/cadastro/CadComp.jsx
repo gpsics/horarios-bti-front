@@ -18,9 +18,10 @@ const CadComp = () => {
     const [selectSM, setSelectSM] = useState();
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
-    const {token} = useAuth()
-    
+    const { token } = useAuth()
+
     const cancelar = () => {
+        console.log('chamou')
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate('/home')
@@ -61,13 +62,12 @@ const CadComp = () => {
                 try {
                     const response = await axios.post(url, data, config);
                     if (response.status === 201) {
-                        setNome('');
-                        setCodigo('');
-                        setSelectCH();
-                        setSelectDP();
-                        setSelectSM();
-                        setIsChecked(false)
-                        Sucess.cadastro()
+                        Sucess.cadastro().then(async (result) => {
+                            if (result.isConfirmed) {
+                                navigate('/componentes/cadastrarComponente', { replace: true })
+                                window.location.reload();
+                            }
+                        })
                     } else {
                         Erro.erro('Erro ao cadastrar Componente.')
                     }
@@ -87,6 +87,11 @@ const CadComp = () => {
                 <section className='conteudo cadComp'>
                     {/* <h1>Cadastrar Componente</h1> */}
                     <section className='formCadComp'>
+                        <div className="header-section">
+                            <h2>Preencha as Informações</h2>
+                            <p>Forneça as credenciais necessárias para cadastrar este componente.</p>
+                            <p>Nota: Não é permitido cadastrar o mesmo componente mais de uma vez, nem incluir caracteres especiais nos campos, ou deixar alguma informação em branco. Além disso, se o componente não for obrigatório, não é necessário informar o semestre.</p>
+                        </div>
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
                                 <div className="columnSon">
@@ -127,7 +132,7 @@ const CadComp = () => {
                         <div className="footerCad">
                             <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
 
-                            <button onClick={handleSubmit} className='botoesCad' id='cad'>Cadastrar</button> 
+                            <button onClick={handleSubmit} className='botoesCad' id='cad'>Cadastrar</button>
                         </div>
                     </section>
                 </section>

@@ -30,9 +30,10 @@ const NavIcon = styled(Link)`
 
 const MenuNav = styled.nav`
   background: #243e6a;
-  width: 250px;
+  width: ${({ menu }) => (menu ? '250px' : '0px')};
   height: 97%;
   position: relative; 
+  display: ${({ menu }) => (menu ? 'flex' : 'none')};
   top: 0;
   ${({ menu }) => menu ? 'left: 0;' : 'left: -100%;'}
   // transition: 150ms;

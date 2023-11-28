@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-const Sucess ={
+const Sucess = {
     cadastro: () => {
         return Swal.fire(
             'Cadastrado!',
@@ -17,20 +17,20 @@ const Sucess ={
     },
     cadastroProfs: (profs) => {
         return Swal.fire(
-            'Professores Cadastrados!',
+            'Resultado do Cadastro!',
             `${profs}`,
-            'success'
+            'info'
         )
     },
     delete: () => {
-        Swal.fire(
+        return Swal.fire(
             'Deletado!',
             'A operação de exclusão foi realizada com sucesso.',
             'success'
         )
     },
     editado: () => {
-        Swal.fire(
+        return Swal.fire(
             'Atualizado!',
             'A operação de atualização dos dados foi realizada com sucesso.',
             'success'

@@ -2,7 +2,7 @@
     display: grid;
     max-height: 100%;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 130px;
+    grid-template-rows: 60px 200px;
     grid-template-areas: 
         'title title'
         'edicao edicao'
@@ -11,13 +11,7 @@
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.edProf h1{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    grid-area: title;
-    box-sizing: border-box;
-}
+
 .editarProf{
     grid-area: edicao;
     display: flex;
@@ -30,16 +24,56 @@
     padding: 10px;
     box-sizing: border-box;
 }
-.editarProf  form {
-    margin-top: 10px;
+
+
+.editarProf form {
+    margin-top: 15px;
     display: flex;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 5px;
+    box-sizing: border-box;
 }
 
 .editarProf input[type="text"] {
     padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 5px;
+    width: 85%;
     font-size: 16px;
+}
+
+
+
+@media screen and (max-width: 700px){
+    .edProf{
+        grid-template-rows: 60px 250px ;
+    }
+    .editarProf form{
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-template-areas: 
+            'input input'
+            'botao1 botao2'
+        ;
+
+    }
+    .editarProf input[type="text"] {
+        grid-area: input;
+        width: 100%;
+    }
+    #cancel{
+        grid-area: botao1;
+    }
+    #cad{
+        grid-area: botao2;
+    }
+}
+@media screen and (max-width: 630px){
+    .edProf{
+        grid-template-rows: 60px 300px ;
+    }
+    .editarProf form{
+        margin-top: 20px;
+    }
 }

@@ -13,9 +13,9 @@ import axios from 'axios'
 const CadastrarProfessor = () => {
     const [user, setUser] = useState('');
     const [professors, setProfessors] = useState([]);
-    const {token} = useAuth()
-    
-    const fetchProfessors = useCallback( async () => {
+    const { token } = useAuth()
+
+    const fetchProfessors = useCallback(async () => {
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {
             headers: {
@@ -34,8 +34,8 @@ const CadastrarProfessor = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    },[token] );
-    
+    }, [token]);
+
     useEffect(() => {
         fetchProfessors();
     }, [fetchProfessors]);
@@ -44,13 +44,19 @@ const CadastrarProfessor = () => {
         event.preventDefault();
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                if(user === ''){
+                if (user === '') {
                     Erro.erro('Informe o nome do professor!')
                 }
                 const existeDocente = professors.some(({ nome_prof }) => nome_prof === user);
                 if (existeDocente) {
-                    Erro.erro('Professor já cadastrado!')   
+                    Erro.erro('Professor já cadastrado!')
                     return;
+                }
+                const regex = /[!@#$%^&*(),.?":{}|<>]/;
+                const verificaCaracteres = regex.test(user)
+                if(verificaCaracteres){
+                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
+                    return
                 }
                 const url = 'http://127.0.0.1:8000/api/professores/'
                 const config = {
@@ -63,7 +69,7 @@ const CadastrarProfessor = () => {
                     nome_prof: user
                 }
                 try {
-                    const response = await axios.post(url, data, config );
+                    const response = await axios.post(url, data, config);
                     if (response.status === 201) {
                         setUser('')
                         fetchProfessors()
@@ -83,13 +89,17 @@ const CadastrarProfessor = () => {
 
     return (
         <React.Fragment>
-            <Header titulo = {'Cadastrar Professor'} link={'/Home'} />
+            <Header titulo={'Cadastrar Professor'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo cadProf">
                     {/* <h1>Cadastrar Professor</h1> */}
                     <section className="cadIndvidual">
-                        <h3>Cadastrar Individualmente</h3>
+                        <div className="header-section">
+                            <h2>Cadastrar Individualmente</h2>
+                            <p>Informe o nome do professor que você deseja cadastrar.</p>
+                            <p>OBS: Não é permitido cadastrar o mesmo professor duas vezes e nem adicionar caracteres especiais.</p>
+                        </div>
                         <form onSubmit={handleSubmit} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={user} onChange={e => setUser(e.target.value)} />
                             <button type='submit' className='botaoCadastrar'>Cadastrar</button>

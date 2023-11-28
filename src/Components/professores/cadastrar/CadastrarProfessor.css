@@ -1,9 +1,9 @@
-.cadProf{
+.cadProf {
     display: grid;
     max-width: 100%;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 130px 1fr;
-    grid-template-areas: 
+    grid-template-rows: 60px 200px 1fr;
+    grid-template-areas:
         'title title'
         'individual individual'
         'arquivo arquivo'
@@ -12,23 +12,19 @@
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.cadProf h1{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    grid-area: title;
-    padding-left: 3px;
-    box-sizing: border-box;
-}
-.cadIndvidual{
-   
+
+.cadIndvidual {
+
     grid-area: individual;
 }
-.cadArquivo{
+
+.cadArquivo {
     grid-area: arquivo;
-   
+
 }
-.cadIndvidual, .cadArquivo{
+
+.cadIndvidual,
+.cadArquivo {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -40,19 +36,121 @@
     box-sizing: border-box;
 
 }
+
 .cadIndvidual form {
     margin-top: 10px;
     display: flex;
-    align-items: baseline;
+    align-items: center;
+    justify-content: space-around;
     gap: 10px;
 }
 
 .cadIndvidual input[type="text"] {
     padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 5px;
+    width: 90%;
     font-size: 16px;
 }
 
+.drop-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.207);
+}
+
+.cloud-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cloud-icon img {
+    width: 80px;
+}
+
+.file-selector {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.file-selector-input {
+    display: none;
+}
+
+.drop-here {
+    border: 2px dashed #3498db;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.list-section {
+    margin: 20px;
+}
+
+.list-title {
+    color: #333;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.in-prog {
+    background-color: #ABC8E2;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cadastroArquivo {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footerCadArq {
+    margin-top: 20px;
+}
+
+.botaoCadastrar {
+    background-color: rgb(20, 20, 20);
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
 
+@media screen and (max-width: 920px) {
+    .cadProf {
+        grid-template-rows: 60px 230px 1fr;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .cadProf {
+        grid-template-rows: 60px 270px 1fr;
+    }
+}
