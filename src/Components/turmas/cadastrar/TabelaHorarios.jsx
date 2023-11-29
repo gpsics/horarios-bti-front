@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './TabelaHorario.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDocentes } from './DocentesContext';
 import Header from '../../header/Header';
@@ -283,132 +284,128 @@ const TabelaHorarios = () => {
                     <Menu />
                 </div>
 
-                <table className="padraoTabelas">
-                    <thead>
-                        <tr>
-                            <th id="pontaEsquerda">HORÁRIOS</th>
-                            <th>SEG</th>
-                            <th>TER</th>
-                            <th>QUA</th>
-                            <th>QUI</th>
-                            <th id='pontaDireita'>SEX</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {horariosColuna.map((horario, index) => (
-                            <tr key={index}>
-                                <td>{horario.Horario}</td>
-
-                                <td>
-                                    {/* Caso pelo menos um indice do array 'diaSegunda' atenda as condições do metodo .some(), irá imprimir na tela um X */}
-                                    {diaSegunda[index] && (
-                                        iguais.some(
-                                            (item) =>
-                                                item.dia === diaSegunda[index].dia &&
-                                                item.turno === diaSegunda[index].turno &&
-                                                item.hora === diaSegunda[index].hora
-                                        )
-                                            ? 'X'
-                                            : ''
-                                    )}
-
-                                    {/* Passa os valores do objeto horário selecionado */}
-                                    <input
-                                        type="checkbox"
-                                        value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
-                                        onChange={handleHorarioSelecionado}
-                                        checked={Array.from(horariosMarcados).includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
-                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
-                                    />
-                                </td>
-
-                                <td>
-                                    {diaTerca[index] && (
-                                        iguais.some(
-                                            (item) =>
-                                                item.dia === diaTerca[index].dia &&
-                                                item.turno === diaTerca[index].turno &&
-                                                item.hora === diaTerca[index].hora
-                                        )
-                                            ? 'X'
-                                            : ''
-                                    )}
-                                    <input
-                                        type="checkbox"
-                                        value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
-                                        onChange={handleHorarioSelecionado}
-                                        checked={Array.from(horariosMarcados).includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
-                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
-                                    />
-                                </td>
-
-                                <td>
-                                    {diaQuarta[index] && (
-                                        iguais.some(
-                                            (item) =>
-                                                item.dia === diaQuarta[index].dia &&
-                                                item.turno === diaQuarta[index].turno &&
-                                                item.hora === diaQuarta[index].hora
-                                        )
-                                            ? 'X'
-                                            : ''
-                                    )}
-                                    <input
-                                        type="checkbox"
-                                        value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
-                                        onChange={handleHorarioSelecionado}
-                                        checked={Array.from(horariosMarcados).includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
-                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
-                                    />
-                                </td>
-
-                                <td>
-                                    {diaQuinta[index] && (
-                                        iguais.some(
-                                            (item) =>
-                                                item.dia === diaQuinta[index].dia &&
-                                                item.turno === diaQuinta[index].turno &&
-                                                item.hora === diaQuinta[index].hora
-                                        )
-                                            ? 'X'
-                                            : ''
-                                    )}
-                                    <input
-                                        type="checkbox"
-                                        value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
-                                        onChange={handleHorarioSelecionado}
-                                        checked={Array.from(horariosMarcados).includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
-                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
-                                    />
-                                </td>
-
-                                <td>
-                                    {diaSexta[index] && (
-                                        iguais.some(
-                                            (item) =>
-                                                item.dia === diaSexta[index].dia &&
-                                                item.turno === diaSexta[index].turno &&
-                                                item.hora === diaSexta[index].hora
-                                        )
-                                            ? 'X'
-                                            : ''
-                                    )}
-                                    <input
-                                        type="checkbox"
-                                        value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
-                                        onChange={handleHorarioSelecionado}
-                                        checked={Array.from(horariosMarcados).includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
-                                        disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
-                                    />
-                                </td>
+                <section className="conteudo tableCadTur">
+                    <table className="padraoTabelas tableHor">
+                        <thead>
+                            <tr>
+                                <th id="pontaEsquerda" className='colunaHorarios'>HORÁRIOS</th>
+                                <th className='colunaDias'>SEG</th>
+                                <th className='colunaDias'>TER</th>
+                                <th className='colunaDias'>QUA</th>
+                                <th className='colunaDias'>QUI</th>
+                                <th id='pontaDireita' className='colunaDias'>SEX</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className="opcoesCadastro">
-                    <button id='cancel' className="botoesCad" onClick={cancelar}>Cancelar</button>
-                    <button id='cad' className="botoesCad" onClick={cadastrarTurma}>Cadastrar</button>
-                </div>
+                        </thead>
+                        <tbody>
+                            {horariosColuna.map((horario, index) => (
+                                <tr key={index}>
+                                    <td className='colunaHorarios'>{horario.Horario}</td>
+                                    <td className='colunaDias'>
+                                        {/* Caso pelo menos um indice do array 'diaSegunda' atenda as condições do metodo .some(), irá imprimir na tela um X */}
+                                        {diaSegunda[index] && (
+                                            iguais.some(
+                                                (item) =>
+                                                    item.dia === diaSegunda[index].dia &&
+                                                    item.turno === diaSegunda[index].turno &&
+                                                    item.hora === diaSegunda[index].hora
+                                            )
+                                                ? 'X'
+                                                : ''
+                                        )}
+                                        {/* Passa os valores do objeto horário selecionado */}
+                                        <input
+                                            type="checkbox"
+                                            value={`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`}
+                                            onChange={handleHorarioSelecionado}
+                                            checked={Array.from(horariosMarcados).includes(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                            disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSegunda[index].dia}${diaSegunda[index].turno}${diaSegunda[index].hora}`)}
+                                        />
+                                    </td>
+                                    <td className='colunaDias'>
+                                        {diaTerca[index] && (
+                                            iguais.some(
+                                                (item) =>
+                                                    item.dia === diaTerca[index].dia &&
+                                                    item.turno === diaTerca[index].turno &&
+                                                    item.hora === diaTerca[index].hora
+                                            )
+                                                ? 'X'
+                                                : ''
+                                        )}
+                                        <input
+                                            type="checkbox"
+                                            value={`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`}
+                                            onChange={handleHorarioSelecionado}
+                                            checked={Array.from(horariosMarcados).includes(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                            disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaTerca[index].dia}${diaTerca[index].turno}${diaTerca[index].hora}`)}
+                                        />
+                                    </td>
+                                    <td className='colunaDias'>
+                                        {diaQuarta[index] && (
+                                            iguais.some(
+                                                (item) =>
+                                                    item.dia === diaQuarta[index].dia &&
+                                                    item.turno === diaQuarta[index].turno &&
+                                                    item.hora === diaQuarta[index].hora
+                                            )
+                                                ? 'X'
+                                                : ''
+                                        )}
+                                        <input
+                                            type="checkbox"
+                                            value={`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`}
+                                            onChange={handleHorarioSelecionado}
+                                            checked={Array.from(horariosMarcados).includes(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                            disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuarta[index].dia}${diaQuarta[index].turno}${diaQuarta[index].hora}`)}
+                                        />
+                                    </td>
+                                    <td className='colunaDias'>
+                                        {diaQuinta[index] && (
+                                            iguais.some(
+                                                (item) =>
+                                                    item.dia === diaQuinta[index].dia &&
+                                                    item.turno === diaQuinta[index].turno &&
+                                                    item.hora === diaQuinta[index].hora
+                                            )
+                                                ? 'X'
+                                                : ''
+                                        )}
+                                        <input
+                                            type="checkbox"
+                                            value={`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`}
+                                            onChange={handleHorarioSelecionado}
+                                            checked={Array.from(horariosMarcados).includes(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                            disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaQuinta[index].dia}${diaQuinta[index].turno}${diaQuinta[index].hora}`)}
+                                        />
+                                    </td>
+                                    <td className='colunaDias'>
+                                        {diaSexta[index] && (
+                                            iguais.some(
+                                                (item) =>
+                                                    item.dia === diaSexta[index].dia &&
+                                                    item.turno === diaSexta[index].turno &&
+                                                    item.hora === diaSexta[index].hora
+                                            )
+                                                ? 'X'
+                                                : ''
+                                        )}
+                                        <input
+                                            type="checkbox"
+                                            value={`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`}
+                                            onChange={handleHorarioSelecionado}
+                                            checked={Array.from(horariosMarcados).includes(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                            disabled={horariosMarcados.size >= maxCheckeds && !horariosMarcados.has(`${diaSexta[index].dia}${diaSexta[index].turno}${diaSexta[index].hora}`)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="opcoesCadastro">
+                        <button id='cancel' className="botoesCad" onClick={cancelar}>Cancelar</button>
+                        <button id='cad' className="botoesCad" onClick={cadastrarTurma}>Cadastrar</button>
+                    </div>
+                </section>
             </main>
             <Footer />
         </React.Fragment>

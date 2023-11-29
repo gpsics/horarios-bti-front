@@ -15,7 +15,7 @@ const CadastrarTurma = () => {
   const [numTurma, setNumTurma] = useState('')
   const [numVagas, setNumVagas] = useState('')
   const navigate = useNavigate();
-  const {token} = useAuth()
+  const { token } = useAuth()
   const cancelar = () => {
     Confirm.cancel().then(async (result) => {
       if (result.isConfirmed) {
@@ -35,7 +35,7 @@ const CadastrarTurma = () => {
           Erro.erro('O código deve ter 7 caracteres!')
           return
         }
-       
+
         const url = `http://127.0.0.1:8000/api/componentes/${codigo.toUpperCase()}`;
         const config = {
           headers: {
@@ -47,7 +47,7 @@ const CadastrarTurma = () => {
           const response = await axios.get(url, config);
           if (response.status === 200) {
             navigate(`/turmas/cadastrarTurma/horarios/${codigo}/${numTurma}/${numVagas}`)
-          } 
+          }
         } catch (error) {
           Erro.erro('O codigo informado não existe!')
           console.error('An error occurred:', error);
@@ -59,7 +59,7 @@ const CadastrarTurma = () => {
   return (
 
     <React.Fragment>
-      <Header titulo = {'Cadastrar Turma'} link={'/Home'} />
+      <Header titulo={'Cadastrar Turma'} link={'/Home'} />
       <main id='entidades'>
         <div id="menu">
           <Menu />
@@ -67,7 +67,11 @@ const CadastrarTurma = () => {
         <section className="conteudo cadastroTurma">
           {/* <h1>Cadastrar Turma</h1> */}
           <section className="cadTurma">
-            <h2>Preencha o Formulário</h2>
+            <div className="header-section">
+              <h2>Preencha as Informações</h2>
+              <p>Forneça as credenciais necessárias para cadastrar esta turma.</p>
+              <p>Nota: Não é permitido incluir caracteres especiais nos campos, ou deixar alguma informação em branco.</p>
+            </div>            
             <form >
               <input type="text" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} />
 

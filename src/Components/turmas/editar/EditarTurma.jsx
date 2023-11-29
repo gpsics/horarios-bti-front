@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {  useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import Header from '../../header/Header'
@@ -7,6 +7,7 @@ import Menu from '../../menuLateral/Menu'
 import DocentesTurma from './DocentesTurma'
 import TabelaEditar from './TabelaEditar'
 import Footer from '../../footer/Footer'
+import './EditarTurma.css'
 
 function EditarTurma() {
     const { idTurma } = useParams()
@@ -70,7 +71,7 @@ function EditarTurma() {
 
     return (
         <React.Fragment>
-            <Header titulo = {'Editar Turma'} link={'/home'} />
+            <Header titulo={'Editar Turma'} link={'/home'} />
             <main id="entidades">
                 <div id="menu">
                     <Menu />
@@ -78,16 +79,24 @@ function EditarTurma() {
                 <section className="conteudo editarTurma">
                     {/* <h1>Formulário de Edição</h1> */}
                     <section className="edTur">
+                        <div className="header-section">
+                            <h2>Preencha as Informações</h2>
+                            <p>Forneça as credenciais necessárias para editar esta turma.</p>
+                            <p>Nota: Não é permitido incluir caracteres especiais nos campos, ou deixar alguma informação em branco.</p>
+                            <p>Nota: No horário que tiver X, significa que o horário está ocupado e que se for marcado, pode gerar um conflíto.</p>
+                        </div>
                         <form>
-                            <input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value) } />
-                            <input type="text" placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value) } />
+                            <div>
+                                <label>Número de Vagas<input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value)} /></label>
+                                <label >Número da Turma<input type="text" placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value)} /></label>
+                            </div>
                             <DocentesTurma profs={docentesArray} />
-                            <TabelaEditar tur={turma} numvagas={newVagas} numTurma={newNumber} />
                         </form>
                     </section>
+                    <TabelaEditar tur={turma} numvagas={newVagas} numTurma={newNumber} />
                 </section>
             </main>
-            <Footer/>
+            <Footer />
         </React.Fragment>
     )
 }

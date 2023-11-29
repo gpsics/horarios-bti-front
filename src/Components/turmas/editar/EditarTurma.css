@@ -1,0 +1,121 @@
+.editarTurma{
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px 40px;
+}
+.edTur{
+    margin: 70px auto;
+    min-height: 100px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.851);
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.edTur form{
+    min-height: 200px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.edTur > form div{
+    margin: 0 auto;
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+.edTur > form > div label{
+    display: flex;
+    flex-direction: column;
+}
+.tableHor{
+    margin: 70px auto;
+    width: 90%;
+}
+.tableHor .colunaHorarios{
+    border-left: none;
+    padding-left: 20px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.tableHor .colunaDias{
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 200px;
+    box-sizing: border-box;
+}
+.opcoesCadastro{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+@media screen and (max-width: 1345px){
+    .tableHor .colunaHorarios{
+        padding-left: 10px;
+    }
+    .tableHor .colunaDias{
+        width: 170px;
+    }
+}
+@media screen and (max-width: 1170px){
+    .tableHor .colunaDias{
+        width: 150px;
+    }
+}
+@media screen and (max-width: 1055px){
+    .tableHor .colunaDias{
+        width: 130px;
+    }
+}
+@media screen and (max-width: 944px){
+    .tableHor .colunaDias{
+        width: 120px;
+    }
+}
+@media screen and (max-width: 890px){
+    .tableHor .colunaDias{
+        width: 110px;
+    }
+    .edTur > form div{
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+}
+@media screen and (max-width: 881px){
+    .edTur > form div{
+        width: 95%;
+    }
+}
+@media screen and (max-width: 834px){
+    .tableHor .colunaDias{
+        width: 100px;
+    }
+}
+@media screen and (max-width: 779px){
+    .tableHor .colunaDias{
+        width: 90px;
+    }
+}
+@media screen and (max-width: 722px){
+    .tableHor .colunaDias{
+        width: 80px;
+    }
+}
+@media screen and (max-width: 667px){
+    .tableHor .colunaDias{
+        width: 70px;
+    }
+}

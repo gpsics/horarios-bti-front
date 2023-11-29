@@ -7,7 +7,7 @@ import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess'
 import axios from 'axios';
 import Erro from '../../alerts/Erro';
-
+import './EditarTurma.css'
 
 const horariosColuna = [
     { Horario: '07:00 - 07:55' },
@@ -319,21 +319,21 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     }, [lerHorariosTurma]);
     return (
         <>
-            <table className="padraoTabelas">
+            <table className="padraoTabelas tableHor">
                 <thead>
                     <tr>
-                        <th id="pontaEsquerda">HORÁRIOS</th>
-                        <th>SEG</th>
-                        <th>TER</th>
-                        <th>QUA</th>
-                        <th>QUI</th>
-                        <th id='pontaDireita'>SEX</th>
+                        <th id="pontaEsquerda" className='colunaHorarios'>HORÁRIOS</th>
+                        <th className='colunaDias'>SEG</th>
+                        <th className='colunaDias'>TER</th>
+                        <th className='colunaDias'>QUA</th>
+                        <th className='colunaDias'>QUI</th>
+                        <th id='pontaDireita' className='colunaDias'>SEX</th>
                     </tr>
                 </thead>
                 <tbody>
                     {horariosColuna.map((horario, index) => (
                         <tr key={index}>
-                            <td>{horario.Horario}</td>
+                            <td className='colunaHorarios'>{horario.Horario}</td>
                             <DayColumn
                                 dayData={diaSegunda[index]}
                                 handleHorarioSelecionado={handleHorarioSelecionado}
@@ -374,9 +374,9 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                 </tbody>
             </table>
 
-            <div>
-                <button className="botoesCad" onClick={cancelar}>Cancelar</button>
-                <button className="botoesCad" onClick={updateTurma}>Editar</button>
+            <div className='opcoesCadastro'>
+                <button className="botoesCad" id='cancel' onClick={cancelar}>Cancelar</button>
+                <button className="botoesCad" id='cad' onClick={updateTurma}>Editar</button>
             </div>
         </>
     )

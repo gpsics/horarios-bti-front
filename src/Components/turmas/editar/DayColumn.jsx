@@ -3,7 +3,7 @@ import React from 'react';
 
 const DayColumn = ({ dayData, handleHorarioSelecionado, horariosMarcados, maxCheckeds, iguais }) => {
     return (
-        <td>
+        <td className='colunaDias'>
             {dayData && (
                 iguais.some(
                     (item) =>

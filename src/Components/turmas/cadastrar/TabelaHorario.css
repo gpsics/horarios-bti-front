@@ -1,0 +1,60 @@
+.tableCadTur{
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 20px 40px;
+}
+.tableHor{
+    margin: 70px auto;
+    min-width: 80%;
+}
+.tableHor .colunaHorarios{
+    border-left: none;
+    padding-left: 20px;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.tableHor .colunaDias{
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 200px;
+    box-sizing: border-box;
+}
+.opcoesCadastro{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+@media screen and (max-width: 1220px){
+    .tableHor .colunaHorarios{
+        padding-left: 10px;
+    }
+    .tableHor .colunaDias{
+        width: 170px;
+    }
+}
+@media screen and (max-width: 1060px){
+    .tableHor .colunaDias{
+        width: 150px;
+    }
+}
+@media screen and (max-width: 960px){
+    .tableHor .colunaDias{
+        width: 130px;
+    }
+}
+@media screen and (max-width: 860px){
+    .tableHor .colunaDias{
+        width: 110px;
+    }
+}
+@media screen and (max-width: 760px){
+    .tableHor .colunaDias{
+        width: 90px;
+    }
+}
+@media screen and (max-width: 660px){
+    .tableHor .colunaDias{
+        width: 70px;
+    }
+}
