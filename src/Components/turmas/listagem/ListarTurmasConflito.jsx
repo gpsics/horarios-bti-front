@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Header from '../../header/Header';
 import Menu from '../../menuLateral/Menu';
 import Footer from '../../footer/Footer';
+import './ListarConflitos.css'
 
 const ListarTurmasConflito = () => {
   const [conflitos, setConflitos] = useState([]);
@@ -33,13 +34,12 @@ const ListarTurmasConflito = () => {
   useEffect(() => {
     fetchConflitos();
   }, [fetchConflitos]);
-  console.log(conflitos)
   return (
     <React.Fragment>
       <Header titulo = {'Turmas com Conflito'} link={'/home'} />
       <main id="entidades">
         <div id="menu"><Menu /> </div>
-        <section className='conteudo listarTurmas'>
+        <section className='conteudo listarTurmasConflitantes'>
           {/* <h1>Turmas com Conflíto</h1> */}
           {conflitos.length > 0 ? (
             <ul className='listarConflitos'>
@@ -47,14 +47,12 @@ const ListarTurmasConflito = () => {
                 <li key={index} >
                   <Link to={`/componentes/verDadosComponente/${item.turma1.cod_componente}`}>
                     {item.turma1.cod_componente}
-                  </Link> -
-                  <Link to={`/turmas/verDadosTurma/${item.turma1.id }`}>
-                    T0{item.turma1.num_turma}
+                  </Link> - <Link to={`/turmas/verDadosTurma/${item.turma1.id }`}>
+                     T0{item.turma1.num_turma}
                   </Link> X <Link to={`/componentes/verDadosComponente/${item.turma2.cod_componente}`}>
                     {item.turma2.cod_componente}
-                  </Link> -
-                  <Link to={`/turmas/verDadosTurma/${item.turma2.id }`}>
-                    T0{item.turma2.num_turma}
+                  </Link> - <Link to={`/turmas/verDadosTurma/${item.turma2.id }`}>
+                     T0{item.turma2.num_turma}
                   </Link> | Horário: <span>{item.horario}</span> | Motivo: <span>{item.conflito}</span>
                 </li>
 

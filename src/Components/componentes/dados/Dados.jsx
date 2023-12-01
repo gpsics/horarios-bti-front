@@ -84,8 +84,7 @@ const Dados = () => {
                     <section className="verDadosComp">
                         <ul>
                             <li>
-                                <b>Nome: </b>
-                                <span className="itens">{componente.nome_comp}</span>
+                                <b>Nome: </b><span className="itens">  {componente.nome_comp}</span>
                             </li>
                             <li>
                                 <b>Código: </b>
@@ -109,21 +108,20 @@ const Dados = () => {
                             </li>
                         </ul>
                     </section>
-                    <section className='opcoes'>
-                        <div className='botoes'>
-                            <button id='editar' onClick={() => editarComponente(componente)}>
+                    <section className='opcoesButtons opcoesEdicaoComponente'>
+                            <button id='cad' className='botoesCad' onClick={() => editarComponente(componente)}>
                                 <p>Editar</p>
                                 <i>
                                     <MdModeEdit />
                                 </i>
                             </button>
-                            <button id='excluir' onClick={() => removerComponente(componente.codigo)}>
+                            <button id='deletar' className='botoesCad' onClick={() => removerComponente(componente.codigo)}>
                                 <p>Excluir</p>
                                 <i>
                                     <AiFillDelete />
                                 </i>
                             </button>
-                        </div>
+                        
                     </section>
                 </section>
             </main>

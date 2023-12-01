@@ -30,7 +30,12 @@ const EditarComponente = () => {
   const updateComponente = async (e) => {
     e.preventDefault();
     Confirm.editar().then(async (result) => {
+      const regex = /[!@#$%^&*(),.?":{}|<>]/;
       if (result.isConfirmed) {
+        if (regex.test(newName)) {
+          Erro.erro('Não é permitido cadastrar caracteres especiais.')
+          return
+        }
         const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
         const config = {
           headers: {
@@ -99,41 +104,53 @@ const EditarComponente = () => {
         <div id="menu"><Menu /></div>
         <section className="conteudo cadComp">
           <section className="formCadComp">
+            <div className="header-section">
+              <h2>Altere as Informações</h2>
+              <p>Modifique as credenciais necessárias para alterar este componente.</p>
+              <p>Nota: Não é permitido incluir caracteres especiais nos campos, ou deixar alguma informação em branco. Além disso, se o componente não for obrigatório, não é necessário informar o semestre.</p>
+            </div>
             <form onSubmit={updateComponente} className='formContainer'>
               <div className="columnsFather">
                 <div className="columnSon">
-
-                  <input type="text" placeholder='Nome do Componente' value={newName} onChange={e => setNewName(e.target.value)} className='inputField' />
-                  <select value={newSemester} onChange={e => setNewSemester(e.target.value)} className='selectField' >
-                    <option selected disabled>Semestre</option>
-                    <option value="1">1º Semeste</option>
-                    <option value="2">2º Semeste</option>
-                    <option value="3">3º Semeste</option>
-                    <option value="4">4º Semeste</option>
-                    <option value="5">5º Semeste</option>
-                    <option value="6">6º Semeste</option>
-                  </select>
+                  <label ><input type="text" placeholder='Nome do Componente' value={newName} onChange={e => setNewName(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
+                  <label >
+                    <select value={newSemester} onChange={e => setNewSemester(e.target.value)} className='selectField' >
+                      <option selected disabled>Semestre</option>
+                      <option value="1">1º Semeste</option>
+                      <option value="2">2º Semeste</option>
+                      <option value="3">3º Semeste</option>
+                      <option value="4">4º Semeste</option>
+                      <option value="5">5º Semeste</option>
+                      <option value="6">6º Semeste</option>
+                    </select>
+                    <span style={{ color: 'red' }}>*</span>
+                  </label>
                   <label >
                     <input type="checkbox" placeholder='Obrigatório' checked={newChecked} onChange={e => setNewChecked(e.target.checked)} />Obrigatório
                   </label>
                 </div>
                 <div className="columnSon edColun">
 
-                  <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField' id='ed1' >
-                    <option selected disabled>Horas</option>
-                    <option value="15">15 Horas</option>
-                    <option value="30">30 Horas</option>
-                    <option value="45">45 Horas</option>
-                    <option value="60">60 Horas</option>
-                    <option value="75">75 Horas</option>
-                    <option value="90">90 Horas</option>
-                  </select>
-                  <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' id='ed2'>
-                    <option selected disabled>Departamento</option>
-                    <option value="DECEN">DECEN</option>
-                    <option value="DCSAH">DCSAH</option>
-                    <option value="DETEC">DETEC</option>
-                  </select>
+                  <label >
+                    <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField'  >
+                      <option selected disabled>Carga Horária</option>
+                      <option value="15">15 Horas</option>
+                      <option value="30">30 Horas</option>
+                      <option value="45">45 Horas</option>
+                      <option value="60">60 Horas</option>
+                      <option value="75">75 Horas</option>
+                      <option value="90">90 Horas</option>
+                    </select><span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <label>
+                    <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' >
+                      <option selected disabled>Departamento</option>
+                      <option value="DECEN">DECEN</option>
+                      <option value="DCSAH">DCSAH</option>
+                      <option value="DETEC">DETEC</option>
+                    </select>
+                    <span style={{ color: 'red' }}>*</span>
+                  </label>
 
                 </div>
               </div>

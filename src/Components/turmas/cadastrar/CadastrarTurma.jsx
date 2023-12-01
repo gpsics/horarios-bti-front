@@ -35,7 +35,11 @@ const CadastrarTurma = () => {
           Erro.erro('O código deve ter 7 caracteres!')
           return
         }
-
+        const regex = /[!@#$%^&*(),.?":{}|<>]/;
+        if (regex.test(numVagas) || regex.test(codigo)) {
+          Erro.erro('Não é permitido cadastrar caracteres especiais.')
+          return
+        }
         const url = `http://127.0.0.1:8000/api/componentes/${codigo.toUpperCase()}`;
         const config = {
           headers: {
@@ -71,13 +75,13 @@ const CadastrarTurma = () => {
               <h2>Preencha as Informações</h2>
               <p>Forneça as credenciais necessárias para cadastrar esta turma.</p>
               <p>Nota: Não é permitido incluir caracteres especiais nos campos, ou deixar alguma informação em branco.</p>
-            </div>            
+            </div>
             <form >
-              <input type="text" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} />
+              <label ><input type="text" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
 
-              <input type="text" className="informacoesTurma" placeholder='Número da turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} />
+              <label ><input type="number" className="informacoesTurma" placeholder='Número da turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
 
-              <input type="text" className="informacoesTurma" placeholder='Número de vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} />
+              <label><input type="text" className="informacoesTurma" placeholder='Número de vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
             </form>
             <BuscarDocente />
             <div className='botaoCadTur'>

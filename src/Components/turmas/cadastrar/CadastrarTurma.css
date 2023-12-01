@@ -144,8 +144,11 @@
     .cadTurma> form{
         width: 95%;
     }
-    .cadTurma>form input{
+    .cadTurma>form label{
         width: 100%;
+    }
+    .cadTurma>form input{
+        width: 98%;
     }
     .buscarDocente{
         width: 95%;

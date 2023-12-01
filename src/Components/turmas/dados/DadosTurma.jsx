@@ -19,8 +19,8 @@ const DadosTurma = () => {
     const [componente, setComponente] = useState([]);
     const [docentesArray, setDocentesArray] = useState([])
     const navigate = useNavigate();
-    
-    const fetchDocente = useCallback( async (ids) => {
+
+    const fetchDocente = useCallback(async (ids) => {
         try {
             const promises = ids.map(async (id) => {
                 const url = `http://127.0.0.1:8000/api/professores/${id}/`;
@@ -31,7 +31,7 @@ const DadosTurma = () => {
                 };
                 const response = await axios.get(url, config);
                 if (response.status === 200) {
-                    return response.data; 
+                    return response.data;
                 } else {
                     console.error(`Erro fetching professor ${id}:`, response);
                 }
@@ -74,7 +74,7 @@ const DadosTurma = () => {
                 const turmasData = response.data;
                 fetchComponente(turmasData.cod_componente);
                 const docentesData = await fetchDocente(turmasData.professor);
-                setDocentesArray(docentesData); 
+                setDocentesArray(docentesData);
                 setTurma(turmasData);
             } else {
                 console.log('Erro ao listar turmas.');
@@ -118,10 +118,10 @@ const DadosTurma = () => {
     }
     return (
         <React.Fragment>
-            <Header titulo = {'Dados de Turma'} link={'/Home'} />
+            <Header titulo={'Dados de Turma'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
-                <article className="conteudo verTurma">
+                <section className="conteudo verTurma">
                     {/* <h1>Dados de Turma </h1> */}
                     <section className="verDadosTurma">
                         {turma && (
@@ -173,23 +173,22 @@ const DadosTurma = () => {
 
                         )}
                     </section>
-                    <section className='opcoes'>
-                        <div className='botoes'>
-                            <button id='editar' onClick={() => editarTurma(turma)}>
-                                <p>Editar</p>
-                                <i>
-                                    <MdModeEdit />
-                                </i>
-                            </button>
-                            <button id='excluir' onClick={() => removerTurma(turma.id)}>
-                                <p>Excluir</p>
-                                <i>
-                                    <AiFillDelete />
-                                </i>
-                            </button>
-                        </div>
+                    <section className='opcoesButtons opcoesDadosTur'>
+                        <button id='cad' className='botoesCad' onClick={() => editarTurma(turma)}>
+                            <p>Editar</p>
+                            <i>
+                                <MdModeEdit />
+                            </i>
+                        </button>
+                        <button id='deletar' className='botoesCad' onClick={() => removerTurma(turma.id)}>
+                            <p>Excluir</p>
+                            <i>
+                                <AiFillDelete />
+                            </i>
+                        </button>
+
                     </section>
-                </article>
+                </section>
             </main>
             <Footer />
         </React.Fragment>

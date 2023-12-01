@@ -64,9 +64,11 @@
     }
     #cancel{
         grid-area: botao1;
+        text-align: center;
     }
     #cad{
         grid-area: botao2;
+        text-align: center;
     }
 }
 @media screen and (max-width: 630px){

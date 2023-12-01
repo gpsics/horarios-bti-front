@@ -1,26 +1,16 @@
-.verTurma{
-    display: grid;
+.verTurma {
     max-height: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 350px 100px;
-    grid-template-areas: 
-        'title title'
-        'dados dados'
-        'opcoes opcoes'
-    ;
+
     gap: 10px;
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.verTurma h1{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    grid-area: title;
-    box-sizing: border-box;
-}
-.verDadosTurma{
-    grid-area: dados;
+
+.verDadosTurma {
+    margin: 70px auto;
+    margin-bottom: 15px;
+    min-height: 200px;
+    max-width: 80%;
     background-color: #faf7f7;
     border: 1px solid white;
     border-radius: 8px;
@@ -31,74 +21,33 @@
     align-items: center;
     justify-content: center;
 }
+
 .verDadosTurma ul {
-    margin: 0 auto; 
-    position:relative;         
-    padding: 5px 0px 0px 50px;
-    width:100%;         
-    height:100%;
-    box-sizing: border-box;        
-  }
-  
-  
-.verDadosTurma li:nth-child(odd) {          
-    clear:both;                
-    float:left;                
-    width:60%;               
-  }
-  
-.verDadosTurma li {
+    height: 95%;
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    box-sizing: border-box;
+}
+.verDadosTurma li{
     list-style-type: none;
-    margin: 0 auto;           
-    margin:0;                  
-    box-sizing: border-box;    
-    height: 40px;
-    
 }
-.itens{
-    color: #494949;
-}
-.docentesDaTurma > ul {
-    min-width: 300px;
+
+
+.docentesDaTurma>ul {
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-.opcoes{
-    grid-area: opcoes;
-    display: flex;
-    justify-content: space-between;
+.opcoesDadosTur {
+    margin: 0 auto;
+    max-width: 80%;
 }
 
-#excluir, #editar{
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100px;
-    height: 35px;
-}
-#editar{
-    background-color: #2673D4 ;
-    margin-right:5px;
-}
-#excluir{
-    background-color: #d42626 ;
-}
-#excluir:hover{
-    background-color: #c35858 ;
-}
-#editar:hover{
-    background-color: #478bde ;
-}
-.botoes{
-    display: flex;
-}
-.botoes i {
+.opcoesDadosTur i {
     display: flex;
     align-items: center;
     margin-left: 3px;

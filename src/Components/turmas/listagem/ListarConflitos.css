@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap');
+.listarTurmasConflitantes{
+    min-height: 100vh;
+    font-family: 'Roboto Mono', monospace;
+    box-sizing: border-box;
+    padding: 20px 60px;
+}
+.listarConflitos{
+    margin: 70px auto;
+    min-height: 100px;
+    min-width: 80%;
+    background-color: rgba(255, 255, 255, 0.851);
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-around;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.listarConflitos li{
+    list-style-type: none;
+}

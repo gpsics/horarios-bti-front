@@ -48,7 +48,7 @@ const ListarTurmasComponente = () => {
     <React.Fragment>
       <Header titulo = {'Turmas de Componente'} link={'/Home'} />
       <main id="entidades">
-        <div className="menu"><Menu /></div>
+        <div id="menu"><Menu /></div>
         <section className="conteudo listarTurmas">
           {/* <h1>Listar Turmas</h1> */}
           {turmas.length > 0 ? (

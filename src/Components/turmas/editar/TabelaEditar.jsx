@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../../../provider/authProvider';
 import { useDocentes } from '../cadastrar/DocentesContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DayColumn from './DayColumn'
 import Confirm from '../../alerts/Confirm';
 import Sucess from '../../alerts/Sucess'
@@ -61,7 +61,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
-    const { idTurma } = useParams()
+    // const { idTurma } = useParams()
     const { docentesSelecionados } = useDocentes()
     const { token } = useAuth()
 
@@ -86,6 +86,11 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                     Erro.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
+                const regex = /[!@#$%^&*(),.?":{}|<>]/;
+                if (regex.test(numVagas)) {
+                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
+                    return
+                }
                 const url = `http://127.0.0.1:8000/api/turmas/${tur.id}/`
                 const config = {
                     headers: {
@@ -104,13 +109,22 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                     const response = await axios.patch(url, data, config);
                     if (response.status === 200) {
                         Sucess.editado()
-                        navigate(`/turmas/editarTurma/${idTurma}`)
+                        navigate(-1)
                     } else {
                         Erro.erro('Erro ao cadastrar turma!')
                     }
-                } catch (error) {
-                    console.error(error)
+                } catch (erro) {
+                    console.error(erro);
+                    if (erro.response && erro.response.status === 500) {
+                        const backendMessage = erro.response;
+                        console.error('Erro na requisição:', backendMessage);
+                        Erro.erro(backendMessage);
+                    } else {
+                        console.error('Erro na requisição:', erro.message);
+                        Erro.erro('Erro desconhecido');
+                    }
                 }
+
             }
         })
     }

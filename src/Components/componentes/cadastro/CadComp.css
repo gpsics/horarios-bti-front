@@ -1,22 +1,16 @@
 .cadComp {
-    display: grid;
-    max-height: 100%;
-    grid-template-rows: 60px 500px;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-        'title title'
-        'cadastro cadastro'
-    ;
+    min-height: 100%;
     gap: 10;
     padding: 20px 60px;
     box-sizing: border-box;
 }
 
 .formCadComp {
-    grid-area: cadastro;
-    margin: 0 auto;
+    min-height: 60%;
+    margin: 70px auto;
     width: 80%;
     display: flex;
+    gap: 20px;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.851);
     border: 1px solid white;
@@ -33,7 +27,6 @@
     align-items: flex-end;
     width: 100%;
     height: 60%;
-    margin-top: 40px;
 }
 
 form .columnsFather {
@@ -69,11 +62,14 @@ form .columnsFather {
   }
 
 .columnSon label {
-    height: 36px;
+    height: 50px;
+    width: 80%;
     padding: 8px;
     font-size: 1.1em;
 }
-
+.columnSon input[type="text"], .columnSon select{
+    width: 95%;
+}
 .columnSon input[type="checkbox"] {
     margin-right: 3px;
 }
@@ -94,11 +90,23 @@ form .columnsFather {
     top: 30px;
     margin-top: 11px;
     height: 36px;
-    width: 100%;
 }
 @media screen and (max-width: 820px) {
     .columnSon{
         gap: 10px;
+    }
+    .columnSon label {
+        width: 90%;
+    }
+
+}
+@media screen and (max-width: 690px) {
+    .columnSon label {
+        width: 95%;
+    }
+    .columnSon input[type="text"], .columnSon select{
+        width: 85%;
+        font-size: 0.9em;
     }
 }
 @media screen and (max-width: 625px) {

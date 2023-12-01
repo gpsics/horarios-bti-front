@@ -54,35 +54,47 @@ code {
 .conteudo {
   box-sizing: border-box;
 }
-
+/* Style de botões */
 .botoesCad {
   padding: 10px 20px;
   font-size: 16px;
+  text-align: center;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-
+  display: flex;
+  color: #fff;
 }
 
 #cad {
   background-color: #285AA5;
-  color: #fff;
+  text-align: center;
 }
 
 #cad:hover {
   background-color: #2673D4;
-  color: #fff;
 }
 
 #cancel {
   background-color: gray;
-  color: #fff;
 }
 
 #cancel:hover {
   background-color: rgb(147, 146, 146);
-  color: #fff;
 }
+#deletar {
+  background-color: #d42626;
+
+}
+#deletar:hover {
+  background-color: #ea6b6b;
+}
+.opcoesButtons{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+/* style de header cadastros e edições */
 .header-section {
   background-color: #285AA5;
   color: #fff;
@@ -188,20 +200,20 @@ input[type="search"] {
 
 /* Estilo do ícone de pesquisa (pode ser personalizado) */
 input[type="text"]::placeholder,
-[type="search"]::placeholder {
+[type="search"]::placeholder, input[type="number"]::placeholder {
   color: #706f6f;
 }
 
 /* Adiciona um estilo quando o input está focado */
 input[type="text"]:focus,
-input[type="search"]:focus {
+input[type="search"]:focus, input[type="number"]:focus, select:focus {
   border-color: #2673D4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Reset de estilos para garantir consistência entre navegadores */
 input[type="text"],
-select {
+select, input[type="number"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -209,7 +221,7 @@ select {
 }
 
 /* Estilo do input de texto */
-input[type="text"] {
+input[type="text"], input[type="number"] {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;

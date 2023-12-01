@@ -10,7 +10,7 @@
 }
 
 .listarTurmas #nenhumCOMP {
-    grid-area: busca;
+    margin: 70px auto;
     padding-left: 10px;
 }
 

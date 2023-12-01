@@ -111,6 +111,7 @@ const TabelaHorarios = () => {
                     const response = await axios.post(url, data, config);
                     if (response.status === 201) {
                         Sucess.cadastro()
+                        navigate(-1)
                     } else {
                         Erro.erro('Erro ao cadastrar turma!')
                     }

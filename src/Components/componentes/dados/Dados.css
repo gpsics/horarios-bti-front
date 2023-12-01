@@ -1,100 +1,87 @@
-.verComp{
-    display: grid;
+.verComp {
     max-height: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 200px 100px;
-    grid-template-areas: 
-        'title title'
-        'dados dados'
-        'opcoes opcoes'
-    ;
+
     gap: 10px;
     padding: 20px 60px;
     box-sizing: border-box;
 }
-.verComp h1{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    grid-area: title;
-    box-sizing: border-box;
-}
-.verDadosComp{
-    grid-area: dados;
+
+.verDadosComp {
+    min-height: 200px;
+    max-width: 80%;
+    margin: 70px auto;
+    margin-bottom: 20px;
     background-color: #faf7f7;
     border: 1px solid white;
     border-radius: 8px;
     box-shadow: 2px 3px 10px rgba(51, 51, 51, 0.507);
-    padding: 10px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .verDadosComp ul {
-    margin: 0 auto; 
-    position:relative;         
-    padding: 25px 0px 0px 50px;
-    width:100%;         
-    height:100%;
-    box-sizing: border-box;        
-  }
-  
-  
-.verDadosComp li:nth-child(odd) {          
-    clear:both;                
-    float:left;                
-    width:60%;               
-  }
-  
-.verDadosComp li {
-    list-style-type: none;
-    margin: 0 auto;             
-    margin:0;                  
-    box-sizing: border-box;    
-    height:33.33%;
-    
-}
-.itens{
-    color: #494949;
-}
-.opcoes{
-    grid-area: opcoes;
-    display: flex;
-    justify-content: space-between;
+    margin: 0 auto;
+    position: relative;
+    width: 80%;
+    height: 200px;
+    box-sizing: border-box;
 }
 
-#excluir, #editar{
-    color: #fff;
-    border: none;
-    border-radius: 3px;
+
+.verDadosComp li:nth-child(odd) {
+    clear: both;
+    float: right;
+    width: 30%;
+}
+
+.verDadosComp li {
+    list-style-type: none;
+    margin: 0 auto;
+    font-size: 1em;
+    box-sizing: border-box;
+    height: 33.33%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100px;
-    height: 35px;
 }
-#editar{
-    background-color: #2673D4 ;
-    margin-right:5px;
+
+.itens {
+    margin-left: 3px;
+    color: #494949;
 }
-#excluir{
-    background-color: #d42626 ;
+
+.opcoesEdicaoComponente {
+    max-width: 80%;
+    margin: 0 auto;
 }
-#excluir:hover{
-    background-color: #c35858 ;
-}
-#editar:hover{
-    background-color: #478bde ;
-}
-.botoes{
-    display: flex;
-}
-.botoes i {
+
+.opcoesEdicaoComponente i {
     display: flex;
     align-items: center;
     margin-left: 3px;
     color: white;
+}
+
+@media screen and (max-width: 1460px) {
+    .verDadosComp li {
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .verDadosComp li {
+        font-size: 0.8em;
+        white-space: nowrap;
+        /* Impede que o texto seja quebrado em várias linhas */
+        overflow: hidden;
+        /* Esconde o texto que ultrapassa o contêiner */
+        text-overflow: ellipsis;
+    }
+    .verDadosComp li:hover{
+        white-space: normal;
+        overflow: visible;
+        cursor: pointer;
+        text-overflow: unset;
+    }
 }

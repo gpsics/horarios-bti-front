@@ -21,7 +21,6 @@ const CadComp = () => {
     const { token } = useAuth()
 
     const cancelar = () => {
-        console.log('chamou')
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate('/home')
@@ -41,6 +40,11 @@ const CadComp = () => {
                 }
                 if (codigo.length !== 7) {
                     Erro.erro('Código do componente precisa ter 7 caracteres!')
+                    return
+                }
+                const regex = /[!@#$%^&*(),.?":{}|<>]/;
+                if( regex.test(nome) || regex.test(codigo)){
+                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
                     return
                 }
                 const url = 'http://127.0.0.1:8000/api/componentes/'
@@ -85,7 +89,6 @@ const CadComp = () => {
             <main id='entidades'>
                 <div id="menu"><Menu /></div>
                 <section className='conteudo cadComp'>
-                    {/* <h1>Cadastrar Componente</h1> */}
                     <section className='formCadComp'>
                         <div className="header-section">
                             <h2>Preencha as Informações</h2>
@@ -95,37 +98,43 @@ const CadComp = () => {
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
                                 <div className="columnSon">
-                                    <input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' />
-                                    <input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' />
+                                    <label ><input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
+                                    <label ><input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
                                     <label >
                                         <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)} />Obrigatório
                                     </label>
                                 </div>
                                 <div className="columnSon">
-                                    <select value={selectSM} onChange={e => setSelectSM(e.target.value)} className='selectField' >
-                                        <option selected disabled>Semestre</option>
-                                        <option value="1">1º Semestre</option>
-                                        <option value="2">2º Semestre</option>
-                                        <option value="3">3º Semestre</option>
-                                        <option value="4">4º Semestre</option>
-                                        <option value="5">5º Semestre</option>
-                                        <option value="6">6º Semestre</option>
-                                    </select>
-                                    <select value={selectCH} onChange={e => setSelectCH(e.target.value)} className='selectField' >
-                                        <option selected disabled>Carga Horária</option>
-                                        <option value="15">15 Horas</option>
-                                        <option value="30">30 Horas</option>
-                                        <option value="45">45 Horas</option>
-                                        <option value="60">60 Horas</option>
-                                        <option value="75">75 Horas</option>
-                                        <option value="90">90 Horas</option>
-                                    </select>
-                                    <select value={selectDP} onChange={e => setSelectDP(e.target.value)} className='selectField' >
-                                        <option selected disabled>Departamento</option>
-                                        <option value="DECEN">DECEN</option>
-                                        <option value="DCSAH">DCSAH</option>
-                                        <option value="DETEC">DETEC</option>
-                                    </select>
+                                    <label >
+                                        <select value={selectSM} onChange={e => setSelectSM(e.target.value)} className='selectField' >
+                                            <option selected disabled>Semestre</option>
+                                            <option value="1">1º Semestre</option>
+                                            <option value="2">2º Semestre</option>
+                                            <option value="3">3º Semestre</option>
+                                            <option value="4">4º Semestre</option>
+                                            <option value="5">5º Semestre</option>
+                                            <option value="6">6º Semestre</option>
+                                        </select><span style={{ color: 'red' }}>*</span>
+                                    </label>
+                                    <label >
+                                        <select value={selectCH} onChange={e => setSelectCH(e.target.value)} className='selectField' >
+                                            <option selected disabled>Carga Horária</option>
+                                            <option value="15">15 Horas</option>
+                                            <option value="30">30 Horas</option>
+                                            <option value="45">45 Horas</option>
+                                            <option value="60">60 Horas</option>
+                                            <option value="75">75 Horas</option>
+                                            <option value="90">90 Horas</option>
+                                        </select><span style={{ color: 'red' }}>*</span>
+                                    </label>
+                                    <label >
+                                        <select value={selectDP} onChange={e => setSelectDP(e.target.value)} className='selectField' >
+                                            <option selected disabled>Departamento</option>
+                                            <option value="DECEN">DECEN</option>
+                                            <option value="DCSAH">DCSAH</option>
+                                            <option value="DETEC">DETEC</option>
+                                        </select><span style={{ color: 'red' }}>*</span>
+                                    </label>
                                 </div>
                             </div>
                         </form>
