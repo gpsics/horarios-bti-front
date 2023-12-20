@@ -98,8 +98,8 @@ const CadComp = () => {
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
                                 <div className="columnSon">
-                                    <label ><input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
-                                    <label ><input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
+                                    <label ><input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' /><span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
+                                    <label ><input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' /><span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
                                     <label >
                                         <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)} />Obrigatório
                                     </label>
@@ -114,7 +114,7 @@ const CadComp = () => {
                                             <option value="4">4º Semestre</option>
                                             <option value="5">5º Semestre</option>
                                             <option value="6">6º Semestre</option>
-                                        </select><span style={{ color: 'red' }}>*</span>
+                                        </select><span style={{ color: 'red', marginLeft: '2px' }}>*</span>
                                     </label>
                                     <label >
                                         <select value={selectCH} onChange={e => setSelectCH(e.target.value)} className='selectField' >
@@ -125,7 +125,7 @@ const CadComp = () => {
                                             <option value="60">60 Horas</option>
                                             <option value="75">75 Horas</option>
                                             <option value="90">90 Horas</option>
-                                        </select><span style={{ color: 'red' }}>*</span>
+                                        </select><span style={{ color: 'red', marginLeft: '2px' }}>*</span>
                                     </label>
                                     <label >
                                         <select value={selectDP} onChange={e => setSelectDP(e.target.value)} className='selectField' >
@@ -133,7 +133,7 @@ const CadComp = () => {
                                             <option value="DECEN">DECEN</option>
                                             <option value="DCSAH">DCSAH</option>
                                             <option value="DETEC">DETEC</option>
-                                        </select><span style={{ color: 'red' }}>*</span>
+                                        </select><span style={{ color: 'red', marginLeft: '2px' }}>*</span>
                                     </label>
                                 </div>
                             </div>

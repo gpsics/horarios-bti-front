@@ -102,7 +102,7 @@ const CadastrarProfessor = () => {
                         </div>
                         <form onSubmit={handleSubmit} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={user} onChange={e => setUser(e.target.value)} />
-                            <button type='submit' className='botaoCadastrar'>Cadastrar</button>
+                            <button type='submit' className='botoesCad' id='cad'>Cadastrar</button>
                         </form>
                     </section>
                     <section className='cadArquivo'>

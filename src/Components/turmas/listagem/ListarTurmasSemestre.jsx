@@ -56,7 +56,7 @@ const ListarTurmasSemestre = () => {
                     {turmas.length > 0 ? (
                         <TabelaListagem tur={turmas}/>
                     ) : (
-                        <div id='nenhumCOMP'>
+                        <div id='nenhumaTurma'>
                             <p>Não tem nenhuma turma cadastrada.</p>
                         </div>
                     )}

@@ -59,7 +59,7 @@ const ListarTurmasConflito = () => {
               ))}
             </ul>
           ) : (
-            <div id='nenhumCOMP'>
+            <div id='nenhumaTurma'>
               <p>Não tem nenhum conflito de horários.</p>
             </div>
           )}

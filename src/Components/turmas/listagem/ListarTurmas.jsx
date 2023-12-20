@@ -145,7 +145,7 @@ const ListarTurmas = () => {
                         </table>
 
                     ) : (
-                        <div id='nenhumCOMP'>
+                        <div id='nenhumaTurma'>
                             <p>Não tem nenhuma turma cadastrada.</p>
                         </div>
                     )}

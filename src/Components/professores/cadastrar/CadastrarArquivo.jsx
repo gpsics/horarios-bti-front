@@ -105,14 +105,13 @@ const CadastrarArquivo = () => {
           ))}
         </ul>
       </div>
-      <div className="cadastroArquivo">
-        <div className="footerCadArq">
-          <button onClick={fileSubmit} className="botaoCadastrar">
+      
+        <div className="opcoesButtons">
+          <button onClick={fileSubmit} className="botoesCad" id='cad'>
             Cadastrar Arquivo
           </button>
 
         </div>
-      </div>
     </>
   );
 };

@@ -45,7 +45,7 @@ const Confirm = {
             confirmButtonText: 'Sim, cancele!',
             cancelButtonText: 'Não!'
         })
-    }
+    },
 
 };
 

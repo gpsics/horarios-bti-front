@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../../provider/authProvider'
 import Erro from '../../alerts/Erro'
 import axios from 'axios'
+import Cancelar from '../../alerts/Cancelar'
 
 const EditarProfessor = () => {
     const { idProf } = useParams()
@@ -16,8 +17,8 @@ const EditarProfessor = () => {
 
     const [newName, setNewName] = useState('')
     const navigate = useNavigate()
-    const cancelar = () => {
-        Confirm.cancel().then(async (result) => {
+    const cancelarCadastro = () => {
+        Cancelar.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate(-1)
             }
@@ -98,10 +99,9 @@ const EditarProfessor = () => {
                         </div>
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                            <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
-                            <button onClick={updateProfessor} className="botoesCad" id='cad'>Editar</button>
+                            <button onClick={cancelarCadastro} id='cancel' className="botoesCad">Cancelar</button>
+                            <button type="submit" className="botoesCad" id='cad'>Editar</button>
                         </form>
-
 
                     </section>
                 </section>
