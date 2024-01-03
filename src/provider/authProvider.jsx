@@ -8,6 +8,7 @@ const AuthContext = createContext();
 const ACTIONS = {
     setToken: "setToken",
     clearToken: "clearToken",
+
 };
 
 // Reducer function to handle authentication state changes
@@ -26,17 +27,15 @@ const authReducer = (state, action) => {
             delete axios.defaults.headers.common["Authorization"];
             localStorage.removeItem("token");
 
-            // Update the state by removing the token
-            return { ...state, token: null };
+            // Update the state by removing the token and reset the token refresh timer
+            return { ...state, token: null, tokenRefreshTimer: null };
 
-        // Handle other actions (if any)
 
         default:
             console.error(
                 `You passed an action.type: ${action.type} which doesn't exist`
             );
     }
-
 };
 
 // Initial state for the authentication context
@@ -50,10 +49,10 @@ const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialData);
 
     // Function to set the authentication token
-    const setToken = (newToken) => {
+    const setToken = useCallback((newToken) => {
         // Dispatch the setToken action to update the state
         dispatch({ type: ACTIONS.setToken, payload: newToken });
-    };
+    }, []);
 
     // Function to clear the authentication token
     const clearToken = () => {
@@ -61,48 +60,43 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: ACTIONS.clearToken });
     };
 
-
-    const setTokenCallback = useCallback((newToken) => {
-        // Dispatch the setToken action to update the state
-        dispatch({ type: ACTIONS.setToken, payload: newToken });
-    }, [dispatch]);
-
-    // ...
-
-    const sheduleTokenRefresh = useCallback(() => {
-        // Define refreshToken locally within the useCallback
-        const refreshToken = async () => {
-            try {
-                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
-                    token: state.token
-                });
-                const newToken = response.data.access;
-                setTokenCallback(newToken);
-                sheduleTokenRefresh();
-            } catch (error) {
-                console.error(`Falha ao conseguir refresh token: ${error}`);
+    const updateTokenInterval = useCallback(async () => {
+        try {
+            console.log('Token de atualização:', state.token);
+            const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+                refresh: state.token,
+            });
+            console.log('Resposta do servidor:', response);
+            const newToken = response.data.access;
+            setToken(newToken);
+            console.log('Token atualizado com sucesso!', newToken);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                console.error('Token de atualização expirado ou inválido');
+                // Handle the case when the refresh token is expired or invalid
+                // For example, clear the token and redirect to the login page
+                clearToken();
+            } else if (error.response && error.response.status === 400) {
+                console.error(`Erro de solicitação inválida ao atualizar o token: ${error.message}`);
+                clearToken();
+                // Handle other specific cases if needed
+            } else {
+                console.error(`Falha ao atualizar o token: ${error.message}`);
+                clearToken();
+                // Handle other general errors
             }
-        };
 
-        // Clear the previous timer if it exists
-        if (state.tokenRefreshTimer) {
-            clearTimeout(state.tokenRefreshTimer);
         }
+    }, [state.token, setToken]);
 
-        // Schedule a new timer for refreshing the token 2 minutes before it expires
-        const expirationTime = state.tokenExpiration - Date.now();
-        if (expirationTime > 0) {
-            const timer = setTimeout(refreshToken, expirationTime - 2 * 60 * 1000);
-            dispatch({ type: "setTokenRefreshTimer", payload: timer });
-        }
-    }, [state.token, state.tokenRefreshTimer, state.tokenExpiration, setTokenCallback]);
-    
     useEffect(() => {
-        // Shedule the initial token refresh
-        if (state.token && state.tokenExpiration) {
-            sheduleTokenRefresh()
-        }
-    }, [state.token, state.tokenExpiration, sheduleTokenRefresh])
+        // Inicia o intervalo de atualização do token a cada 4 minutos
+        const intervalId = setInterval(updateTokenInterval, 4 * 60 * 1000);
+
+        // Limpa o intervalo ao desmontar o componente ou quando o token é limpo
+        return () => clearInterval(intervalId);
+    }, [updateTokenInterval]);
+
     // Memoized value of the authentication context
     const contextValue = useMemo(
         () => ({
@@ -110,10 +104,9 @@ const AuthProvider = ({ children }) => {
             setToken,
             clearToken,
         }),
-        [state]
+        [state, setToken]
     );
 
-    console.log(`Context state: ${state}`)
     // Provide the authentication context to the children components
     return (
         <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

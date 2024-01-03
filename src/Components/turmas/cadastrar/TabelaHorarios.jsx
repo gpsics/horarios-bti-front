@@ -112,14 +112,31 @@ const TabelaHorarios = () => {
                     if (response.status === 201) {
                         Sucess.cadastro()
                         navigate(-1)
+                    } 
+                } catch (erro) {
+                    if (erro.response && erro.response.status === 500) {
+                        // Se houver dados na resposta, exiba a mensagem para o usuário
+                        if (erro.response.data) {
+                            const errorMessage = extractErrorMessage(erro.response.data);
+                            console.error('Erro na requisição:', errorMessage);
+                            Erro.erro(errorMessage);
+                        } else {
+                            // Caso contrário, exiba uma mensagem genérica
+                            console.error('Erro na requisição:', erro.response);
+                            Erro.erro('Erro interno do servidor');
+                        }
                     } else {
-                        Erro.erro('Erro ao cadastrar turma!')
+                        console.error('Erro na requisição:', erro.message);
+                        Erro.erro('Erro desconhecido');
                     }
-                } catch (error) {
-                    console.error(error)
                 }
             }
         })
+    }
+    // Função para extrair a mensagem do campo "Exception Value"
+    function extractErrorMessage(responseData) {
+        const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
+        return match ? match[1] : 'Erro desconhecido do servidor';
     }
 
     // Nesta função, irá acontecer uma verificação de se pelo menos um elemento do array 'newArray' atende as condições dentro do método .some() para assim marcar como horário igual ao da tabela e la na tabela, marccar com um X
@@ -279,7 +296,7 @@ const TabelaHorarios = () => {
 
     return (
         <React.Fragment>
-            <Header titulo = {'Tabela de Horários'} link={'/Home'} />
+            <Header titulo={'Tabela de Horários'} link={'/Home'} />
             <main id='entidades'>
                 <div id="menu">
                     <Menu />

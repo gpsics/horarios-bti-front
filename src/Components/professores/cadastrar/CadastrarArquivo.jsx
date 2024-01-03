@@ -22,7 +22,7 @@ const CadastrarArquivo = () => {
       fileReader.readAsText(file);
     }
   };
-  
+
 
   const fileSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +80,14 @@ const CadastrarArquivo = () => {
     novosDocentes.splice(index, 1)
     setCsv(novosDocentes)
   }
+  // Função para limpar o estado csv
+  const limparCsv = () => {
+    Confirm.excluir().then(async (result) =>{
+      if(result.isConfirmed){
+        setCsv([]);
+      }
+    })
+  };
 
   return (
     <>
@@ -98,20 +106,31 @@ const CadastrarArquivo = () => {
 
       </div>
       <div className="list-section">
-        <h3 className="list-title">Seu Arquivo</h3>
-        <ul className="list">
-          {csv.map((nome, index) => (
-            <li key={index} className="in-prog">{nome}  <i onClick={() => removerDocente(index)}><FaTrash /></i></li>
-          ))}
-        </ul>
-      </div>
-      
-        <div className="opcoesButtons">
-          <button onClick={fileSubmit} className="botoesCad" id='cad'>
-            Cadastrar Arquivo
-          </button>
+        {csv.length > 0 ? (
+          <>
+            <h3 className="list-title">Seu Arquivo</h3>
+            <ul className="list">
+              {csv.map((nome, index) => (
+                <li key={index} className="in-prog">
+                  {nome} <i onClick={() => removerDocente(index)}><FaTrash /></i>
+                </li>
+              ))}
+            </ul>
 
-        </div>
+            <div className="opcoesButtons">
+              <button onClick={limparCsv} className='botoesCad' id='deletar'>Excluir Arquivo</button>
+              <button onClick={fileSubmit} className="botoesCad" id='cad'>
+                Cadastrar Arquivo
+              </button>
+
+            </div>
+          </>
+        ) : (
+          <> </>
+        )}
+
+      </div>
+
     </>
   );
 };

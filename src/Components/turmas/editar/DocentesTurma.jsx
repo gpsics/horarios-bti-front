@@ -13,7 +13,6 @@ const DocentesTurma = ({profs}) => {
     useEffect(() => {
         setDocentesSelecionados(profs)
     }, [profs, setDocentesSelecionados]);
-    console.log(docentesSelecionados)
     const fetchDocente = useCallback(async () => {
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {

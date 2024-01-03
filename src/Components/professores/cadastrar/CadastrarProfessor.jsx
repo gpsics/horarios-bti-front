@@ -58,6 +58,12 @@ const CadastrarProfessor = () => {
                     Erro.erro('Não é permitido cadastrar caracteres especiais.')
                     return
                 }
+                console.log(`O nome tem ${user.length} caracteres.`)
+
+                // if(user.length >= 80){
+                //     Erro.erro('Não é permitido cadastrar nome com 80 caracteres ou mais.')
+                //     return
+                // }
                 const url = 'http://127.0.0.1:8000/api/professores/'
                 const config = {
                     headers: {
@@ -79,6 +85,7 @@ const CadastrarProfessor = () => {
                     }
                 } catch (error) {
                     console.error(error)
+                    Erro.erro(error)
                 }
 
             }

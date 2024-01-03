@@ -122,6 +122,13 @@
     display: flex;
     justify-content: space-between;
 }
+.in-prog:hover{
+    cursor: pointer;
+    background-color: #b4cfe7;
+}
+.in-prog i:hover{
+    color: #333;
+}
 
 .cadastroArquivo {
     text-align: center;
@@ -142,7 +149,9 @@
     cursor: pointer;
 }
 
-
+.opcoesButtons{
+    margin-top: 20px;
+}
 @media screen and (max-width: 920px) {
     .cadProf {
         grid-template-rows: 60px 230px 1fr;

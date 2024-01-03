@@ -34,5 +34,8 @@
 
 .listarComponentes #nenhumCOMP {
     grid-area: busca;
+    margin: 0px auto;
     padding-left: 10px;
+    text-align: center;
+    font-size: 1.2em;
 }

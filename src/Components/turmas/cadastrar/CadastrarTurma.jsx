@@ -79,9 +79,9 @@ const CadastrarTurma = () => {
             <form >
               <label ><input type="text" className="informacoesTurma" placeholder='Código do Componente' value={codigo} onChange={e => setCodigo(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
 
-              <label ><input type="number" className="informacoesTurma" placeholder='Número da turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
+              <label ><input type="number" min={1} className="informacoesTurma" placeholder='Número da Turma' value={numTurma} onChange={e => setNumTurma(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
 
-              <label><input type="text" className="informacoesTurma" placeholder='Número de vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
+              <label><input type="number" min={1} className="informacoesTurma" placeholder='Número de Vagas' value={numVagas} onChange={e => setNumVagas(e.target.value)} /><span style={{ color: 'red' }}>*</span></label>
             </form>
             <BuscarDocente />
             <div className='botaoCadTur'>

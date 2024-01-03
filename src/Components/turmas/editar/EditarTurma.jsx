@@ -14,7 +14,7 @@ function EditarTurma() {
     const { token } = useAuth()
     const [turma, setTurma] = useState()
     const [docentesArray, setDocentesArray] = useState([])
-    const [newVagas, setNewVagas] = useState('')
+    const [newVagas, setNewVagas] = useState(1)
     const [newNumber, setNewNumber] = useState('')
 
 
@@ -88,12 +88,12 @@ function EditarTurma() {
                         <form>
                             <div>
                                 <label>Número de Vagas *<input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value)} /> </label>
-                                <label >Número da Turma *<input type="number" placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value)} /> </label>
+                                <label >Número da Turma *<input type="number" min={1} placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value)} /> </label>
                             </div>
                             <DocentesTurma profs={docentesArray} />
                         </form>
                     </section>
-                    <TabelaEditar tur={turma} numvagas={newVagas} numTurma={newNumber} />
+                    <TabelaEditar tur={turma} numVagas={newVagas} numTurma={newNumber} />
                 </section>
             </main>
             <Footer />

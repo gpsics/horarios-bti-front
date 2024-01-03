@@ -61,7 +61,6 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const diaQuarta = arrayTable.filter(item => item.dia === 4);
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
-    // const { idTurma } = useParams()
     const { docentesSelecionados } = useDocentes()
     const { token } = useAuth()
 
@@ -69,7 +68,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const cancelar = () => {
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
-                navigate('/home')
+                navigate(-1)
             }
         })
     }
@@ -114,11 +113,17 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                         Erro.erro('Erro ao cadastrar turma!')
                     }
                 } catch (erro) {
-                    console.error(erro);
                     if (erro.response && erro.response.status === 500) {
-                        const backendMessage = erro.response;
-                        console.error('Erro na requisição:', backendMessage);
-                        Erro.erro(backendMessage);
+                        // Se houver dados na resposta, exiba a mensagem para o usuário
+                        if (erro.response.data) {
+                            const errorMessage = extractErrorMessage(erro.response.data);
+                            console.error('Erro na requisição:', errorMessage);
+                            Erro.erro(errorMessage);
+                        } else {
+                            // Caso contrário, exiba uma mensagem genérica
+                            console.error('Erro na requisição:', erro.response);
+                            Erro.erro('Erro interno do servidor');
+                        }
                     } else {
                         console.error('Erro na requisição:', erro.message);
                         Erro.erro('Erro desconhecido');
@@ -128,6 +133,12 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
             }
         })
     }
+    // Função para extrair a mensagem do campo "Exception Value"
+    function extractErrorMessage(responseData) {
+        const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
+        return match ? match[1] : 'Erro desconhecido do servidor';
+    }
+
     const verificarHorario = (horariosSet, destino) => {
         if (destino) {
             const horariosIguais = arrayTable.filter((element) =>
