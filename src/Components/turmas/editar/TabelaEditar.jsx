@@ -62,10 +62,11 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const diaQuinta = arrayTable.filter(item => item.dia === 5);
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { docentesSelecionados } = useDocentes()
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
 
     const navigate = useNavigate();
     const cancelar = () => {
+        checkTokenExpiration()
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate(-1)
@@ -73,6 +74,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
         })
     }
     const updateTurma = async (e) => {
+        checkTokenExpiration()
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {

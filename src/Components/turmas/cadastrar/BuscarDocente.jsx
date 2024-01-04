@@ -8,7 +8,7 @@ const BuscarDocente = () => {
   const [docentes, setDocentes] = useState([]);
   const [docentesBusca, setDocentesBusca] = useState([]);
   const { docentesSelecionados, setDocentesSelecionados } = useDocentes();
-  const { token } = useAuth()
+  const { token, checkTokenExpiration } = useAuth();
 
   useEffect(() => {
     setDocentesSelecionados([]);
@@ -38,8 +38,9 @@ const BuscarDocente = () => {
   }, [token]);
 
   useEffect(() => {
+    checkTokenExpiration()
     fetchDocente();
-  }, [fetchDocente]);
+  }, [fetchDocente, checkTokenExpiration]);
 
   const buscarDocen = ({ target }) => {
     if (!target.value) {

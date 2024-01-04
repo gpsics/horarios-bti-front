@@ -14,7 +14,7 @@ import Erro from '../../alerts/Erro';
 
 const DadosTurma = () => {
     const { idTurma } = useParams()
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
     const [turma, setTurma] = useState(null);
     const [componente, setComponente] = useState([]);
     const [docentesArray, setDocentesArray] = useState([])
@@ -85,9 +85,11 @@ const DadosTurma = () => {
     }, [idTurma, token, fetchDocente]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchTurmas();
-    }, [fetchTurmas]);
+    }, [fetchTurmas, checkTokenExpiration]);
     const removerTurma = async (id) => {
+        checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 const url = `http://127.0.0.1:8000/api/turmas/${id}/`;
@@ -114,6 +116,7 @@ const DadosTurma = () => {
     };
 
     const editarTurma = (item) => {
+        checkTokenExpiration()
         navigate(`/turmas/editarTurma/${item.id}`);
     }
     return (
@@ -122,7 +125,6 @@ const DadosTurma = () => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo verTurma">
-                    {/* <h1>Dados de Turma </h1> */}
                     <section className="verDadosTurma">
                         {turma && (
                             <ul>

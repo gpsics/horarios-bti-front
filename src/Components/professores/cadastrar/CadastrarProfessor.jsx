@@ -13,7 +13,7 @@ import axios from 'axios'
 const CadastrarProfessor = () => {
     const [user, setUser] = useState('');
     const [professors, setProfessors] = useState([]);
-    const { token } = useAuth()
+    const { token,  checkTokenExpiration} = useAuth()
 
     const fetchProfessors = useCallback(async () => {
         const url = 'http://127.0.0.1:8000/api/professores/';
@@ -37,11 +37,13 @@ const CadastrarProfessor = () => {
     }, [token]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchProfessors();
-    }, [fetchProfessors]);
+    }, [fetchProfessors,  checkTokenExpiration]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        checkTokenExpiration()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
                 if (user === '') {
@@ -59,11 +61,6 @@ const CadastrarProfessor = () => {
                     return
                 }
                 console.log(`O nome tem ${user.length} caracteres.`)
-
-                // if(user.length >= 80){
-                //     Erro.erro('Não é permitido cadastrar nome com 80 caracteres ou mais.')
-                //     return
-                // }
                 const url = 'http://127.0.0.1:8000/api/professores/'
                 const config = {
                     headers: {

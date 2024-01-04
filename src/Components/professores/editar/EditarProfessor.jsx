@@ -13,11 +13,12 @@ import Cancelar from '../../alerts/Cancelar'
 
 const EditarProfessor = () => {
     const { idProf } = useParams()
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
 
     const [newName, setNewName] = useState('')
     const navigate = useNavigate()
     const cancelarCadastro = () => {
+        checkTokenExpiration()
         Cancelar.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate(-1)
@@ -26,11 +27,17 @@ const EditarProfessor = () => {
     }
 
     const updateProfessor = async (e) => {
+        checkTokenExpiration()
         e.preventDefault()
         Confirm.editar().then(async (result) => {
             if (result.isConfirmed) {
                 if (newName === '') {
                     Erro.erro('Informe o nome do professor!')
+                    return
+                }
+                const regex = /[!@#$%^&*(),.?":{}|<>]/;
+                if( regex.test(newName)){
+                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
                     return
                 }
                 const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
@@ -48,17 +55,34 @@ const EditarProfessor = () => {
                     const response = await axios.patch(url, data, config);
                     if (response.status === 200) {
                         Sucess.editado()
-                    } else {
-                        Erro.erro('Erro ao editar nome do professor!')
+                        navigate(-1)
                     }
                 } catch (error) {
-                    console.error('An error occurred:', error);
+                    // Se houver dados na resposta, exiba a mensagem para o usuário
+                    if (error.response.data) {
+                        const errorMessage = extractErrorMessage(error.response.data);
+                        console.error('Erro na requisição:', errorMessage);
+                        Erro.erro(errorMessage);
+                    } else {
+                        // Caso contrário, exiba uma mensagem genérica
+                        console.error('Erro na requisição:', error.response);
+                        Erro.erro('Erro interno do servidor');
+                    }
                 }
 
             }
         })
     };
 
+    // Função para extrair a mensagem do campo "Exception Value"
+    function extractErrorMessage(responseData) {
+        if (typeof responseData === 'string') {
+            const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
+            return match ? match[1] : 'Erro desconhecido do servidor';
+        } else {
+            return 'Erro desconhecido do servidor';
+        }
+    }
 
     const fetchProfessors = useCallback(async () => {
         const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
@@ -82,8 +106,9 @@ const EditarProfessor = () => {
     }, [idProf, token]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchProfessors();
-    }, [fetchProfessors]);
+    }, [fetchProfessors, checkTokenExpiration]);
 
     return (
         <React.Fragment>
@@ -99,7 +124,7 @@ const EditarProfessor = () => {
                         </div>
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                            <button onClick={cancelarCadastro} id='cancel' className="botoesCad">Cancelar</button>
+                            <button onClick={cancelarCadastro} id='cancel' className="botoesCad" type='button'>Cancelar</button>
                             <button type="submit" className="botoesCad" id='cad'>Editar</button>
                         </form>
 

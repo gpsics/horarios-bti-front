@@ -35,6 +35,13 @@ const Sucess = {
             'A operação de atualização dos dados foi realizada com sucesso.',
             'success'
         )
+    },
+    tokenExpired: () => {
+        return Swal.fire(
+            'Tempo de Execução Expirado',
+            'Por favor, faça login novamente ou reinicie a sessão.',
+            'info'
+        )
     }
 };
 

@@ -16,9 +16,10 @@ const Dados = () => {
     const { idComp } = useParams()
     const [componente, setComponente] = useState([]);
     const navigate = useNavigate();
-    const {token} = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
 
     const removerComponente = async (codigo) => {
+        checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
@@ -67,10 +68,12 @@ const Dados = () => {
     }, [idComp, token]); 
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchComponente(); 
-    }, [fetchComponente]);
+    }, [fetchComponente, checkTokenExpiration]);
 
     const editarComponente = (item) => {
+        checkTokenExpiration()
         navigate(`/componentes/editarComponente/${item.codigo}`);
     }
 

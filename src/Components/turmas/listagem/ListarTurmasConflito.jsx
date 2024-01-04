@@ -9,7 +9,7 @@ import './ListarConflitos.css'
 
 const ListarTurmasConflito = () => {
   const [conflitos, setConflitos] = useState([]);
-  const { token } = useAuth()
+  const { token, checkTokenExpiration } = useAuth();
   const fetchConflitos = useCallback(async () => {
     const url = 'http://127.0.0.1:8000/api/horarios/conflitos/';
     const config = {
@@ -32,8 +32,9 @@ const ListarTurmasConflito = () => {
   }, [token]);
 
   useEffect(() => {
+    checkTokenExpiration()
     fetchConflitos();
-  }, [fetchConflitos]);
+  }, [fetchConflitos, checkTokenExpiration]);
   return (
     <React.Fragment>
       <Header titulo = {'Turmas com Conflito'} link={'/home'} />

@@ -8,7 +8,7 @@ import { MdModeEdit } from "react-icons/md";
 import { useNavigate } from 'react-router-dom'
 import Confirm from '../../alerts/Confirm'
 import Sucess from '../../alerts/Sucess'
-import  { useAuth } from '../../../provider/authProvider'
+import { useAuth } from '../../../provider/authProvider'
 import axios from 'axios'
 import Erro from '../../alerts/Erro'
 
@@ -16,9 +16,10 @@ const ListarProfessores = () => {
     const [professors, setProfessors] = useState([]);
     const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
-    const {token} = useAuth()
+    const { token, checkTokenExpiration } = useAuth()
 
     const removerProfessor = async (id) => {
+        checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 const url = `http://127.0.0.1:8000/api/professores/${id}/`;
@@ -27,7 +28,6 @@ const ListarProfessores = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 };
-
                 try {
                     const response = await axios.delete(url, config);
                     if (response.status === 204) {
@@ -45,15 +45,16 @@ const ListarProfessores = () => {
         })
     };
 
-    
-    const fetchProfessors = useCallback( async () => {
+
+    const fetchProfessors = useCallback(async () => {
+
         const url = 'http://127.0.0.1:8000/api/professores/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
-        
+
         try {
             const response = await axios.get(url, config);
             if (response.status === 200) {
@@ -66,13 +67,15 @@ const ListarProfessores = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    },[token]);
+    }, [token]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchProfessors();
-    }, [fetchProfessors]);
-    
+    }, [fetchProfessors, checkTokenExpiration]);
+
     const editarProfessor = (item) => {
+        checkTokenExpiration()
         navigate(`/professores/editarProfessor/${item.id}`);
     }
     const buscarProfessor = ({ target }) => {
@@ -86,7 +89,7 @@ const ListarProfessores = () => {
     }
     return (
         <React.Fragment>
-            <Header titulo = {'Listar Professores'} link={'/Home'} />
+            <Header titulo={'Listar Professores'} link={'/Home'} />
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className='conteudo listarProfessores'>

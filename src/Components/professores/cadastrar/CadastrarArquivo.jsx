@@ -11,7 +11,7 @@ const parseCSV = (text) => text.split('\n');
 
 const CadastrarArquivo = () => {
   const [csv, setCsv] = useState([]);
-  const { token } = useAuth();
+  const { token, checkTokenExpiration } = useAuth();
 
   const handleOnChange = (e) => {
     const file = e.target.files[0];
@@ -26,6 +26,8 @@ const CadastrarArquivo = () => {
 
   const fileSubmit = async (e) => {
     e.preventDefault();
+    checkTokenExpiration()
+
     Confirm.cadastrar().then(async (result) => {
       if (result.isConfirmed) {
         if (csv.length === 0) {

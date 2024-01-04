@@ -68,10 +68,10 @@ const TabelaHorarios = () => {
     const diaSexta = arrayTable.filter(item => item.dia === 6);
     const { codComp, numTurma, numVagas } = useParams()
     const { docentesSelecionados } = useDocentes()
-    const { token } = useAuth()
-
+    const { token, checkTokenExpiration } = useAuth();
     const navigate = useNavigate();
     const cancelar = () => {
+        checkTokenExpiration()
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate('/home')
@@ -80,6 +80,7 @@ const TabelaHorarios = () => {
     }
 
     const cadastrarTurma = async (e) => {
+        checkTokenExpiration()
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
@@ -288,10 +289,11 @@ const TabelaHorarios = () => {
 
 
     useEffect(() => {
+        checkTokenExpiration()
         requisitarComponente();
         requisitarDocentes()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [checkTokenExpiration]);
 
 
     return (

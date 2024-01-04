@@ -10,7 +10,7 @@ import { useAuth } from '../../../provider/authProvider'
 import TabelaListagem from './TabelaListagem'
 const ListarTurmasComponente = () => {
   const [turmas, setTurmas] = useState([]);
-  const { token } = useAuth()
+  const { token, checkTokenExpiration } = useAuth();
 
   const fetchTurmas = useCallback(async () => {
     Input.text().then(async (result) => {
@@ -42,11 +42,12 @@ const ListarTurmasComponente = () => {
   }, [token])
 
   useEffect(() => {
+    checkTokenExpiration()
     fetchTurmas();
-  }, [fetchTurmas]);
+  }, [fetchTurmas, checkTokenExpiration]);
   return (
     <React.Fragment>
-      <Header titulo = {'Turmas de Componente'} link={'/Home'} />
+      <Header titulo={'Turmas de Componente'} link={'/Home'} />
       <main id="entidades">
         <div id="menu"><Menu /></div>
         <section className="conteudo listarTurmas">

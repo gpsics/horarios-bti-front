@@ -17,10 +17,11 @@ const EditarComponente = () => {
   const [newCH, setNewCH] = useState();
   const [newDP, setNewDP] = useState();
   const [newChecked, setNewChecked] = useState(false);
-  const { token } = useAuth()
+  const { token, checkTokenExpiration } = useAuth();
   const navigate = useNavigate()
 
   const cancelar = () => {
+    checkTokenExpiration()
     Confirm.cancel().then(async (result) => {
       if (result.isConfirmed) {
         navigate(-1)
@@ -28,6 +29,7 @@ const EditarComponente = () => {
     })
   }
   const updateComponente = async (e) => {
+    checkTokenExpiration()
     e.preventDefault();
     Confirm.editar().then(async (result) => {
       const regex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -55,7 +57,7 @@ const EditarComponente = () => {
           const response = await axios.patch(url, data, config);
           if (response.status === 200) {
             Sucess.editado();
-            fetchComponente()
+            navigate(-1)
           } else {
 
             Erro.erro('Erro ao editar componente.');
@@ -95,8 +97,9 @@ const EditarComponente = () => {
   }, [idComp, token]);
 
   useEffect(() => {
+    checkTokenExpiration()
     fetchComponente();
-  }, [fetchComponente]);
+  }, [fetchComponente, checkTokenExpiration]);
   return (
     <React.Fragment>
       <Header titulo={'Editar Componente'} link={'/Home'} />

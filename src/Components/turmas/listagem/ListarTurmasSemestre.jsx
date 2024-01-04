@@ -10,7 +10,7 @@ import axios from 'axios'
 import TabelaListagem from './TabelaListagem'
 const ListarTurmasSemestre = () => {
     const [turmas, setTurmas] = useState([]);
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
    
     const fetchTurmas = useCallback(async () => {
         Input.select().then(async (result) => {
@@ -43,8 +43,9 @@ const ListarTurmasSemestre = () => {
     }, [token])
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchTurmas();
-    }, [fetchTurmas]);
+    }, [fetchTurmas, checkTokenExpiration]);
     
     return (
         <React.Fragment>

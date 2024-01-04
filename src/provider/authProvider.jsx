@@ -1,5 +1,7 @@
 import axios from "axios";
-import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import { createContext, useCallback, useContext, useMemo, useReducer } from "react";
+import Sucess from "../Components/alerts/Sucess";
+import { jwtDecode } from "jwt-decode";
 
 // Create the authentication context
 const AuthContext = createContext();
@@ -8,7 +10,6 @@ const AuthContext = createContext();
 const ACTIONS = {
     setToken: "setToken",
     clearToken: "clearToken",
-
 };
 
 // Reducer function to handle authentication state changes
@@ -30,19 +31,29 @@ const authReducer = (state, action) => {
             // Update the state by removing the token and reset the token refresh timer
             return { ...state, token: null, tokenRefreshTimer: null };
 
-
         default:
-            console.error(
-                `You passed an action.type: ${action.type} which doesn't exist`
-            );
+            console.error(`You passed an action.type: ${action.type} which doesn't exist`);
     }
 };
 
 // Initial state for the authentication context
 const initialData = {
     token: localStorage.getItem("token"),
+    tokenExpiration: null,
 };
 
+const getTokenExpiration = (token) => {
+    try {
+        const decoded = jwtDecode(token)
+        if (decoded.exp) {
+            return decoded.exp
+        }
+        return null
+    } catch (error) {
+        console.error("Erro ao decodificar o token:", error)
+        return null
+    }
+}
 // AuthProvider component to provide the authentication context to children
 const AuthProvider = ({ children }) => {
     // Use reducer to manage the authentication state
@@ -60,51 +71,26 @@ const AuthProvider = ({ children }) => {
         dispatch({ type: ACTIONS.clearToken });
     };
 
-    const updateTokenInterval = useCallback(async () => {
-        try {
-            console.log('Token de atualização:', state.token);
-            const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
-                refresh: state.token,
-            });
-            console.log('Resposta do servidor:', response);
-            const newToken = response.data.access;
-            setToken(newToken);
-            console.log('Token atualizado com sucesso!', newToken);
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                console.error('Token de atualização expirado ou inválido');
-                // Handle the case when the refresh token is expired or invalid
-                // For example, clear the token and redirect to the login page
-                clearToken();
-            } else if (error.response && error.response.status === 400) {
-                console.error(`Erro de solicitação inválida ao atualizar o token: ${error.message}`);
-                clearToken();
-                // Handle other specific cases if needed
-            } else {
-                console.error(`Falha ao atualizar o token: ${error.message}`);
-                clearToken();
-                // Handle other general errors
-            }
 
+    const checkTokenExpiration = useCallback(() => {
+        const tokenExpiration = getTokenExpiration(state.token)
+        if (tokenExpiration && tokenExpiration < Date.now() / 1000) {
+            Sucess.tokenExpired().then(async (result) => {
+                if (result.isConfirmed) {
+                    clearToken()
+                }
+            })
         }
-    }, [state.token, setToken]);
-
-    useEffect(() => {
-        // Inicia o intervalo de atualização do token a cada 4 minutos
-        const intervalId = setInterval(updateTokenInterval, 4 * 60 * 1000);
-
-        // Limpa o intervalo ao desmontar o componente ou quando o token é limpo
-        return () => clearInterval(intervalId);
-    }, [updateTokenInterval]);
-
+    }, [state.token])
     // Memoized value of the authentication context
     const contextValue = useMemo(
         () => ({
             ...state,
             setToken,
             clearToken,
+            checkTokenExpiration,
         }),
-        [state, setToken]
+        [state, setToken,  checkTokenExpiration]
     );
 
     // Provide the authentication context to the children components

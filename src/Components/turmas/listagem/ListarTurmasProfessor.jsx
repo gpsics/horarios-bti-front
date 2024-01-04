@@ -9,8 +9,7 @@ import Footer from '../../footer/Footer'
 
 const ListarTurmasProfessor = () => {
   const [turmas, setTurmas] = useState([])
-  const { token } = useAuth()
-
+  const { token, checkTokenExpiration } = useAuth();
   const fetchTurmas = useCallback(async (docentesData) => {
     const result = await Input.selectProf(docentesData);
 
@@ -63,8 +62,9 @@ const ListarTurmasProfessor = () => {
   }, [token, fetchTurmas]);
 
   useEffect(() => {
+    checkTokenExpiration()
     fetchDocente();
-  }, [fetchDocente]);
+  }, [fetchDocente, checkTokenExpiration]);
   return (
     <React.Fragment>
       <Header titulo = {'Turmas de Professor'} link={'/Home'} />

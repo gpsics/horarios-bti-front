@@ -11,7 +11,7 @@ import './EditarTurma.css'
 
 function EditarTurma() {
     const { idTurma } = useParams()
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
     const [turma, setTurma] = useState()
     const [docentesArray, setDocentesArray] = useState([])
     const [newVagas, setNewVagas] = useState(1)
@@ -65,8 +65,9 @@ function EditarTurma() {
     }, [idTurma, token, fetchDocente]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchTurmas();
-    }, [fetchTurmas]);
+    }, [fetchTurmas, checkTokenExpiration]);
 
 
     return (
@@ -77,7 +78,6 @@ function EditarTurma() {
                     <Menu />
                 </div>
                 <section className="conteudo editarTurma">
-                    {/* <h1>Formulário de Edição</h1> */}
                     <section className="edTur">
                         <div className="header-section">
                             <h2>Preencha as Informações</h2>

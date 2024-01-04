@@ -17,9 +17,10 @@ import axios from 'axios';
 const ListarTurmas = () => {
     const [turmas, setTurmas] = useState([]);
     const [componentes, setComponentes] = useState([])
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
     const navigate = useNavigate();
     const removerTurma = async (id) => {
+        checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
                 const url = `http://127.0.0.1:8000/api/turmas/${id}/`;
@@ -33,18 +34,18 @@ const ListarTurmas = () => {
                     if (response.status === 204) {
                         Sucess.delete()
                         setTurmas(prevTurmas => prevTurmas.filter(turmaa => turmaa.id !== id));
-                        
+
                     } else {
                         Erro.erro('Erro ao Deletar turma.')
                     }
                 } catch (error) {
                     console.error('An error occurred:', error);
                 }
-                
+
             }
         })
     };
-    
+
     const fetchComponentes = useCallback(async (turmasData) => {
         for (const cod of turmasData) {
             const url = `http://127.0.0.1:8000/api/componentes/${cod.cod_componente}`
@@ -75,14 +76,14 @@ const ListarTurmas = () => {
                 Authorization: `Bearer ${token}`,
             },
         };
-        
+
         try {
             const response = await axios.get(url, config);
             if (response.status === 200) {
                 const turmasData = response.data
                 setTurmas(turmasData);
                 fetchComponentes(turmasData)
-                
+
             } else {
                 console.log('Erro ao listar turmas.')
             }
@@ -90,17 +91,19 @@ const ListarTurmas = () => {
             console.error('An error occurred:', error);
         }
     }, [token, fetchComponentes])
-    
+
     useEffect(() => {
+        checkTokenExpiration()
         fetchTurmas();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [checkTokenExpiration]);
     const verTurma = (item) => {
-        // turVerDados(item)
+        checkTokenExpiration()
         navigate(`/turmas/verDadosTurma/${item.id}`);
     }
-    
+
     const editarTurma = (item) => {
+        checkTokenExpiration()
         navigate(`/turmas/editarTurma/${item.id}`);
     }
     return (

@@ -14,15 +14,16 @@ import Erro from '../../alerts/Erro';
 import { useAuth } from '../../../provider/authProvider';
 
 const ListarComponentes = () => {
-    const {token} = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
     const [componentes, setComponentes] = useState([]);
     const [compsBusca, setCompsBusca] = useState([])
     const navigate = useNavigate();
-      
+
     const removerComponente = async (codigo) => {
+        checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                
+
                 const url = `http://127.0.0.1:8000/api/componentes/${codigo}/`;
                 const config = {
                     headers: {
@@ -49,8 +50,8 @@ const ListarComponentes = () => {
     };
 
 
-    
-    const fetchComponente = useCallback( async () => {
+
+    const fetchComponente = useCallback(async () => {
         const url = 'http://127.0.0.1:8000/api/componentes/';
         const config = {
             headers: {
@@ -70,16 +71,19 @@ const ListarComponentes = () => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    },[token]);
+    }, [token]);
 
     useEffect(() => {
+        checkTokenExpiration()
         fetchComponente();
-    }, [fetchComponente]);
-    
+    }, [fetchComponente, checkTokenExpiration]);
+
     const editarComponente = (item) => {
+        checkTokenExpiration()
         navigate(`/componentes/editarComponente/${item.codigo} `);
     }
     const verComponente = (item) => {
+        checkTokenExpiration()
         navigate(`/componentes/verDadosComponente/${item.codigo}`);
     }
     const buscarComponente = ({ target }) => {
@@ -107,7 +111,7 @@ const ListarComponentes = () => {
 
     return (
         <React.Fragment>
-            <Header titulo = {'Listar Componentes'} link={'/Home'} />
+            <Header titulo={'Listar Componentes'} link={'/Home'} />
             <main id='entidades'>
                 <div id="menu"><Menu /></div>
                 <section className='conteudo listarComponentes'>

@@ -15,8 +15,9 @@ const CadastrarTurma = () => {
   const [numTurma, setNumTurma] = useState('')
   const [numVagas, setNumVagas] = useState('')
   const navigate = useNavigate();
-  const { token } = useAuth()
+  const { token, checkTokenExpiration } = useAuth();
   const cancelar = () => {
+    checkTokenExpiration()
     Confirm.cancel().then(async (result) => {
       if (result.isConfirmed) {
         navigate('/home')
@@ -24,6 +25,7 @@ const CadastrarTurma = () => {
     })
   }
   const verificarDados = async (e) => {
+    checkTokenExpiration()
     e.preventDefault()
     Confirm.cadastrar().then(async (result) => {
       if (result.isConfirmed) {

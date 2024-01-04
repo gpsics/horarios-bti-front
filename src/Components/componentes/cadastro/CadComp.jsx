@@ -18,9 +18,10 @@ const CadComp = () => {
     const [selectSM, setSelectSM] = useState();
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
-    const { token } = useAuth()
+    const { token, checkTokenExpiration } = useAuth();
 
     const cancelar = () => {
+        checkTokenExpiration()
         Confirm.cancel().then(async (result) => {
             if (result.isConfirmed) {
                 navigate('/home')
@@ -29,6 +30,7 @@ const CadComp = () => {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
+        checkTokenExpiration()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
                 if (!selectCH || !selectDP || nome === '' || codigo === '') {
