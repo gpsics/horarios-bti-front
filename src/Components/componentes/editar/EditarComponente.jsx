@@ -58,9 +58,6 @@ const EditarComponente = () => {
           if (response.status === 200) {
             Sucess.editado();
             navigate(-1)
-          } else {
-
-            Erro.erro('Erro ao editar componente.');
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -88,9 +85,7 @@ const EditarComponente = () => {
         setNewCH(componentesData.carga_horaria);
         setNewDP(componentesData.departamento);
         setNewChecked(componentesData.obrigatorio);
-      } else {
-        console.log('Erro ao listar componentes.');
-      }
+      } 
     } catch (error) {
       console.error('An error occurred:', error);
     }

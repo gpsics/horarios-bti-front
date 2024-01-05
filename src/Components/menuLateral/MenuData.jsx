@@ -2,7 +2,6 @@ import React from 'react'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
 import * as RiIcons from 'react-icons/ri'
-import * as PiIcons from 'react-icons/pi'
 import * as SiIcons from 'react-icons/si'
 import * as MdIcons from 'react-icons/md'
 import * as LuIcons from 'react-icons/lu'
@@ -23,7 +22,7 @@ export const MenuData = [
             {
                 title: 'Listar Professores',
                 path: '/professores/listarProfessores',
-                icon: <PiIcons.PiUserListFill/>
+                icon: <FaIcons.FaListAlt/>
             },
         ]
     },
@@ -42,7 +41,7 @@ export const MenuData = [
             {
                 title: 'Listar Turmas',
                 path: '/turmas/listarTurmas',
-                icon: <PiIcons.PiUserListFill/>
+                icon: <FaIcons.FaListAlt/>
             },
             {
                 title: 'Listar Turmas por Semestre',

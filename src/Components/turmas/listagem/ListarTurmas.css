@@ -49,6 +49,9 @@
     .tabelaTurmas .funcoesIndex{
         width: 50px;
     }
+    .tabelaTurmas{
+        font-weight: 300;
+    }
 }
 @media screen and (max-width: 1000px) {
     .colHorarios, .colDias{

@@ -28,6 +28,11 @@ const CadComp = () => {
             }
         })
     }
+    // Função para extrair a mensagem do campo "Exception Value"
+    function extractErrorMessage(responseData) {
+        const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
+        return match ? match[1] : 'Erro desconhecido do servidor';
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
         checkTokenExpiration()
@@ -74,11 +79,23 @@ const CadComp = () => {
                                 window.location.reload();
                             }
                         })
-                    } else {
-                        Erro.erro('Erro ao cadastrar Componente.')
                     }
                 } catch (error) {
-                    console.error(error)
+                    if (error.response && error.response.status !== 201) {
+                        // Se houver dados na resposta, exiba a mensagem para o usuário
+                        if (error.response.data) {
+                            const errorMessage = extractErrorMessage(error.response.data);
+                            console.error('Erro na requisição:', errorMessage);
+                            Erro.erro(errorMessage);
+                        } else {
+                            // Caso contrário, exiba uma mensagem genérica
+                            console.error('Erro na requisição:', error.response);
+                            Erro.erro('Erro interno do servidor');
+                        }
+                    } else {
+                        console.error('Erro na requisição:', error.message);
+                        Erro.erro('Erro desconhecido');
+                    }
                 }
 
             }

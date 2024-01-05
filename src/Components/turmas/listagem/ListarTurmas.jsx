@@ -121,9 +121,9 @@ const ListarTurmas = () => {
                                     <th className='nomeComponente'>COMPONENTE</th>
                                     <th className='centralizarTexto numerTurma'>TURMA</th>
                                     <th className='centralizarTexto horarioss'>HORÁRIOS</th>
-                                    <th className='funcoesIndex'></th>
-                                    <th className='funcoesIndex'></th>
-                                    <th id='pontaDireita' className='funcoesIndex'></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th id='pontaDireita'></th>
                                 </tr>
                             </thead>
                             <tbody>

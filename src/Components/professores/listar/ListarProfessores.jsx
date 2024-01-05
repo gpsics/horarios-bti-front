@@ -17,6 +17,7 @@ const ListarProfessores = () => {
     const [profsBusca, setProfsBusca] = useState([])
     const navigate = useNavigate();
     const { token, checkTokenExpiration } = useAuth()
+    
 
     const removerProfessor = async (id) => {
         checkTokenExpiration()
