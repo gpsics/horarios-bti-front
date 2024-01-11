@@ -1,14 +1,15 @@
 .tableCadTur{
     min-height: 100vh;
-    box-sizing: border-box;
     padding: 20px 40px;
+    box-sizing: border-box;
 }
 .tableHor{
     margin: 70px auto;
-    min-width: 80%;
+    min-height: 90px;
 }
 .tableHor .colunaHorarios{
     border-left: none;
+    width: 150px;
     padding-left: 20px;
     padding-right: 10px;
     box-sizing: border-box;
@@ -24,6 +25,14 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+}
+
+@media screen and (max-width: 1420px){
+    .colunaHorarios{
+        width: 250px;
+        font-size: 0.9em;
+    }
+    
 }
 @media screen and (max-width: 1220px){
     .tableHor .colunaHorarios{
@@ -56,5 +65,10 @@
 @media screen and (max-width: 660px){
     .tableHor .colunaDias{
         width: 70px;
+    }
+}
+@media screen and (max-width: 607px){
+    .tableHor{
+        font-size: 0.8em;
     }
 }

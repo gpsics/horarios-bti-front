@@ -2,12 +2,15 @@ import Swal from "sweetalert2"
 
 const Erro = {
     erro: (motivo) => {
-        return Swal.fire(
-            'Oops...',
-            `${motivo}`,
-            'error',
-        );
+        const mensagemFormatada = motivo.replace(/\n/g, '<br>');
+
+        return Swal.fire({
+            title: 'Oops...',
+            html: `${mensagemFormatada}`,
+            icon: 'error',
+            htmlMode: true,
+        });
     },
 };
 
-export default Erro
+export default Erro;

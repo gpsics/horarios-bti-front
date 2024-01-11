@@ -28,32 +28,13 @@ const CadComp = () => {
             }
         })
     }
-    // Função para extrair a mensagem do campo "Exception Value"
-    function extractErrorMessage(responseData) {
-        const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
-        return match ? match[1] : 'Erro desconhecido do servidor';
-    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         checkTokenExpiration()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                if (!selectCH || !selectDP || nome === '' || codigo === '') {
-                    Erro.erro('Por favor, preencha todos os campos obrigatórios.')
-                    return
-                }
-                if (isChecked && !selectSM) {
-                    Erro.erro('Para componentes obrigatórios, deve-se selecionar um semestre!')
-                }
-                if (codigo.length !== 7) {
-                    Erro.erro('Código do componente precisa ter 7 caracteres!')
-                    return
-                }
-                const regex = /[!@#$%^&*(),.?":{}|<>]/;
-                if( regex.test(nome) || regex.test(codigo)){
-                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
-                    return
-                }
+
                 const url = 'http://127.0.0.1:8000/api/componentes/'
                 const config = {
                     headers: {
@@ -73,25 +54,19 @@ const CadComp = () => {
                 try {
                     const response = await axios.post(url, data, config);
                     if (response.status === 201) {
-                        Sucess.cadastro().then(async (result) => {
-                            if (result.isConfirmed) {
-                                navigate('/componentes/cadastrarComponente', { replace: true })
-                                window.location.reload();
-                            }
-                        })
+                        Sucess.cadastro()
+                        setCodigo('')
+                        setIsChecked(false)
+                        setNome('')
+                        setSelectCH('')
+                        setSelectDP('')
+                        setSelectSM('')
+
                     }
                 } catch (error) {
-                    if (error.response && error.response.status !== 201) {
+                    if (error.response) {
                         // Se houver dados na resposta, exiba a mensagem para o usuário
-                        if (error.response.data) {
-                            const errorMessage = extractErrorMessage(error.response.data);
-                            console.error('Erro na requisição:', errorMessage);
-                            Erro.erro(errorMessage);
-                        } else {
-                            // Caso contrário, exiba uma mensagem genérica
-                            console.error('Erro na requisição:', error.response);
-                            Erro.erro('Erro interno do servidor');
-                        }
+                        Erro.erro(Object.values(error.response.data).join('\n'));
                     } else {
                         console.error('Erro na requisição:', error.message);
                         Erro.erro('Erro desconhecido');
@@ -126,7 +101,7 @@ const CadComp = () => {
                                 <div className="columnSon">
                                     <label >
                                         <select value={selectSM} onChange={e => setSelectSM(e.target.value)} className='selectField' >
-                                            <option selected disabled>Semestre</option>
+                                            <option selected value="0">Semestre</option>
                                             <option value="1">1º Semestre</option>
                                             <option value="2">2º Semestre</option>
                                             <option value="3">3º Semestre</option>
@@ -137,7 +112,7 @@ const CadComp = () => {
                                     </label>
                                     <label >
                                         <select value={selectCH} onChange={e => setSelectCH(e.target.value)} className='selectField' >
-                                            <option selected disabled>Carga Horária</option>
+                                            <option selected value=''>Carga Horária</option>
                                             <option value="15">15 Horas</option>
                                             <option value="30">30 Horas</option>
                                             <option value="45">45 Horas</option>
@@ -148,7 +123,7 @@ const CadComp = () => {
                                     </label>
                                     <label >
                                         <select value={selectDP} onChange={e => setSelectDP(e.target.value)} className='selectField' >
-                                            <option selected disabled>Departamento</option>
+                                            <option selected value=''>Departamento</option>
                                             <option value="DECEN">DECEN</option>
                                             <option value="DCSAH">DCSAH</option>
                                             <option value="DETEC">DETEC</option>

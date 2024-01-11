@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Header from '../../header/Header'
 import Footer from '../../footer/Footer'
 import Menu from '../../menuLateral/Menu'
@@ -12,55 +12,20 @@ import axios from 'axios'
 
 const CadastrarProfessor = () => {
     const [user, setUser] = useState('');
-    const [professors, setProfessors] = useState([]);
-    const { token,  checkTokenExpiration} = useAuth()
+    const { token, checkTokenExpiration } = useAuth()
 
-    const fetchProfessors = useCallback(async () => {
-        const url = 'http://127.0.0.1:8000/api/professores/';
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        try {
-            const response = await axios.get(url, config);
-            if (response.status === 200) {
-                const professorsData = response.data;
-                setProfessors(professorsData);
-            } else {
-                console.log('Erro ao listar professores.')
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
-        }
-    }, [token]);
-
-    useEffect(() => {
-        checkTokenExpiration()
-        fetchProfessors();
-    }, [fetchProfessors,  checkTokenExpiration]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         checkTokenExpiration()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                if (user === '') {
-                    Erro.erro('Informe o nome do professor!')
-                }
-                const existeDocente = professors.some(({ nome_prof }) => nome_prof === user);
-                if (existeDocente) {
-                    Erro.erro('Professor já cadastrado!')
-                    return;
-                }
                 const regex = /[!@#$%^&*(),.?":{}|<>]/;
                 const verificaCaracteres = regex.test(user)
-                if(verificaCaracteres){
+                if (verificaCaracteres) {
                     Erro.erro('Não é permitido cadastrar caracteres especiais.')
                     return
                 }
-                console.log(`O nome tem ${user.length} caracteres.`)
                 const url = 'http://127.0.0.1:8000/api/professores/'
                 const config = {
                     headers: {
@@ -75,14 +40,16 @@ const CadastrarProfessor = () => {
                     const response = await axios.post(url, data, config);
                     if (response.status === 201) {
                         setUser('')
-                        fetchProfessors()
                         Sucess.cadastro()
-                    } else {
-                        Erro.erro('Erro ao cadastrar professor!')
                     }
                 } catch (error) {
-                    console.error(error)
-                    Erro.erro(error)
+                    if (error.response) {
+                        // Se houver dados na resposta, exiba a mensagem para o usuário
+                        Erro.erro(Object.values(error.response.data).join('\n'));
+                    } else {
+                        console.error('Erro na requisição:', error.message);
+                        Erro.erro('Erro desconhecido');
+                    }
                 }
 
             }

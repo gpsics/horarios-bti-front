@@ -73,24 +73,33 @@ const BuscarDocente = () => {
         {docentesBusca.length > 0 ? (
           <ul className="listDocentes">
             {docentesBusca.map((item, index) => (
-              <li key={index} onClick={() => docente(item)}>{item.nome_prof}</li>
+              <li key={index}>
+                <button onClick={() => docente(item)}>
+                  {item.nome_prof}
+                </button>
+              </li>
             ))}
           </ul>
         ) : (
           <></>
         )}
       </div>
-      <h2>Docentes Selecionados</h2>
       <div>
         {docentesSelecionados.length > 0 ? (
-          <ul className="docentesSelecionados">
-            {docentesSelecionados.map((item, index) => (
-              <li key={index}>
-                {item.nome_prof}
-                <i onClick={() => removerDocente(index)}><FaTrash /></i>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <h2>Docentes Selecionados</h2>
+            <ul className="docentesSelecionados">
+              {docentesSelecionados.map((item, index) => (
+                <li key={index}>
+                  {item.nome_prof}
+                  <button onClick={() => removerDocente(index)} onKeyDown={(e) => e.key === 'Enter' && removerDocente(index)}>
+                    <FaTrash />
+                  </button>
+                </li>
+
+              ))}
+            </ul>
+          </div>
         ) : (
           <> </>
         )}

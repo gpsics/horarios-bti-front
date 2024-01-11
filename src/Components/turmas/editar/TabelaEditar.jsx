@@ -78,20 +78,6 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-
-                if (horariosMarcados.size === 0) {
-                    Erro.erro('Você precisa selecionar algum horário na tabela!')
-                    return
-                }
-                if (horariosMarcados.size < maxCheckeds) {
-                    Erro.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
-                    return
-                }
-                const regex = /[!@#$%^&*(),.?":{}|<>]/;
-                if (regex.test(numVagas)) {
-                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
-                    return
-                }
                 const url = `http://127.0.0.1:8000/api/turmas/${tur.id}/`
                 const config = {
                     headers: {
@@ -108,26 +94,16 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
 
                 try {
                     const response = await axios.patch(url, data, config);
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         Sucess.editado()
                         navigate(-1)
-                    } else {
-                        Erro.erro('Erro ao cadastrar turma!')
                     }
-                } catch (erro) {
-                    if (erro.response && erro.response.status === 500) {
+                } catch (error) {
+                    if (error.response) {
                         // Se houver dados na resposta, exiba a mensagem para o usuário
-                        if (erro.response.data) {
-                            const errorMessage = extractErrorMessage(erro.response.data);
-                            console.error('Erro na requisição:', errorMessage);
-                            Erro.erro(errorMessage);
-                        } else {
-                            // Caso contrário, exiba uma mensagem genérica
-                            console.error('Erro na requisição:', erro.response);
-                            Erro.erro('Erro interno do servidor');
-                        }
+                        Erro.erro(Object.values(error.response.data).join('\n'));
                     } else {
-                        console.error('Erro na requisição:', erro.message);
+                        console.error('Erro na requisição:', error.message);
                         Erro.erro('Erro desconhecido');
                     }
                 }
@@ -135,12 +111,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
             }
         })
     }
-    // Função para extrair a mensagem do campo "Exception Value"
-    function extractErrorMessage(responseData) {
-        const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
-        return match ? match[1] : 'Erro desconhecido do servidor';
-    }
-
+    
     const verificarHorario = (horariosSet, destino) => {
         if (destino) {
             const horariosIguais = arrayTable.filter((element) =>

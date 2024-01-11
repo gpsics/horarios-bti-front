@@ -32,12 +32,8 @@ const EditarComponente = () => {
     checkTokenExpiration()
     e.preventDefault();
     Confirm.editar().then(async (result) => {
-      const regex = /[!@#$%^&*(),.?":{}|<>]/;
       if (result.isConfirmed) {
-        if (regex.test(newName)) {
-          Erro.erro('Não é permitido cadastrar caracteres especiais.')
-          return
-        }
+        
         const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
         const config = {
           headers: {
@@ -55,12 +51,18 @@ const EditarComponente = () => {
 
         try {
           const response = await axios.patch(url, data, config);
-          if (response.status === 200) {
+          if (response.status === 201) {
             Sucess.editado();
             navigate(-1)
           }
         } catch (error) {
-          console.error('An error occurred:', error);
+          if (error.response) {
+            // Se houver dados na resposta, exiba a mensagem para o usuário
+            Erro.erro(Object.values(error.response.data).join('\n'));
+          } else {
+            console.error('Erro na requisição:', error.message);
+            Erro.erro('Erro desconhecido');
+          }
         }
       }
     });
@@ -85,7 +87,7 @@ const EditarComponente = () => {
         setNewCH(componentesData.carga_horaria);
         setNewDP(componentesData.departamento);
         setNewChecked(componentesData.obrigatorio);
-      } 
+      }
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -113,7 +115,7 @@ const EditarComponente = () => {
                   <label ><input type="text" placeholder='Nome do Componente' value={newName} onChange={e => setNewName(e.target.value)} className='inputField' /><span style={{ color: 'red' }}>*</span></label>
                   <label >
                     <select value={newSemester} onChange={e => setNewSemester(e.target.value)} className='selectField' >
-                      <option selected disabled>Semestre</option>
+                      <option selected value="0">Semestre</option>
                       <option value="1">1º Semeste</option>
                       <option value="2">2º Semeste</option>
                       <option value="3">3º Semeste</option>
@@ -131,7 +133,7 @@ const EditarComponente = () => {
 
                   <label >
                     <select value={newCH} onChange={e => setNewCH(e.target.value)} className='selectField'  >
-                      <option selected disabled>Carga Horária</option>
+                      <option selected value=''>Carga Horária</option>
                       <option value="15">15 Horas</option>
                       <option value="30">30 Horas</option>
                       <option value="45">45 Horas</option>
@@ -142,7 +144,7 @@ const EditarComponente = () => {
                   </label>
                   <label>
                     <select value={newDP} onChange={e => setNewDP(e.target.value)} className='selectField' >
-                      <option selected disabled>Departamento</option>
+                      <option selected value="">Departamento</option>
                       <option value="DECEN">DECEN</option>
                       <option value="DCSAH">DCSAH</option>
                       <option value="DETEC">DETEC</option>

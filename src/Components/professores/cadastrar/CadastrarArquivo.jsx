@@ -26,19 +26,20 @@ const CadastrarArquivo = () => {
 
   const fileSubmit = async (e) => {
     e.preventDefault();
-    checkTokenExpiration()
+    checkTokenExpiration();
 
     Confirm.cadastrar().then(async (result) => {
       if (result.isConfirmed) {
         if (csv.length === 0) {
-          Erro.erro('Informe um arquivo!')
-          return
+          Erro.erro('Informe um arquivo!');
+          return;
         }
 
-        const profsErro = new Set();
-        const profsSucess = new Set();
+        const profsSucess = [];
+        const profsErro = [];
 
         const url = 'http://127.0.0.1:8000/api/professores/';
+
         for (const nome of csv) {
           try {
             const config = {
@@ -53,29 +54,34 @@ const CadastrarArquivo = () => {
             const response = await axios.post(url, data, config);
 
             if (response.status === 201) {
-              profsSucess.add(nome);
+              profsSucess.push(nome);
             }
           } catch (error) {
-            console.error(error);
-            profsErro.add(nome);
+            if (error.response) {
+              // Se houver dados na resposta, exiba a mensagem de erro
+              profsErro.push({ nome: nome, mensagem: error.response.data.nome_prof });
+            } else {
+              console.error('Erro na requisição:', error.message);
+              Erro.erro('Erro desconhecido');
+            }
           }
         }
-        if (profsErro.size === 0 && profsSucess.size > 0) {
+
+        if (profsSucess.length > 0) {
           Sucess.cadastroArquivo();
-        } else if (profsErro.size > 0 && profsSucess.size > 0) {
-          Sucess.cadastroProfs(`Os professores ${Array.from(profsSucess).join(', ')} foram cadastrados com sucesso! <br><br> Os professores ${Array.from(profsErro).join(', ')} já estavam cadastrados.`)
-
-        } else if (profsErro.size > 0 && profsSucess.size === 0) {
-          Erro.erro('Nenhum professor do arquivo foi cadastrado!');
-
         }
 
-        profsSucess.clear();
-        profsErro.clear();
-        setCsv([]);
+        if (profsErro.length > 0) {
+          const erroMessage = profsErro.map(erro => `${erro.nome}: ${erro.mensagem}`).join('<br>');
+          Sucess.cadastroProfs(`Os professores ${profsSucess.join(', ')} foram cadastrados com sucesso! <br><br> Erros:<br>${erroMessage}`);
+        } else if (profsSucess.length === 0) {
+          Erro.erro('Nenhum professor do arquivo foi cadastrado!');
+        }
+
       }
-    })
+    });
   };
+
 
   const removerDocente = (index) => {
     const novosDocentes = [...csv]
@@ -84,8 +90,8 @@ const CadastrarArquivo = () => {
   }
   // Função para limpar o estado csv
   const limparCsv = () => {
-    Confirm.excluir().then(async (result) =>{
-      if(result.isConfirmed){
+    Confirm.excluir().then(async (result) => {
+      if (result.isConfirmed) {
         setCsv([]);
       }
     })

@@ -87,8 +87,8 @@ function EditarTurma() {
                         </div>
                         <form>
                             <div>
-                                <label>Número de Vagas *<input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value)} /> </label>
-                                <label >Número da Turma *<input type="number" min={1} placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value)} /> </label>
+                                <label><p>Número de Vagas *</p><input type="text" placeholder="Número de Vagas" value={newVagas} onChange={e => setNewVagas(e.target.value)} /> </label>
+                                <label ><p>Número da Turma *</p><input type="number" min={1} placeholder="Número da Turma" value={newNumber} onChange={e => setNewNumber(e.target.value)} /> </label>
                             </div>
                             <DocentesTurma profs={docentesArray} />
                         </form>

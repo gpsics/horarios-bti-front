@@ -95,7 +95,7 @@ const Dados = () => {
                             </li>
                             <li>
                                 <b>Semestre: </b>
-                                <span className="itens">{componente.num_semestre}º Semestre</span>
+                                <span className="itens">{componente.num_semestre !== 0 ? `${componente.num_semestre}º Semestre` : 'Não possui semestre'}</span>
                             </li>
                             <li>
                                 <b>Carga Horária: </b>

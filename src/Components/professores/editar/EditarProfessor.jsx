@@ -31,15 +31,6 @@ const EditarProfessor = () => {
         e.preventDefault()
         Confirm.editar().then(async (result) => {
             if (result.isConfirmed) {
-                if (newName === '') {
-                    Erro.erro('Informe o nome do professor!')
-                    return
-                }
-                const regex = /[!@#$%^&*(),.?":{}|<>]/;
-                if( regex.test(newName)){
-                    Erro.erro('Não é permitido cadastrar caracteres especiais.')
-                    return
-                }
                 const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
 
                 const config = {
@@ -53,36 +44,23 @@ const EditarProfessor = () => {
                 }
                 try {
                     const response = await axios.patch(url, data, config);
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         Sucess.editado()
                         navigate(-1)
                     }
                 } catch (error) {
-                    // Se houver dados na resposta, exiba a mensagem para o usuário
-                    if (error.response.data) {
-                        const errorMessage = extractErrorMessage(error.response.data);
-                        console.error('Erro na requisição:', errorMessage);
-                        Erro.erro(errorMessage);
+                    if (error.response) {
+                        // Se houver dados na resposta, exiba a mensagem para o usuário
+                        Erro.erro(Object.values(error.response.data).join('\n'));
                     } else {
-                        // Caso contrário, exiba uma mensagem genérica
-                        console.error('Erro na requisição:', error.response);
-                        Erro.erro('Erro interno do servidor');
+                        console.error('Erro na requisição:', error.message);
+                        Erro.erro('Erro desconhecido');
                     }
                 }
 
             }
         })
     };
-
-    // Função para extrair a mensagem do campo "Exception Value"
-    function extractErrorMessage(responseData) {
-        if (typeof responseData === 'string') {
-            const match = responseData.match(/Exception Value:\s*\[([^\]]+)\]/);
-            return match ? match[1] : 'Erro desconhecido do servidor';
-        } else {
-            return 'Erro desconhecido do servidor';
-        }
-    }
 
     const fetchProfessors = useCallback(async () => {
         const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
