@@ -16,7 +16,7 @@ const ListarTurmasComponente = () => {
     Input.text().then(async (result) => {
       if (result.isConfirmed) {
         if (result.value) {
-          const url = `http://3.236.47.156:8000/api/horarios/componentes/${result.value.toUpperCase()}/`;
+          const url = `http://3.221.150.138:8000/api/horarios/componentes/${result.value.toUpperCase()}/`;
           const config = {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -35,7 +35,7 @@ const CadComp = () => {
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
 
-                const url = 'http://3.236.47.156:8000/api/componentes/'
+                const url = 'http://3.221.150.138:8000/api/componentes/'
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',

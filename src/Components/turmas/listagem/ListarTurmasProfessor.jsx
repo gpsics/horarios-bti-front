@@ -15,7 +15,7 @@ const ListarTurmasProfessor = () => {
 
     if (result.isConfirmed) {
       if (result.value) {
-        const url = `http://3.236.47.156:8000/api/horarios/professores/${result.value}/`;
+        const url = `http://3.221.150.138:8000/api/horarios/professores/${result.value}/`;
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ const ListarTurmasProfessor = () => {
 
 
   const fetchDocente = useCallback(async () => {
-    const url = 'http://3.236.47.156:8000/api/professores/';
+    const url = 'http://3.221.150.138:8000/api/professores/';
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

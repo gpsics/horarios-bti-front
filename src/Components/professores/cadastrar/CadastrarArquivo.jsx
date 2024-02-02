@@ -38,7 +38,7 @@ const CadastrarArquivo = () => {
         const profsSucess = [];
         const profsErro = [];
 
-        const url = 'http://3.236.47.156:8000/api/professores/';
+        const url = 'http://3.221.150.138:8000/api/professores/';
 
         for (const nome of csv) {
           try {
