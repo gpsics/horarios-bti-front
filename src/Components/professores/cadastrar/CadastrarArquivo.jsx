@@ -38,7 +38,7 @@ const CadastrarArquivo = () => {
         const profsSucess = [];
         const profsErro = [];
 
-        const url = 'http://127.0.0.1:8000/api/professores/';
+        const url = 'http://3.236.47.156:8000/api/professores/';
 
         for (const nome of csv) {
           try {
@@ -49,7 +49,7 @@ const CadastrarArquivo = () => {
               },
             };
             const data = {
-              nome_prof: nome,
+              nome_prof: nome.toUpperCase(),
             };
             const response = await axios.post(url, data, config);
 
@@ -69,9 +69,10 @@ const CadastrarArquivo = () => {
 
         if (profsSucess.length > 0) {
           Sucess.cadastroArquivo();
+          return
         }
 
-        if (profsErro.length > 0) {
+        if (profsErro.length > 0 && profsSucess.length > 0) {
           const erroMessage = profsErro.map(erro => `${erro.nome}: ${erro.mensagem}`).join('<br>');
           Sucess.cadastroProfs(`Os professores ${profsSucess.join(', ')} foram cadastrados com sucesso! <br><br> Erros:<br>${erroMessage}`);
         } else if (profsSucess.length === 0) {
@@ -120,7 +121,7 @@ const CadastrarArquivo = () => {
             <ul className="list">
               {csv.map((nome, index) => (
                 <li key={index} className="in-prog">
-                  {nome} <i onClick={() => removerDocente(index)}><FaTrash /></i>
+                  {nome.toUpperCase()} <i onClick={() => removerDocente(index)}><FaTrash /></i>
                 </li>
               ))}
             </ul>

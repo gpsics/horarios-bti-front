@@ -11,7 +11,7 @@ const ListarTurmasConflito = () => {
   const [conflitos, setConflitos] = useState([]);
   const { token, checkTokenExpiration } = useAuth();
   const fetchConflitos = useCallback(async () => {
-    const url = 'http://127.0.0.1:8000/api/horarios/conflitos/';
+    const url = 'http://3.236.47.156:8000/api/horarios/conflitos/';
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

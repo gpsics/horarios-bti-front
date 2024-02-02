@@ -78,7 +78,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://127.0.0.1:8000/api/turmas/${tur.id}/`
+                const url = `http://3.236.47.156:8000/api/turmas/${tur.id}/`
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -170,9 +170,9 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const lerHorariosTurmas = useCallback(async (identificador, tipo) => {
         let url = ''
         if (tipo) {
-            url = `http://127.0.0.1:8000/api/horarios/semestre/${identificador}`;
+            url = `http://3.236.47.156:8000/api/horarios/semestre/${identificador}`;
         } else if (!tipo) {
-            url = `http://127.0.0.1:8000/api/horarios/professores/${identificador}`;
+            url = `http://3.236.47.156:8000/api/horarios/professores/${identificador}`;
         }
         const config = {
             headers: {
@@ -236,7 +236,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
 
     const requisitarComponente = useCallback(async () => {
 
-        const url = `http://127.0.0.1:8000/api/componentes/${tur.cod_componente}`;
+        const url = `http://3.236.47.156:8000/api/componentes/${tur.cod_componente}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

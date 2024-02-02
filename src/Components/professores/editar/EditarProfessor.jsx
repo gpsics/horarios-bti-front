@@ -31,7 +31,7 @@ const EditarProfessor = () => {
         e.preventDefault()
         Confirm.editar().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://127.0.0.1:8000/api/professores/${idProf}/`;
+                const url = `http://3.236.47.156:8000/api/professores/${idProf}/`;
 
                 const config = {
                     headers: {
@@ -63,7 +63,7 @@ const EditarProfessor = () => {
     };
 
     const fetchProfessors = useCallback(async () => {
-        const url = `http://127.0.0.1:8000/api/professores/${idProf}`;
+        const url = `http://3.236.47.156:8000/api/professores/${idProf}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

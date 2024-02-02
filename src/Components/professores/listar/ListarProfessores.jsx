@@ -23,7 +23,7 @@ const ListarProfessores = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://127.0.0.1:8000/api/professores/${id}/`;
+                const url = `http://3.236.47.156:8000/api/professores/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ const ListarProfessores = () => {
 
     const fetchProfessors = useCallback(async () => {
 
-        const url = 'http://127.0.0.1:8000/api/professores/';
+        const url = 'http://3.236.47.156:8000/api/professores/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

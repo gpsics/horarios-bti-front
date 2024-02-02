@@ -22,7 +22,7 @@ const Header = (props) => {
             </div>
             <div className="loginOrLogout">
                 {token ?
-                    <Link to="/pilot">
+                    <Link to="/">
                         <i onClick={limparLocal}>
                             <BiLogOut />
                         </i>

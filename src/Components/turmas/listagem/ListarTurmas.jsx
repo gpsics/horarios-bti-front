@@ -23,7 +23,7 @@ const ListarTurmas = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://127.0.0.1:8000/api/turmas/${id}/`;
+                const url = `http://3.236.47.156:8000/api/turmas/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const ListarTurmas = () => {
 
     const fetchComponentes = useCallback(async (turmasData) => {
         for (const cod of turmasData) {
-            const url = `http://127.0.0.1:8000/api/componentes/${cod.cod_componente}`
+            const url = `http://3.236.47.156:8000/api/componentes/${cod.cod_componente}`
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ const ListarTurmas = () => {
         }
     }, [token])
     const fetchTurmas = useCallback(async () => {
-        const url = 'http://127.0.0.1:8000/api/turmas/';
+        const url = 'http://3.236.47.156:8000/api/turmas/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

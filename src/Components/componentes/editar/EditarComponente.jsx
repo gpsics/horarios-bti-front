@@ -34,7 +34,7 @@ const EditarComponente = () => {
     Confirm.editar().then(async (result) => {
       if (result.isConfirmed) {
         
-        const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
+        const url = `http://3.236.47.156:8000/api/componentes/${idComp}/`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const EditarComponente = () => {
 
   const fetchComponente = useCallback(async () => {
 
-    const url = `http://127.0.0.1:8000/api/componentes/${idComp}/`;
+    const url = `http://3.236.47.156:8000/api/componentes/${idComp}/`;
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

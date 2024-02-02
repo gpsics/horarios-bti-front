@@ -23,7 +23,7 @@ const Login = () => {
         };
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/token/', data);
+            const response = await axios.post('http://3.236.47.156:8000/api/token/', data);
 
             if (response.status === 200) {
                 const token = response.data.access;
@@ -35,6 +35,7 @@ const Login = () => {
                 navigate("/Home");
             } 
         } catch (error) {
+            
             console.error(error);
             setUsername('');
                 setPassword('');

@@ -25,7 +25,7 @@
     text-align: justify;
     max-width: 85%;
 }
-.descricao > button{
+.acessar{
     background-color: #C2C1C1;
     padding: 9px;
     border-radius: 6px;
@@ -33,22 +33,21 @@
     border: none;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.descricao > button:hover{
+.acessar:hover{
     cursor: pointer;
     background-color: #c2c1c1b8;
 }
-.descricao > Link i{
+Link i{
     display: flex;
     align-items: center;
     margin-left: 5px;
 }
-.acessar{
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
-}
+
 .imgUf{
    max-width: 40%;
    height: 350px;
