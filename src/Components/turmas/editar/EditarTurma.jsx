@@ -21,7 +21,7 @@ function EditarTurma() {
     const fetchDocente = useCallback(async (ids) => {
         try {
             const promises = ids.map(async (id) => {
-                const url = `http://3.221.150.138:8000/api/professores/${id}/`;
+                const url = `http://44.201.214.145:8000/api/professores/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function EditarTurma() {
         }
     }, [token])
     const fetchTurmas = useCallback(async () => {
-        const url = `http://3.221.150.138:8000/api/turmas/${idTurma}`;
+        const url = `http://44.201.214.145:8000/api/turmas/${idTurma}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

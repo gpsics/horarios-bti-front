@@ -42,7 +42,7 @@ const CadastrarTurma = () => {
           Erro.erro('Não é permitido cadastrar caracteres especiais.')
           return
         }
-        const url = `http://3.221.150.138:8000/api/componentes/${codigo.toUpperCase()}`;
+        const url = `http://44.201.214.145:8000/api/componentes/${codigo.toUpperCase()}`;
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,

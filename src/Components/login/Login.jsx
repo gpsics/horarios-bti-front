@@ -23,7 +23,7 @@ const Login = () => {
         };
 
         try {
-            const response = await axios.post('http://3.221.150.138:8000/api/token/', data);
+            const response = await axios.post('http://44.201.214.145:8000/api/token/', data);
 
             if (response.status === 200) {
                 const token = response.data.access;

@@ -14,7 +14,7 @@ const DocentesTurma = ({profs}) => {
         setDocentesSelecionados(profs)
     }, [profs, setDocentesSelecionados]);
     const fetchDocente = useCallback(async () => {
-        const url = 'http://3.221.150.138:8000/api/professores/';
+        const url = 'http://44.201.214.145:8000/api/professores/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -93,7 +93,7 @@ const TabelaHorarios = () => {
                     Erro.erro(`Escolha ${maxCheckeds} horários na tabela, totalizando ${maxCheckeds * 15} horas!`)
                     return
                 }
-                const url = 'http://3.221.150.138:8000/api/turmas/'
+                const url = 'http://44.201.214.145:8000/api/turmas/'
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -172,9 +172,9 @@ const TabelaHorarios = () => {
     const lerHorariosTurmas = async (identificador, tipo) => {
         let url = ''
         if (tipo) {
-            url = `http://3.221.150.138:8000/api/horarios/semestre/${identificador}`;
+            url = `http://44.201.214.145:8000/api/horarios/semestre/${identificador}`;
         } else if (!tipo) {
-            url = `http://3.221.150.138:8000/api/horarios/professores/${identificador}`;
+            url = `http://44.201.214.145:8000/api/horarios/professores/${identificador}`;
         }
         const config = {
             headers: {
@@ -239,7 +239,7 @@ const TabelaHorarios = () => {
         // eslint-disable-next-line
         // Esta função vai requisitar o componente curricular com base no codigo informado pelo usuario e assim vai fazer a verifição da carga horaria e do numero do semestre do mesmo para assim definir o maximo de checkbox que podem ser marcados na tabela e também os horários já ocupados pelas turmas do semestre.
 
-        const url = `http://3.221.150.138:8000/api/componentes/${codComp.toUpperCase()}`;
+        const url = `http://44.201.214.145:8000/api/componentes/${codComp.toUpperCase()}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -23,7 +23,7 @@ const ListarTurmas = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://3.221.150.138:8000/api/turmas/${id}/`;
+                const url = `http://44.201.214.145:8000/api/turmas/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -46,9 +46,9 @@ const ListarTurmas = () => {
         })
     };
 
-    const fetchComponentes = useCallback(async (turmasData) => {
-        for (const cod of turmasData) {
-            const url = `http://3.221.150.138:8000/api/componentes/${cod.cod_componente}`
+    const fetchComponentes = useCallback(async () => {
+        for (const turma of turmas) {
+            const url = `http://44.201.214.145:8000/api/componentes/${turma.cod_componente}`
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -59,8 +59,6 @@ const ListarTurmas = () => {
                 if (response.status === 200) {
                     const compsData = response.data
                     setComponentes(prevComponentes => [...prevComponentes, compsData]);
-
-
                 } else {
                     console.log('Erro ao listar turmas.')
                 }
@@ -68,35 +66,37 @@ const ListarTurmas = () => {
                 console.error(error)
             }
         }
-    }, [token])
+    }, [turmas, token]);
+    
     const fetchTurmas = useCallback(async () => {
-        const url = 'http://3.221.150.138:8000/api/turmas/';
+        const url = 'http://44.201.214.145:8000/api/turmas/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         };
-
+    
         try {
             const response = await axios.get(url, config);
             if (response.status === 200) {
-                const turmasData = response.data
-                setTurmas(turmasData);
-                fetchComponentes(turmasData)
-
-            } else {
-                console.log('Erro ao listar turmas.')
+                const turmasData = response.data;
+                if (turmasData.length > 0) {
+                    setTurmas(turmasData);
+                    fetchComponentes(); // Chama fetchComponentes apenas se turmasData não estiver vazio
+                } else {
+                    console.log('Nenhuma turma encontrada.');
+                }
             }
         } catch (error) {
-            console.error('An error occurred:', error);
+            console.error('Ocorreu um erro:', error);
         }
-    }, [token, fetchComponentes])
+    }, [token, fetchComponentes]);
+    
 
     useEffect(() => {
         checkTokenExpiration()
         fetchTurmas();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [checkTokenExpiration]);
+    }, [fetchTurmas, checkTokenExpiration]);
     const verTurma = (item) => {
         checkTokenExpiration()
         navigate(`/turmas/verDadosTurma/${item.id}`);
@@ -112,7 +112,6 @@ const ListarTurmas = () => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo listarTurmas">
-                    {/* <h1>Listar Turmas</h1> */}
                     {turmas.length > 0 ? (
                         <table className='padraoTabelas tabelaTurmas'>
                             <thead>
