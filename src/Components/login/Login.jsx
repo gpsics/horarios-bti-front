@@ -23,7 +23,7 @@ const Login = () => {
         };
 
         try {
-            const response = await axios.post('http://44.201.214.145:8000/api/token/', data);
+            const response = await axios.post('https://api-horarios-ufersa.tech/api/token/', data);
 
             if (response.status === 200) {
                 const token = response.data.access;

@@ -23,7 +23,7 @@ const ListarProfessores = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://44.201.214.145:8000/api/professores/${id}/`;
+                const url = `https://api-horarios-ufersa.tech/api/professores/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -49,7 +49,7 @@ const ListarProfessores = () => {
 
     const fetchProfessors = useCallback(async () => {
 
-        const url = 'http://44.201.214.145:8000/api/professores/';
+        const url = 'https://api-horarios-ufersa.tech/api/professores/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -15,7 +15,7 @@ const ListarTurmasProfessor = () => {
 
     if (result.isConfirmed) {
       if (result.value) {
-        const url = `http://44.201.214.145:8000/api/horarios/professores/${result.value}/`;
+        const url = `https://api-horarios-ufersa.tech/api/horarios/professores/${result.value}/`;
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ const ListarTurmasProfessor = () => {
 
 
   const fetchDocente = useCallback(async () => {
-    const url = 'http://44.201.214.145:8000/api/professores/';
+    const url = 'https://api-horarios-ufersa.tech/api/professores/';
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

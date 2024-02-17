@@ -78,7 +78,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
         e.preventDefault()
         Confirm.cadastrar().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://44.201.214.145:8000/api/turmas/${tur.id}/`
+                const url = `https://api-horarios-ufersa.tech/api/turmas/${tur.id}/`
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -170,9 +170,9 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
     const lerHorariosTurmas = useCallback(async (identificador, tipo) => {
         let url = ''
         if (tipo) {
-            url = `http://44.201.214.145:8000/api/horarios/semestre/${identificador}`;
+            url = `https://api-horarios-ufersa.tech/api/horarios/semestre/${identificador}`;
         } else if (!tipo) {
-            url = `http://44.201.214.145:8000/api/horarios/professores/${identificador}`;
+            url = `https://api-horarios-ufersa.tech/api/horarios/professores/${identificador}`;
         }
         const config = {
             headers: {
@@ -236,7 +236,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
 
     const requisitarComponente = useCallback(async () => {
 
-        const url = `http://44.201.214.145:8000/api/componentes/${tur.cod_componente}`;
+        const url = `https://api-horarios-ufersa.tech/api/componentes/${tur.cod_componente}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

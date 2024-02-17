@@ -23,7 +23,7 @@ const ListarTurmas = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://44.201.214.145:8000/api/turmas/${id}/`;
+                const url = `https://api-horarios-ufersa.tech/api/turmas/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ const ListarTurmas = () => {
 
     const fetchComponentes = useCallback(async () => {
         for (const turma of turmas) {
-            const url = `http://44.201.214.145:8000/api/componentes/${turma.cod_componente}`
+            const url = `https://api-horarios-ufersa.tech/api/componentes/${turma.cod_componente}`
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const ListarTurmas = () => {
     }, [turmas, token]);
     
     const fetchTurmas = useCallback(async () => {
-        const url = 'http://44.201.214.145:8000/api/turmas/';
+        const url = 'https://api-horarios-ufersa.tech/api/turmas/';
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

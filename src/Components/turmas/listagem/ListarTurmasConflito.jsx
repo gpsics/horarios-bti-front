@@ -11,7 +11,7 @@ const ListarTurmasConflito = () => {
   const [conflitos, setConflitos] = useState([]);
   const { token, checkTokenExpiration } = useAuth();
   const fetchConflitos = useCallback(async () => {
-    const url = 'http://44.201.214.145:8000/api/horarios/conflitos/';
+    const url = 'https://api-horarios-ufersa.tech/api/horarios/conflitos/';
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

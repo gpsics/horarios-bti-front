@@ -16,7 +16,7 @@ const ListarTurmasComponente = () => {
     Input.text().then(async (result) => {
       if (result.isConfirmed) {
         if (result.value) {
-          const url = `http://44.201.214.145:8000/api/horarios/componentes/${result.value.toUpperCase()}/`;
+          const url = `https://api-horarios-ufersa.tech/api/horarios/componentes/${result.value.toUpperCase()}/`;
           const config = {
             headers: {
               Authorization: `Bearer ${token}`,

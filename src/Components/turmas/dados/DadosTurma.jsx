@@ -23,7 +23,7 @@ const DadosTurma = () => {
     const fetchDocente = useCallback(async (ids) => {
         try {
             const promises = ids.map(async (id) => {
-                const url = `http://44.201.214.145:8000/api/professores/${id}/`;
+                const url = `https://api-horarios-ufersa.tech/api/professores/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ const DadosTurma = () => {
     }, [token])
     const fetchTurmas = useCallback(async () => {
         const fetchComponente = async (idComp) => {
-            const url = `http://44.201.214.145:8000/api/componentes/${idComp}`;
+            const url = `https://api-horarios-ufersa.tech/api/componentes/${idComp}`;
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ const DadosTurma = () => {
                 console.error('An error occurred:', error);
             }
         }
-        const url = `http://44.201.214.145:8000/api/turmas/${idTurma}`;
+        const url = `https://api-horarios-ufersa.tech/api/turmas/${idTurma}`;
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ const DadosTurma = () => {
         checkTokenExpiration()
         Confirm.excluir().then(async (result) => {
             if (result.isConfirmed) {
-                const url = `http://44.201.214.145:8000/api/turmas/${id}/`;
+                const url = `https://api-horarios-ufersa.tech/api/turmas/${id}/`;
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,

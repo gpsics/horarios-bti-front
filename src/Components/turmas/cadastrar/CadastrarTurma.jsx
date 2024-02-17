@@ -42,7 +42,7 @@ const CadastrarTurma = () => {
           Erro.erro('Não é permitido cadastrar caracteres especiais.')
           return
         }
-        const url = `http://44.201.214.145:8000/api/componentes/${codigo.toUpperCase()}`;
+        const url = `https://api-horarios-ufersa.tech/api/componentes/${codigo.toUpperCase()}`;
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,

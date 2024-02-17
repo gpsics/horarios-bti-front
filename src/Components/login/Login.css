@@ -13,7 +13,7 @@
 #filtro {
     min-height: 87.2vh;
     max-width: 100vw;
-    background-color: rgba(0, 0, 0, 0.558);
+    background-color: rgba(0, 0, 0, 0.281);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: rgba(0, 0, 0, 0.484);
+    background-color: rgba(0, 0, 0, 0.442);
     height: 500px;
     width: 400px;
     border-radius: 10px;

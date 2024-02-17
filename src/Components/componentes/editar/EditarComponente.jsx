@@ -34,7 +34,7 @@ const EditarComponente = () => {
     Confirm.editar().then(async (result) => {
       if (result.isConfirmed) {
         
-        const url = `http://44.201.214.145:8000/api/componentes/${idComp}/`;
+        const url = `https://api-horarios-ufersa.tech/api/componentes/${idComp}/`;
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const EditarComponente = () => {
 
   const fetchComponente = useCallback(async () => {
 
-    const url = `http://44.201.214.145:8000/api/componentes/${idComp}/`;
+    const url = `https://api-horarios-ufersa.tech/api/componentes/${idComp}/`;
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
