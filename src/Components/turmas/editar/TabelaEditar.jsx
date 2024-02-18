@@ -94,7 +94,7 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
 
                 try {
                     const response = await axios.patch(url, data, config);
-                    if (response.status === 201) {
+                    if (response.status === 200) {
                         Sucess.editado()
                         navigate(-1)
                     }

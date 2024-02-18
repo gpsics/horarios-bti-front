@@ -92,8 +92,13 @@ const CadComp = () => {
                         <form onSubmit={handleSubmit} className='formContainer'>
                             <div className="columnsFather">
                                 <div className="columnSon">
-                                    <label ><input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' /><span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-                                    <label ><input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' /><span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
+                                    <label >
+                                        <input type="text" placeholder='Código' value={codigo} onChange={e => setCodigo(e.target.value)} className='inputField' /><span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
+                                    <label >
+                                        <input type="text" placeholder='Nome' value={nome} onChange={e => setNome(e.target.value)} className='inputField' />
+                                        <span style={{ color: 'red', marginLeft: '2px' }}>*
+                                        </span>
+                                    </label>
                                     <label >
                                         <input type="checkbox" placeholder='Obrigatório' checked={isChecked} onChange={e => setIsChecked(e.target.checked)} />Obrigatório
                                     </label>

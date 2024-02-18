@@ -1,21 +1,17 @@
-.edProf{
-    display: grid;
+.edProf {
+    display: flex;
+    flex-direction: column;
     max-height: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 200px;
-    grid-template-areas: 
-        'title title'
-        'edicao edicao'
-    ;
+
     gap: 10px;
-    padding: 20px 60px;
+    padding: 100px 60px;
     box-sizing: border-box;
 }
 
-.editarProf{
-    grid-area: edicao;
+.editarProf {
     display: flex;
     flex-direction: column;
+    font-size: 1rem;
     justify-content: flex-start;
     background-color: #faf7f7;
     border: 1px solid white;
@@ -24,7 +20,11 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
 
 .editarProf form {
     margin-top: 15px;
@@ -38,44 +38,38 @@
 .editarProf input[type="text"] {
     padding: 10px;
     width: 85%;
-    font-size: 16px;
 }
 
 
 
-@media screen and (max-width: 700px){
-    .edProf{
-        grid-template-rows: 60px 250px ;
-    }
-    .editarProf form{
-        display: grid;
+@media screen and (max-width: 700px) {
+    .editarProf form {
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        grid-template-areas: 
-            'input input'
-            'botao1 botao2'
-        ;
 
     }
+
     .editarProf input[type="text"] {
-        grid-area: input;
         width: 100%;
     }
-    #cancel{
-        grid-area: botao1;
-        text-align: center;
+
+    .button-container {
+       width: 100%;
+        margin-top: 10px;
     }
-    #cad{
-        grid-area: botao2;
-        text-align: center;
+
+    #cancel, #cad {
+        width: 45%;
     }
 }
-@media screen and (max-width: 630px){
-    .edProf{
-        grid-template-rows: 60px 300px ;
+
+@media screen and (max-width: 630px) {
+    .edProf {
+        grid-template-rows: 60px 300px;
     }
-    .editarProf form{
+
+    .editarProf form {
         margin-top: 20px;
     }
 }

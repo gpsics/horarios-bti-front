@@ -44,7 +44,7 @@ const EditarProfessor = () => {
                 }
                 try {
                     const response = await axios.patch(url, data, config);
-                    if (response.status === 201) {
+                    if (response.status === 200) {
                         Sucess.editado()
                         navigate(-1)
                     }
@@ -94,7 +94,6 @@ const EditarProfessor = () => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo edProf">
-                    {/* <h1>Editar Professor</h1> */}
                     <section className="editarProf">
                         <div className="header-section">
                             <h2>Alterar Informações</h2>
@@ -102,8 +101,10 @@ const EditarProfessor = () => {
                         </div>
                         <form onSubmit={updateProfessor} className='input-group'>
                             <input type="text" placeholder='Nome do Professor' value={newName} onChange={e => setNewName(e.target.value)} />
-                            <button onClick={cancelarCadastro} id='cancel' className="botoesCad" type='button'>Cancelar</button>
-                            <button type="submit" className="botoesCad" id='cad'>Editar</button>
+                            <div className="button-container">
+                                <button onClick={cancelarCadastro} id='cancel' className="botoesCad" type='button'>Cancelar</button>
+                                <button type="submit" className="botoesCad" id='cad'>Editar</button>
+                            </div>
                         </form>
 
                     </section>
