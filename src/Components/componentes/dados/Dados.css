@@ -8,7 +8,7 @@
 
 .verDadosComp {
     min-height: 200px;
-    max-width: 80%;
+    width: 80%;
     margin: 70px auto;
     margin-bottom: 20px;
     background-color: #faf7f7;
@@ -52,7 +52,7 @@
 }
 
 .opcoesEdicaoComponente {
-    max-width: 80%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -65,23 +65,49 @@
 
 @media screen and (max-width: 1460px) {
     .verDadosComp li {
-        font-size: 0.9em;
+        font-size: 0.9rem;
     }
 }
 
-@media screen and (max-width: 980px) {
-    .verDadosComp li {
-        font-size: 0.8em;
-        white-space: nowrap;
-        /* Impede que o texto seja quebrado em várias linhas */
-        overflow: hidden;
-        /* Esconde o texto que ultrapassa o contêiner */
-        text-overflow: ellipsis;
+@media screen and (max-width: 1000px) {
+    .verDadosComp, .opcoesEdicaoComponente {
+        width: 85%;
     }
-    .verDadosComp li:hover{
-        white-space: normal;
-        overflow: visible;
-        cursor: pointer;
-        text-overflow: unset;
+}
+@media screen and (max-width: 700px) {
+    .opcoesEdicaoComponente{
+        justify-content: space-between;
+    }
+    .opcoesEdicaoComponente button{
+        width: 47%;
+    }
+}
+@media screen and (max-width: 605px) {
+    .verDadosComp, .opcoesEdicaoComponente {
+        width: 90%;
+    }
+    .verDadosComp ul{
+        display: flex;
+        flex-direction: column;
+    }
+    .verDadosComp li{
+        align-items: flex-start;
+        width: 100%;
+    }
+    .verDadosComp li:nth-child(odd){
+        clear: right;
+        width: 100%;
+    }
+    
+}
+@media screen and (max-width: 400px) {
+    .verDadosComp, .opcoesEdicaoComponente {
+        width: 95%;
+        font-size: .8rem;
+    }
+}
+@media screen and (max-width: 300px) {
+    .verDadosComp, .opcoesEdicaoComponente {
+        font-size: .7rem;
     }
 }

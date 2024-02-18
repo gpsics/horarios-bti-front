@@ -53,3 +53,51 @@
     margin-left: 3px;
     color: white;
 }
+@media screen and (max-width: 1460px) {
+    .verDadosTurma li {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .verDadosTurma, .opcoesDadosTur {
+        width: 85%;
+    }
+}
+@media screen and (max-width: 700px) {
+    .opcoesDadosTur{
+        justify-content: space-between;
+    }
+    .opcoesDadosTur button{
+        width: 47%;
+    }
+}
+@media screen and (max-width: 605px) {
+    .verDadosTurma, .opcoesDadosTur {
+        width: 90%;
+    }
+    .verDadosTurma ul{
+        display: flex;
+        flex-direction: column;
+    }
+    .verDadosTurma li{
+        align-items: flex-start;
+        width: 100%;
+    }
+    .verDadosTurma li:nth-child(odd){
+        clear: right;
+        width: 100%;
+    }
+    
+}
+@media screen and (max-width: 400px) {
+    .verDadosTurma, .opcoesDadosTur {
+        width: 95%;
+        font-size: .8rem;
+    }
+}
+@media screen and (max-width: 300px) {
+    .verDadosTurma, .opcoesDadosTur {
+        font-size: .7rem;
+    }
+}

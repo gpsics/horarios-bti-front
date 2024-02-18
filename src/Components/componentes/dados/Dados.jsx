@@ -83,7 +83,6 @@ const Dados = () => {
             <main id="entidades">
                 <div id="menu"><Menu /></div>
                 <section className="conteudo verComp">
-                    {/* <h1>Dados do Componente </h1> */}
                     <section className="verDadosComp">
                         <ul>
                             <li>

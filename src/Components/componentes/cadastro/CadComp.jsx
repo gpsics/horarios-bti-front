@@ -15,7 +15,7 @@ const CadComp = () => {
     const [nome, setNome] = useState('')
     const [selectCH, setSelectCH] = useState();
     const [selectDP, setSelectDP] = useState();
-    const [selectSM, setSelectSM] = useState();
+    const [selectSM, setSelectSM] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
     const { token, checkTokenExpiration } = useAuth();
@@ -43,8 +43,8 @@ const CadComp = () => {
                     }
                 }
                 const data = {
-                    nome_comp: nome,
-                    codigo: codigo,
+                    nome_comp: nome.toUpperCase(),
+                    codigo: codigo.toUpperCase(),
                     num_semestre: selectSM,
                     carga_horaria: selectCH,
                     departamento: selectDP,

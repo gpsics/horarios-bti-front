@@ -101,7 +101,7 @@ const TabelaHorarios = () => {
                     },
                 };
                 const data = {
-                    cod_componente: componente.codigo,
+                    cod_componente: componente.codigo.toUpperCase(),
                     num_turma: numTurma,
                     horario: Array.from(horariosMarcados).join(' '),
                     num_vagas: numVagas,
