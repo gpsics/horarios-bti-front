@@ -42,3 +42,13 @@
         font-size: 3.5em;
     }
 }
+@media screen and (max-width: 480px) {
+    .home h1{
+        font-size: 3em;
+    }
+}
+@media screen and (max-width: 400px) {
+    .home h1{
+        font-size: 2.5em;
+    }
+}

@@ -43,6 +43,29 @@ header > .titulo{
         right: 10px;
     }
     header > .titulo {
-        font-size: .9em;
+        font-size: .9rem;
+    }
+}
+@media screen and (max-width: 550px) {
+    header>.logo{
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+    #linkImg{
+        margin: 0 auto;
+    }
+    header>.logo img {
+        height: 35px;
+        width: 60vw;
+    }
+    header h1 {
+        font-size: 1.2rem;
+    }
+    .loginOrLogout{
+        width: 150px;
+    }
+    .loginOrLogout i{
+        font-size: 1.2rem;
     }
 }

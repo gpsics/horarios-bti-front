@@ -1,15 +1,10 @@
 .cadProf {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     max-width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 60px 200px 1fr;
-    grid-template-areas:
-        'title title'
-        'individual individual'
-        'arquivo arquivo'
-    ;
-    gap: 10px;
-    padding: 20px 60px;
+
+    gap: 25px;
+    padding: 90px 60px;
     box-sizing: border-box;
 }
 
@@ -48,7 +43,6 @@
 .cadIndvidual input[type="text"] {
     padding: 10px;
     width: 90%;
-    font-size: 16px;
 }
 
 .drop-section {
@@ -122,11 +116,13 @@
     display: flex;
     justify-content: space-between;
 }
-.in-prog:hover{
+
+.in-prog:hover {
     cursor: pointer;
     background-color: #b4cfe7;
 }
-.in-prog i:hover{
+
+.in-prog i:hover {
     color: #333;
 }
 
@@ -149,17 +145,37 @@
     cursor: pointer;
 }
 
-.opcoesButtons{
+.opcoesButtons {
     margin-top: 20px;
 }
-@media screen and (max-width: 920px) {
+
+@media screen and (max-width: 568px) {
     .cadProf {
-        grid-template-rows: 60px 230px 1fr;
+        padding: 60px;
+
+    }
+
+    .cadIndvidual,
+    .cadArquivo {
+        font-size: 1rem;
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
+
+    .cadIndvidual,
+    .cadArquivo {
+        font-size: .8rem;
+    }
+}
+
+@media screen and (max-width: 300px) {
     .cadProf {
-        grid-template-rows: 60px 270px 1fr;
+        font-size: .7rem;
+    }
+
+    .cadIndvidual,
+    .cadArquivo {
+        font-size: .7rem;
     }
 }

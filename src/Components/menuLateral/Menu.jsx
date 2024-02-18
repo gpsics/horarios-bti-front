@@ -16,6 +16,12 @@ const Nav = styled.div`
   justify-content: flex-start;
   align-items: center;
   ${({ menu }) => menu ? 'display: none;' : ''}
+  
+  @media screen and (max-width: 568px) {
+    width: 50px;
+    height: 50px;
+    border-radius: 0px 20px 20px 0px; 
+  }
 `;
 
 
@@ -26,6 +32,11 @@ const NavIcon = styled(Link)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  
+  @media screen and (max-width: 568px) {
+    margin-left: 0.5rem; /* Ajusta a margem */
+    font-size: 1.3rem; /* Reduz o tamanho do ícone */
+  }
 `;
 
 const MenuNav = styled.nav`
@@ -37,7 +48,11 @@ const MenuNav = styled.nav`
   top: 0;
   ${({ menu }) => menu ? 'left: 0;' : 'left: -100%;'}
   // transition: 150ms;
-  
+
+  @media screen and (max-width: 568px) {
+    font-size: 1rem;
+    width: ${({ menu }) => (menu ? '200px' : '0px')};
+  }
 `;
 
 const MenuWrap = styled.div`

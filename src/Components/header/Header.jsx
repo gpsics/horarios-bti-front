@@ -15,7 +15,7 @@ const Header = (props) => {
     return (
         <header>
             <div className="logo" >
-                <Link to={props.link}><img src={logo} alt="logo" /></Link>
+                <Link to={props.link} id="linkImg"><img src={logo} alt="logo" /></Link>
             </div>
             <div className="titulo">
                 <h1>{props.titulo}</h1>

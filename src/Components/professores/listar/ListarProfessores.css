@@ -54,8 +54,26 @@
         width: 40px;
     } 
 }
+@media screen and (max-width: 550px) {
+    .listarProfessores > table{
+        font-size: .8rem;
+    }
+    .listarProfessores > #busca{
+        font-size: .8rem;
+        float: right;
+    }
+    .listarProfessores #nenhumCOMP{
+        font-size: .9rem;
+    }
+  }
 @media screen and (max-width: 300px) {
+    .listarProfessores > table{
+        font-size: .7rem;
+    }
     .tabelaProfs .funcoesIndex{
-        width: 30px;
+        width: 25px;
+    }
+    .listarProfessores #nenhumCOMP{
+        font-size: .7rem;
     } 
 }

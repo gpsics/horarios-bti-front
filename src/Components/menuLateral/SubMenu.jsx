@@ -18,6 +18,9 @@ const MenuLink = styled(Link)`
     border-left: 4px solid #F2ECD8;
     cursor: pointer;
   }
+  @media screen and (max-width: 568px) {
+    font-size: 1rem;
+  }
 `;
 const MenuLabel = styled.span`
   margin-left: 16px;
@@ -35,6 +38,9 @@ const DropdownLink = styled(Link)`
   &:hover{
     background: #2673D4 ;
     cursor: pointer;
+  }
+  @media screen and (max-width: 568px) {
+    font-size: .9rem;
   }
 `;
 const SubMenu = ({ item }) => {

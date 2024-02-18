@@ -39,3 +39,36 @@
     text-align: center;
     font-size: 1.2em;
 }
+@media screen and (max-width: 850px) {
+    .funcoesIndex{
+        width: 50px;
+    } 
+}
+@media screen and (max-width: 700px) {
+    .funcoesIndex{
+        width: 40px;
+    } 
+}
+@media screen and (max-width: 550px) {
+    .listarComponentes > table{
+        font-size: .8rem;
+    }
+    .listarComponentes > #busca{
+        font-size: .8rem;
+        float: right;
+    }
+    .listarComponentes #nenhumCOMP{
+        font-size: .9rem;
+    }
+  }
+@media screen and (max-width: 300px) {
+    .listarComponentes > table{
+        font-size: .7rem;
+    }
+    .funcoesIndex{
+        width: 25px;
+    }
+    .listarComponentes #nenhumCOMP{
+        font-size: .7rem;
+    } 
+}
