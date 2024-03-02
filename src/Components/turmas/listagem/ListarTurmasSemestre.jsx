@@ -33,8 +33,13 @@ const ListarTurmasSemestre = () => {
                             console.log('Erro ao listar turmas.')
                         }
                     } catch (error) {
-                        Erro.erro("Erro ao listar turmas.")
-                        console.error('An error occurred:', error);
+                        if (error.response) {
+                            // Se houver dados na resposta, exiba a mensagem para o usuário
+                            Erro.erro(Object.values(error.response.data).join('\n'));
+                        } else {
+                            console.error('Erro na requisição:', error.message);
+                            Erro.erro('Erro desconhecido');
+                        }
                     }
                     
                 }

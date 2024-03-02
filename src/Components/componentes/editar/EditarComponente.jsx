@@ -156,7 +156,7 @@ const EditarComponente = () => {
               </div>
             </form>
             <div className="footerCad">
-              <button onClick={cancelar} id='cancel' className="botoesCad" >Cancelar</button>
+              <button onClick={cancelar} id='cancel' className="botoesCad" type='button'>Cancelar</button>
               <button onClick={updateComponente} className="botoesCad" id='cad'>Editar</button>
             </div>
           </section>

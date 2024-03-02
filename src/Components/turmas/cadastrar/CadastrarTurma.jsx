@@ -71,7 +71,6 @@ const CadastrarTurma = () => {
           <Menu />
         </div>
         <section className="conteudo cadastroTurma">
-          {/* <h1>Cadastrar Turma</h1> */}
           <section className="cadTurma">
             <div className="header-section">
               <h2>Preencha as Informações</h2>

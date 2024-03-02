@@ -31,8 +31,13 @@ const ListarTurmasComponente = () => {
               Erro.erro('Erro ao listar turmas.')
             }
           } catch (error) {
-            Erro.erro("Erro ao listar turmas.")
-            console.error('An error occurred:', error);
+            if (error.response) {
+              // Se houver dados na resposta, exiba a mensagem para o usuário
+              Erro.erro(Object.values(error.response.data).join('\n'));
+          } else {
+              console.error('Erro na requisição:', error.message);
+              Erro.erro('Erro desconhecido');
+          }
           }
 
         }
@@ -51,7 +56,6 @@ const ListarTurmasComponente = () => {
       <main id="entidades">
         <div id="menu"><Menu /></div>
         <section className="conteudo listarTurmas">
-          {/* <h1>Listar Turmas</h1> */}
           {turmas.length > 0 ? (
             <TabelaListagem tur={turmas} />
           ) : (

@@ -6,6 +6,7 @@ import Header from '../../header/Header'
 import Menu from '../../menuLateral/Menu'
 import TabelaListagem from './TabelaListagem'
 import Footer from '../../footer/Footer'
+import Erro from '../../alerts/Erro'
 
 const ListarTurmasProfessor = () => {
   const [turmas, setTurmas] = useState([])
@@ -32,8 +33,13 @@ const ListarTurmasProfessor = () => {
             Error.erro('Erro ao listar turmas.');
           }
         } catch (error) {
-          Error.erro('Erro ao listar turmas.');
-          console.error('An error occurred:', error);
+          if (error.response) {
+            // Se houver dados na resposta, exiba a mensagem para o usuário
+            Erro.erro(Object.values(error.response.data).join('\n'));
+        } else {
+            console.error('Erro na requisição:', error.message);
+            Erro.erro('Erro desconhecido');
+        }
         }
       }
     }
