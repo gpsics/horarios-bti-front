@@ -96,11 +96,10 @@ const TabelaEditar = ({ tur, numVagas, numTurma }) => {
                     const response = await axios.patch(url, data, config);
                     if (response.status === 200) {
                         Sucess.editado()
-                        navigate(-1)
+                        navigate(`/turmas/verDadosTurma/${tur.id}`)
                     }
                 } catch (error) {
                     if (error.response) {
-                        // Se houver dados na resposta, exiba a mensagem para o usuário
                         Erro.erro(Object.values(error.response.data).join('\n'));
                     } else {
                         console.error('Erro na requisição:', error.message);

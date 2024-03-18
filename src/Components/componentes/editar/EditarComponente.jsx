@@ -53,7 +53,7 @@ const EditarComponente = () => {
           const response = await axios.patch(url, data, config);
           if (response.status === 200) {
             Sucess.editado();
-            navigate(-1)
+            navigate(`/componentes/verDadosComponente/${idComp}`)
           }
         } catch (error) {
           if (error.response) {

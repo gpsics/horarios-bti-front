@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O Gerenciador de Horários é uma aplicação web desenvolvida em React.js com o propósito de facilitar o processo de gerenciamento de horários para a coordenação do curso de Bacharelado em Tecnologia da Informação (BTI) do Campus Pau dos Ferros (CMPF) da Universidade Federal Rural do Semiárido (UFERSA) antes de cadastralos no Sistema Integrado de Gestão de Atividades Acadêmicas (SIGAA). A aplicação visa substituir o método tradicional de gerenciamento manual de horários, que muitas vezes resulta em conflitos acadêmicos e dificuldades para os coordenadores.
+O Gerenciador de Horários é uma aplicação web desenvolvida em React.js com o propósito de facilitar o processo de gerenciamento de horários para a coordenação do curso de Bacharelado em Tecnologia da Informação (BTI) do Centro Multidisciplinar de Pau dos Ferros (CMPF) da Universidade Federal Rural do Semiárido (UFERSA) antes de cadastrá-los no Sistema Integrado de Gestão de Atividades Acadêmicas (SIGAA). A aplicação visa substituir o método tradicional de gerenciamento manual de horários, que muitas vezes resulta em conflitos acadêmicos e dificuldades para os coordenadores.
 
 ## Funcionalidades Principais
 
@@ -43,4 +43,4 @@ Este projeto está licenciado sob a Licença MIT. Consulte o arquivo `LICENSE` p
 
 ## Contato
 
-Para mais informações sobre o projeto, entre em contato com Luan Alves de Paiva em devluanpaiva@gmail.com.
+Para mais informações sobre o projeto, entre em contato com gpsics@ufersa.edu.br.
