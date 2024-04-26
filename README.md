@@ -1,4 +1,4 @@
-# Gerenciador de Horários
+# SISTEMA WEB FRONT-END PARA GERENCIAR HORÁRIOS
 
 ## Descrição
 
